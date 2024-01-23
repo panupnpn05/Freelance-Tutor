@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <>
-      <h1>หน้าแรก</h1>
+      <h1 className=" text-red-300">หน้าแรก1234</h1>
     </>
   );
 }
