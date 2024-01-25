@@ -20,9 +20,9 @@ export default function Signin() {
           <div className=" w-full h-5/6 container relative object-cover">
             <Image src={"/Image/LoginImg.jpg"} alt="Image in Login Page" fill style={{objectFit: "cover"}} className=" rounded-md"/>
           </div>
-          <div className="text-sm w-full justify-center flex mt-4 cursor-pointer underline">
+          <a href="/signup" className="text-sm w-full justify-center flex mt-4 cursor-pointer underline">
             Don't have account? Sign Up
-          </div>
+          </a>
         </div>
         <div className=" w-full">
           <div className=" text-4xl font-bold">Log In</div>
@@ -63,11 +63,11 @@ export default function Signin() {
           
         </div>
       </div>
-      <div className="flex items-center justify-end mt-1 cursor-pointer text-sm">
+      <a href="/" className="flex items-center justify-end mt-1 cursor-pointer text-sm">
 
       <ArrowLeftIcon className=" h-4 w-4 mr-1"/>
         Back to Home
-      </div>
+      </a>
       </div>
       
     </div>
