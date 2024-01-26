@@ -1,8 +1,8 @@
-export default function test(){
+export default function signin(){
     return(
         <>
         <div>
-            Hello1234
+            Signin
         </div>
         </>
     )
