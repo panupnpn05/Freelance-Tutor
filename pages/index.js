@@ -14,16 +14,18 @@ export default function Home() {
   return (
     <>
     <Navbar/>
-    <div style={{display: 'flex', }}>
-        <Subject />
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Subjectbutton />
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Subjectbutton2 />
+    <div className="flex justify-center">
+    <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+    <Subject />
+    <div>
+        <Subjectbutton />
+        <Subjectbutton2 />
         </div>
       </div>
+      </div>
+      <div className="flex justify-center">
       <Subjectbutton3 />
+      </div>
     </>
     
   );

@@ -2,8 +2,10 @@ import Link from "next/link";
 export default function Subjectbutton2() {
   return (
     <>
-      <a style={{ marginLeft: '50px' , textAlign: 'center',display: 'inline-block', padding: '25px 30px', background: 'lightgray', color: 'black', textDecoration: 'none', fontSize: '18px' }} href="">คณิตศาสตร์</a>
-      <a style={{ marginLeft: '50px' ,marginTop: '30px' , textAlign: 'center',display: 'inline-block', padding: '25px 35px', background: 'lightgray', color: 'black', textDecoration: 'none', fontSize: '18px' }} href="">วิทยาศาสตร์</a>
+    <div className="flex justify-row mb-8" style={{ marginLeft: '15px'}}>
+      <a style={{  display: 'inline-block', padding: '35px 48px', background: 'lightgray', color: 'black', textDecoration: 'none', fontSize: '18px' }} href="/math">ภาษาญี่ปุ่น</a>
+      <a style={{  marginLeft: '15px' ,display: 'inline-block', padding: '35px 63px', background: 'lightgray', color: 'black', textDecoration: 'none', fontSize: '18px' }} href="/science">ภาษาจีน</a>
+      </div>
     </>    
   );
 }
