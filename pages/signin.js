@@ -22,10 +22,6 @@ export default function Signin() {
       });
         const result = await response.json();
         console.log(result);
-
-        // // Authentication failed
-        // const error = await response.json();
-        // console.error('Login failed:', error.message);
     } catch (error) {
       console.error('Error during login:', error);
     }
