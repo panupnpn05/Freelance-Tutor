@@ -1,7 +1,7 @@
 export default function Title(){
     return(
-        <div className="text-center font-bold text-xl mb-8">
+        <div className="text-center font-bold text-2xl mb-8 flex-col">
         <h1>How it works for students?</h1>
-        </div>
+    </div>
     )
 }
