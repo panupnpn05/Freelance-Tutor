@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { ArrowLeftIcon } from '@heroicons/react/24/solid'
+import { ArrowLeftIcon} from '@heroicons/react/24/solid'
+import {XCircleIcon} from '@heroicons/react/24/outline'
+
 
 export default function Signup() {
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -58,7 +60,6 @@ export default function Signup() {
       })
       const result = await response.json()
       console.log(result)
-
     } catch (error) {
       console.error('Error during create user', error)
     }
@@ -66,8 +67,11 @@ export default function Signup() {
 
   return (
     <div className=" w-full h-screen bg-gray-200 flex items-center justify-center">
-      <div className="w-3/5 bg-white flex">
-        <div className="w-full mt-8 mx-8 space-y-5">
+      <div className="w-3/5 bg-white flex rounded-lg">
+        <a href="/" className="flex justify-end absolute cursor-pointer m-1">
+          <XCircleIcon className=" h-6 w-6 mr-1" />
+        </a>
+        <div className="w-full my-8 mx-8 space-y-5">
           <div className="text-3xl font-bold">Sign Up</div>
           <div className="flex justify-between space-x-3">
             <div className="">
@@ -139,10 +143,6 @@ export default function Signup() {
               </a>
             </div>
           </div>
-          <a href='/' className='flex justify-end underline cursor-pointer items-center text-sm'>
-          <ArrowLeftIcon className=" h-4 w-4 mr-1" />
-            back to home
-          </a>
         </div>
         <div className=" w-4/5 container relative">
           <Image

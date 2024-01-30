@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { EnvelopeIcon, KeyIcon, ArrowLeftIcon } from '@heroicons/react/24/solid'
+import { EnvelopeIcon, KeyIcon} from '@heroicons/react/24/solid'
+import {XCircleIcon} from '@heroicons/react/24/outline'
 
 export default function Signin() {
   const [isChecked, setChecked] = useState(false)
@@ -29,12 +30,18 @@ export default function Signin() {
 
   return (
     <div className="flex w-full h-screen bg-gray-200 items-center justify-center">
-      <div className="flex-col w-3/5 bg-white justify-between space-x-10 container relative">
-        <div className="flex space-x-10 m-11">
+      <div className="flex-col w-3/5 bg-white justify-between space-x-10 container relative rounded-lg">
+      <a
+            href="/"
+            className="flex items-center m-1 w-full cursor-pointer text-sm"
+          >
+            <XCircleIcon className=" h-6 w-6 mr-1" />
+          </a>
+        <div className="flex space-x-10 mb-11 mx-11 mt-8">
           <div className="w-full flex-col">
             <div className=" w-full h-5/6 container relative object-cover">
               <Image
-                src={'/Image/LoginImg.jpg'}
+                src={'/Image/LoginImg.jpeg'}
                 alt="Image in Login Page"
                 fill
                 style={{ objectFit: 'cover' }}
@@ -94,13 +101,7 @@ export default function Signin() {
           </div>
         </div>
         <div className="">
-          <a
-            href="/"
-            className="flex items-center justify-end pr-2 w-full cursor-pointer text-sm"
-          >
-            <ArrowLeftIcon className=" h-4 w-4 mr-1" />
-            Back to Home
-          </a>
+         
         </div>
       </div>
     </div>
