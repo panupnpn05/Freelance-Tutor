@@ -1,3 +1,4 @@
+
 import How from "./compernent/post";
 import Title from "./compernent/title";
 import Image from "next/image";
@@ -19,5 +20,5 @@ export default function Home() {
         <Title/>
         <How/>
     </div>
-  );
+  )
 }
