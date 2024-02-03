@@ -1,4 +1,3 @@
-
 import How from "./compernent/post";
 import Title from "./compernent/title";
 import Image from "next/image";
