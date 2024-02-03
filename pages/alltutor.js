@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchBar from './compernent/SearchBar';
+import Element from './compernent/element';
 
 const Tutor = () => {
   const handleSearch = (searchText) => {
@@ -7,16 +8,23 @@ const Tutor = () => {
   };
 
   return (
-    <div className='text-center'>
-      <div className='mt-32 flex-col'>
-        <div className='mb-4 font-bold text-3xl flex-col'>
+    <div>
+    <div className='w-full flex justify-center'>
+      <div className='mt-32 flex-col w-3/4'>
+        <div className='mb-4 font-bold text-3xl'>
         <h1>Tutors in Bangkok</h1>
         </div>
-        <div className='w-3/5 text-xl mb-8'>
+        <div className='text-xl mb-8'>
           <h1>Find the best tutors in Bangkok. Get personalized one-on-one learning to boost your grades with our skilled Bangkok tutors. Get Test Prep and Homework assistance too.</h1>
         </div>
+        <div className='mb-8'>
+        <SearchBar onSearch={handleSearch} />
+        </div>
+        <div>
+        <Element/>
+        </div>
       </div>
-      <SearchBar onSearch={handleSearch} />
+    </div>
     </div>
   );
 };

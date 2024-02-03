@@ -19,7 +19,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div>
+    <div className='flex justify-evenly'>
       <input
         type="text"
         placeholder="พิมพ์เพื่อค้นหาวิชา"
