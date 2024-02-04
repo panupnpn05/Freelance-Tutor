@@ -1,7 +1,16 @@
 import How from "./compernent/post";
 import Title from "./compernent/title";
 import Image from "next/image";
-import Navbar from "./compernent/Navbar";
+import { Inter } from "next/font/google";
+import Footer from "./component/Footer";
+import Subject from "./component/Subject";
+import Subjectbutton from "./component/Subjectbutton";
+import Subjectbutton2 from "./component/Subjectbutton2";
+import Link from "next/link";
+import Subjectbutton3 from "./component/Subjectbutton3";
+
+const inter = Inter({ subsets: ["latin"] });
+
 export default function Home() {
   return (
     <div>
@@ -21,3 +30,5 @@ export default function Home() {
     </div>
   )
 }
+
+
