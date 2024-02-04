@@ -37,7 +37,7 @@ export default function Tutorcard({ tutorData }) {
   console.log(tutorData.name, imageUrl)
   return (
     <>
-      <div className="bg-white shadow-md rounded-xl overflow-hidden">
+      <div className="bg-white shadow-xl  rounded-xl overflow-hidden">
         <div className="flex pt-5 space-x-8 px-6">
           <div className=" w-32 h-32 rounded-full overflow-hidden relative grow-0 shrink-0">
             <Image
@@ -70,10 +70,15 @@ export default function Tutorcard({ tutorData }) {
           </div>
         </div>
 
-        <div className="flex justify-end mt-5 ">
-          <button className="bg-green-500 text-white px-4 py-2 hover:bg-green-700 duration-300">
+        <div className="flex justify-between mt-5 border-gray-700">
+          <div className='border-t border-dashed border-gray-300 w-full'>
+
+          </div>
+          <div className=' w-auto flex justify-end'>
+          <button className=" bg-green-500 text-white px-4 py-2 hover:bg-green-700 duration-300 whitespace-nowrap">
             Send Message
           </button>
+          </div>
         </div>
       </div>
     </>

@@ -48,7 +48,7 @@ const Element = () => {
           />
           <label htmlFor="checkboxOption2" className='m-2'>Group Class</label>
         </div>
-
+        
         <div>
             <h1 className='mb-2 font-bold'>Gender Preference</h1>
           <input

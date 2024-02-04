@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import { storage } from './api/getimage'
-import { ref , getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 import SearchBar from './component/SearchBar'
 import Element from './component/element'
 import Navbar from './component/Navbar'
@@ -11,6 +11,8 @@ const Tutor = () => {
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
   }
+
+  const tutorsCount = tutorsData ? Object.entries(tutorsData).length : 0
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,11 +40,11 @@ const Tutor = () => {
   return (
     <div>
       <Navbar />
-      <div className="w-full flex justify-center">
-        <div className="pt-32 w-3/4 bg-green-200">
+      <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400">
+        <div className=" pt-14 w-3/4 h-full text-white">
           <div>
             <div className="mb-4 font-bold text-3xl">
-              <h1>Tutors in Bangkok</h1>
+              <h1>Find the best Tutor</h1>
             </div>
             <div className="text-xl mb-8">
               <h1>
@@ -51,21 +53,32 @@ const Tutor = () => {
                 Get Test Prep and Homework assistance too.
               </h1>
             </div>
-            <div className="mb-8">
-              <SearchBar onSearch={handleSearch} />
+            
+          </div>
+          <div className="pb-8">
+            {/* <SearchBar onSearch={handleSearch} /> */}
+
             </div>
+        </div>
+      </div>
+      <div className="flex w-full justify-center">
+        <div className="w-3/4  flex space-x-5">
+          <div className="w-1/3 ">
+          </div>
+          <div className="w-full font-semibold text-gray-500 mt-4 mb-3">
+            {tutorsCount} Tutors Found
           </div>
         </div>
       </div>
       <div className="flex w-full justify-center">
-        <div className="w-3/4 bg-red-200 flex">
-          <div className="w-1/3 bg-orange-200">
+        <div className="w-3/4  flex space-x-5">
+          <div className="w-1/3">
             <Element />
           </div>
-          <div>
+          <div className='w-full'>
             {tutorsData &&
               Object.entries(tutorsData).map(([tutorName, tutorData]) => (
-                <div key={tutorName} className='mb-5'>
+                <div key={tutorName} className="mb-5">
                   <Tutorcard tutorData={tutorData} />
                 </div>
               ))}
