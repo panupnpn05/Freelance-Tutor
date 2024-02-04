@@ -1,6 +1,7 @@
-import How from "./compernent/post";
-import Title from "./compernent/title";
+import How from "./component/post";
+import Title from "./component/title";
 import Image from "next/image";
+import Navbar from "./component/Navbar";
 import { Inter } from "next/font/google";
 import Footer from "./component/Footer";
 import Subject from "./component/Subject";
@@ -27,6 +28,10 @@ export default function Home() {
       </div>
         <Title/>
         <How/>
+        <Subject/>
+        <Subjectbutton/>
+        <Subjectbutton2/>
+        <Subjectbutton3/>
     </div>
   )
 }

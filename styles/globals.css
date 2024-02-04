@@ -1,16 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body{
-  background: white;
-  color: black;
-}
-nav{
-  margin: 10px auto;
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: aqua;
-}

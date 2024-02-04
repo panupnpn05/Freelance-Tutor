@@ -1,37 +1,41 @@
-// pages/index.js
-import { useEffect, useState } from "react";
-import { storage } from "./api/getimage"; // Update the path to your firebase.js file
-import { ref, getDownloadURL } from "firebase/storage";
+import React, { useState } from 'react';
 
-const MyImage = () => {
-  const [imageUrl, setImageUrl] = useState("");
+const ImageUploader = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const url = await getDownloadURL(ref(storage, "myImage.png"));
-        setImageUrl(url);
-      } catch (error) {
-        console.error("Error fetching image:", error);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      const tutorName = "Ray Yoyo"; // replace with the actual tutor's name
+      const response = await fetch(`http://127.0.0.1:8000/upload_image/${tutorName}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Image uploaded successfully:', data);
+        // Handle the uploaded image URL or any other response data as needed
+      } else {
+        console.error('Error uploading image:', response.statusText);
       }
-    };
-
-    fetchImage();
-  }, []);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   return (
     <div>
-      {imageUrl && (
-        <>
-          {/* Display image directly */}
-          <img src={imageUrl} alt="Stars" />
-
-          {/* Or use it in an <img> element */}
-          {/* <img id="myimg" src={imageUrl} alt="Stars" /> */}
-        </>
-      )}
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload Image</button>
     </div>
   );
 };
 
-export default MyImage;
+export default ImageUploader;
