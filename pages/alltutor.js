@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchBar from './compernent/SearchBar';
 import Element from './compernent/element';
+import Navbar from './compernent/Navbar';
 
 const Tutor = () => {
   const handleSearch = (searchText) => {
@@ -9,8 +10,10 @@ const Tutor = () => {
 
   return (
     <div>
+      <Navbar/>
     <div className='w-full flex justify-center'>
-      <div className='mt-32 flex-col w-3/4'>
+      <div className='pt-32 w-3/4 bg-green-200'>
+        <div>
         <div className='mb-4 font-bold text-3xl'>
         <h1>Tutors in Bangkok</h1>
         </div>
@@ -20,7 +23,8 @@ const Tutor = () => {
         <div className='mb-8'>
         <SearchBar onSearch={handleSearch} />
         </div>
-        <div>
+        </div>
+        <div className=' w-1/4 bg-orange-200'>
         <Element/>
         </div>
       </div>
