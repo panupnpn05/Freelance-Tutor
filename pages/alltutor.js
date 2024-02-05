@@ -56,7 +56,6 @@ const Tutor = () => {
             
           </div>
           <div className="pb-8">
-            {/* <SearchBar onSearch={handleSearch} /> */}
 
             </div>
         </div>
