@@ -3,12 +3,12 @@ import { useState , useEffect } from 'react'
 import { storage } from '../api/getimage'
 import { ref, getDownloadURL } from 'firebase/storage'
 
-
-
 export default function Tutorcard({ tutorData }) {
   const [className , setClassName] = useState('')
   const [classInfo , setClassInfo] = useState([])
   const [imageUrl, setImageUrl] = useState("");
+
+  console.log(tutorData)
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -34,7 +34,7 @@ export default function Tutorcard({ tutorData }) {
   }, [tutorData]);
 
   console.log(className , classInfo)
-  console.log(tutorData.name, imageUrl)
+  // console.log(tutorData.name, imageUrl)
   return (
     <>
       <div className="bg-white shadow-xl  rounded-xl overflow-hidden">

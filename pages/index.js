@@ -9,10 +9,22 @@ import Subjectbutton from "./component/Subjectbutton";
 import Subjectbutton2 from "./component/Subjectbutton2";
 import Link from "next/link";
 import Subjectbutton3 from "./component/Subjectbutton3";
+import { useEffect , useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+const [UserData, setUserData] = useState("")
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem('userData'));
+  
+    if (storedUserData) {
+      setUserData(storedUserData);
+    }
+  }, []);
+
+  console.log(UserData)
+  
   return (
     <div>
       <Navbar/>

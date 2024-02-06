@@ -11,14 +11,13 @@ const Tutor = () => {
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
   }
-
   const tutorsCount = tutorsData ? Object.entries(tutorsData).length : 0
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'http://127.0.0.1:8000/get_all_tutors_with_classes',
+          'http://0.0.0.0:8000/get_all_tutors_with_classes',
         )
 
         if (response.ok) {
