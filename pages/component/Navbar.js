@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 import Signin from '../signin'
 import React, { useState, useEffect } from 'react'
-
-=======
-import Link from 'next/link'
 import Image from 'next/image'
->>>>>>> main/Ray
+
 export default function Navbar() {
   const [ProfileClick, setProfileClick] = useState(false)
   const [loginPageClicked, setLoginPageClicked] = useState(false)
@@ -63,15 +59,9 @@ export default function Navbar() {
 
   console.log(user)
   return (
-<<<<<<< HEAD
     <div>
       <div className="flex justify-center items-center w-full h-20 static">
         <div className="w-3/4 flex justify-between items-center text-lg">
-=======
-    <>
-      <div className="flex justify-center items-center w-full h-20 shadow-lg">
-        <div className='w-3/4 flex justify-between items-center text-lg'>
->>>>>>> main/Ray
           <a className="text-3xl font-bold text-green-900" href="/">
           <Image
               src="/Image/image-removebg-preview.png"
