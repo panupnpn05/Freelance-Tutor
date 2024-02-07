@@ -28,24 +28,20 @@ const [UserData, setUserData] = useState("")
   return (
     <div>
       <Navbar />
-      <div
-        style={{
-          backgroundImage: `url("/Image/pixlr-image-generator-3c6b3c51-64c0-458d-8bbd-5014366b5ee4.png")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="text-4xl font-bold w-full flex-col">
-          <div className="items-center flex-col flex justify-center mt-20">
-            <div className="mb-4 text-black flex justify-center">
+      <div >
+        <div className="text-4xl font-bold w-full">
+          <div className="flex justify-center w-full h-full" >
+            <div className="bg-blue-200">
+            <div className="mb-4 text-black bg-red-200">
               <h1>Find the best tutor in Thailand</h1>
             </div>
-            <div className="text-xl font-normal text-black w-3/5 text-center mb-60">
+            <div className="text-xl font-normal text-black mb-60 bg-green-200">
               <h1>
                 Crack exams, learn new skills, improve grades with the help of
                 great teachers. Post your learning needs and let qualified
                 tutors get in touch with you.
               </h1>
+              </div>
             </div>
           </div>
           <div className="mb-52">
