@@ -14,6 +14,14 @@ const CreateUserForm = () => {
     dob: ''
   });
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      profileImage: file,
+    }));
+  };
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -92,6 +100,12 @@ const CreateUserForm = () => {
         <input type="number" name="cost" value={formData.cost} onChange={handleChange} />
       </label>
       <br />
+       <label>
+        Profile Image:
+        <input type="file" name="profileImage" accept="image/*" onChange={handleImageChange} />
+      </label>
+      <br />
+
       <button type="submit">Create User</button>
     </form>
   );
