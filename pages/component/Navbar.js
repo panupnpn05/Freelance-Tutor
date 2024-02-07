@@ -59,8 +59,8 @@ export default function Navbar() {
 
   console.log(user)
   return (
-    <div>
-      <div className="flex justify-center items-center w-full h-20 static">
+    <div className='shadow-lg'>
+      <div className="flex justify-center items-center w-full h-15 static">
         <div className="w-3/4 flex justify-between items-center text-lg">
           <a className="text-3xl font-bold text-green-900" href="/">
           <Image
