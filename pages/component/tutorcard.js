@@ -76,7 +76,7 @@ export default function Tutorcard({ tutorData }) {
           </div>
           <div className=' w-auto flex justify-end'>
           <button className=" bg-green-500 text-white px-4 py-2 hover:bg-green-700 duration-300 whitespace-nowrap">
-            See Available Date
+            Booking
           </button>
           </div>
         </div>

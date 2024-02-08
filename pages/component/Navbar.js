@@ -14,9 +14,9 @@ export default function Navbar() {
   const handleLogout = () => {
     // Clear the user state
     setUser([])
-
     // Clear the 'userData' from localStorage
     localStorage.removeItem('userData')
+    setProfileClick(false)
   }
 
   const handleUserLogin = (userData) => {

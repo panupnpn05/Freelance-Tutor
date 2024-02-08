@@ -36,6 +36,35 @@ export default function CreatePendingCard({ tutorData, updateList }) {
       }
   }
 
+  const handleDelete = async () =>{
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DELETE_REQUEST}/${FormData.fullname}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const result = await response.json()
+        console.log(result)
+        updateList()
+      } catch (error) {
+        console.error('Error during create user', error)
+      }
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DELETE_IMAGE}/${FormData.fullname}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const result = await response.json()
+        console.log(result)
+        updateList()
+      } catch (error) {
+        console.error('Error during create user', error)
+      }
+  }
+
   useEffect(() => {
     const fetchImage = async () => {
       try {
@@ -100,7 +129,7 @@ export default function CreatePendingCard({ tutorData, updateList }) {
             </button>
           </div>
           <div className=" w-full">
-            <button className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap">
+            <button className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap" onClick={handleDelete}>
               Cancle Create Request
             </button>
           </div>

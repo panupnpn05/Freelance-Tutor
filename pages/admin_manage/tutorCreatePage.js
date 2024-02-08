@@ -12,29 +12,30 @@ const Tutor = () => {
   }
   const tutorsCount = tutorsData ? Object.entries(tutorsData).length : 0
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_GET_TUTOR_CREATE_PENDING,
+      )
+
+      if (response.ok) {
+        const result = await response.json()
+        setTutorsData(result.Tutors_data)
+      } else {
+        console.error('Failed to fetch tutors data')
+      }
+    } catch (error) {
+      console.error('Error fetching tutors data:', error)
+    }
+  }
+
   const handleUpdateList = () =>{
     fetchData()
   }
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_GET_TUTOR_CREATE_PENDING,
-        )
-
-        if (response.ok) {
-          const result = await response.json()
-          setTutorsData(result.Tutors_data)
-        } else {
-          console.error('Failed to fetch tutors data')
-        }
-      } catch (error) {
-        console.error('Error fetching tutors data:', error)
-      }
-    }
-
     fetchData()
-  }, [handleUpdateList])
+  }, [])
 
   console.log(tutorsData)
 
