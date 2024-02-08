@@ -7,11 +7,8 @@ import Footer from "./component/Footer";
 import Subject from "./component/Subject";
 import Subjectbutton from "./component/Subjectbutton";
 import Subjectbutton2 from "./component/Subjectbutton2";
-import Link from "next/link";
 import Subjectbutton3 from "./component/Subjectbutton3";
 import { useEffect , useState } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 const [UserData, setUserData] = useState("")
