@@ -1,8 +1,12 @@
+import Image from "next/image"
 export function Findthebest(){
     return(
         <div className=" w-full h-full">
             <div className="bg-blue-200 flex justify-center">
               <div className="mb-4 text-black bg-red-200">
+                <Image
+                  
+                />
                 Find the best tutor in Thailand
               </div>
               <div className="text-xl font-normal text-black mb-60 bg-green-200">

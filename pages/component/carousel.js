@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Image from 'next/image';
 
 export default function CarouselSlider() {
   const settings = {
@@ -29,31 +30,88 @@ export default function CarouselSlider() {
         }
       }
     ]
+    
   };
 
   return (
     <div className="carousel-container">
       <Slider {...settings}>
-        <div className='bg-red-200 p-4 border'>
-          <h1>Math</h1>
+        <div className='bg-red-600 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/math.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
         </div>
-        <div className='bg-blue-200 p-4 border'>
-          <h1>Science</h1>
+          <h1 className='text-3xl'>Math</h1>
         </div>
-        <div className='bg-green-200 p-4 border'>
-          <h1>English</h1>
+        <div className='bg-blue-600 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/science.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
         </div>
-        <div className='bg-yellow-200 p-4 border'>
-          <h1>Coding</h1>
+          <h1 className='text-3xl'>Science</h1>
         </div>
-        <div className='bg-pink-200 p-4 border'>
-          <h1>Japanese</h1>
+        <div className='bg-sky-500 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/english.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
         </div>
-        <div className='bg-purple-200 p-4 border'>
-          <h1>Chinese</h1>
+          <h1 className='text-3xl'>English</h1>
         </div>
-        <div className='bg-indigo-200 p-4 border'>
-          <h1>Biology</h1>
+        <div className='bg-yellow-600 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/coding.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
+        </div>
+          <h1 className='text-3xl'>Coding</h1>
+        </div>
+        <div className='bg-pink-600 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/Japanese_icon_(for_user_box).svg.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
+        </div>
+          <h1 className='text-3xl'>Japanese</h1>
+        </div>
+        <div className='bg-yellow-500 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/chinese.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
+        </div>
+          <h1 className='text-3xl'>Chinese</h1>
+        </div>
+        <div className='bg-green-600 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/biology.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
+        </div>
+          <h1 className='text-3xl'>Biology</h1>
         </div>
       </Slider>
     </div>
