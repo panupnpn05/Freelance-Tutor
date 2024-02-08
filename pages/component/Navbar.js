@@ -99,7 +99,7 @@ export default function Navbar() {
                   <div className=" cursor-pointer" onClick={handleLogout}>
                     signout
                   </div>
-                  {user.user_info.name === 'Admin Admin' && <a className=' cursor-pointer' href='/CreateTutor'>Add tutor</a>}
+                  {user.user_info.name === 'Admin Admin' && <a className=' cursor-pointer' href='/admin_manage/tutorCreatePage'>Manage Request</a>}
                   
                 </div>
               )}

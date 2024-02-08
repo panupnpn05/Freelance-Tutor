@@ -53,20 +53,20 @@ export default function Tutorcard({ tutorData }) {
                 <div className="text-gray-600 mt-1">Bangkok, Thailand</div>
               </div>
               <div className="text-right text-2xl font-semibold">
-                ฿{classInfo.cost}/hr
+                ฿{tutorData.cost}/hr
               </div>
             </div>
 
-            <div className="text-gray-600 mt-5">69 classes {className}</div>
+            <div className="text-gray-600 mt-5">Teaching : {tutorData.class}</div>
 
             <div className="text-xl font-semibold mt-5">
-              {classInfo.description}
+              {tutorData.description}
             </div>
-            <p className="text-gray-600 mt-2">
+            {/* <p className="text-gray-600 mt-2">
               John is a software engineer with over 10 years of experience in
               developing web and mobile applications. He is skilled in
               JavaScript, React, and Node.js.
-            </p>
+            </p> */}
           </div>
         </div>
 
