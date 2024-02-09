@@ -108,13 +108,15 @@ const CreateUserForm = () => {
   // };
 
   return (
-    <div className=" bg-gray-200">
-      {/* <Navbar/> */}
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto p-8 border rounded-lg shadow-lg bg-white"
-      >
-        <div className="text-center mb-8">
+    <div>
+      <Navbar/>
+      <div className='bg-cover bg-center bg-no-repeat p-8' style={{ backgroundImage: 'url("/Image/photo1.avif")' }}>
+        <div className='mt-8'>
+          <form 
+            onSubmit={handleSubmit}
+            className="max-w-lg mx-auto p-8 border rounded-lg shadow-lg bg-white"
+          >
+            <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold text-green-600 mb-2">
             Welcome to Tutor Registration
           </h1>
@@ -220,11 +222,12 @@ const CreateUserForm = () => {
             <option key={subject.value} value={subject.value}>
               {subject.label}
             </option>
+            
           ))}
         </select>
 
         {/* Profile Image */}
-        <div className="mb-6">
+        <div className="mb-6 mt-4">
           <label className="block text-gray-700 mb-2">Profile Image</label>
           <input
             type="file"
@@ -251,6 +254,8 @@ const CreateUserForm = () => {
           </button>
         </div>
       </form>
+    </div>
+    </div>
     </div>
   )
 }
