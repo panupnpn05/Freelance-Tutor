@@ -7,3 +7,7 @@
 	margin-right: auto;
 	width: 95%;
 }
+.slick-prev:before,
+.slick-next:before {
+  color: #ff0000; /* เปลี่ยนสีลูกศรเป็นสีแดง */
+}
