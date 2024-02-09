@@ -37,7 +37,7 @@ const Tutor = () => {
   console.log(tutorsData)
 
   return (
-    <div>
+    <div className=''>
       <Navbar />
       <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400">
         <div className=" pt-14 w-3/4 h-full text-white">
@@ -59,7 +59,7 @@ const Tutor = () => {
             </div>
         </div>
       </div>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center bg-gray-50">
         <div className="w-3/4  flex space-x-5">
           <div className="w-1/3 ">
           </div>
@@ -68,7 +68,7 @@ const Tutor = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center bg-gray-50">
         <div className="w-3/4  flex space-x-5">
           <div className="w-1/3">
             <Element />

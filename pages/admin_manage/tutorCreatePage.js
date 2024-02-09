@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import { storage } from '../api/getimage'
 import { ref , getDownloadURL } from 'firebase/storage'
-import Element from '../component/element'
 import Navbar from '../component/Navbar'
 import CreatePendingCard from '../component/pendingCreateCard'
 
@@ -40,9 +39,9 @@ const Tutor = () => {
   console.log(tutorsData)
 
   return (
-    <div className=' bg-gray-100 h-screen'>
+    <div className='h-screen'>
       <Navbar />
-      <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400 mb-6">
+      <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400 mb-6 ">
         <div className=" pt-14 w-3/4 h-full text-white">
           <div>
             <div className="mb-4 font-bold text-3xl">
