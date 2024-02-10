@@ -14,9 +14,9 @@ export default function Navbar() {
   const handleLogout = () => {
     // Clear the user state
     setUser([])
-
     // Clear the 'userData' from localStorage
     localStorage.removeItem('userData')
+    setProfileClick(false)
   }
 
   const handleUserLogin = (userData) => {
@@ -59,8 +59,8 @@ export default function Navbar() {
 
   console.log(user)
   return (
-    <div>
-      <div className="flex justify-center items-center w-full h-20 static">
+    <div className='shadow-lg'>
+      <div className="flex justify-center items-center w-full h-15 static">
         <div className="w-3/4 flex justify-between items-center text-lg">
           <a className="text-3xl font-bold text-green-900" href="/">
           <Image
@@ -99,7 +99,7 @@ export default function Navbar() {
                   <div className=" cursor-pointer" onClick={handleLogout}>
                     signout
                   </div>
-                  {user.user_info.name === 'Admin Admin' && <a className=' cursor-pointer' href='/CreateTutor'>Add tutor</a>}
+                  {user.user_info.name === 'Admin Admin' && <a className=' cursor-pointer' href='/admin_manage/tutorCreatePage'>Manage Request</a>}
                   
                 </div>
               )}
