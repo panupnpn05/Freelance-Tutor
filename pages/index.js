@@ -84,7 +84,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="py-12">
+          <div className="py-12 bg-sky-200">
             <div className="container mx-auto">
               <div className="mb-20">
                 <Title />
@@ -98,9 +98,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <Footer />
         </div>
       </div>
+      <Footer />
     </div>
-  )
+    
+  );
 }

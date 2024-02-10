@@ -102,6 +102,17 @@ export default function CarouselSlider() {
         </div>
           <h1 className='text-3xl'>Chinese</h1>
         </div>
+        <div className='bg-emerald-500 p-4 border rounded-lg'>
+        <div className='flex justify-center'>
+        <Image
+                src="/Image/thai.png"
+                width={100}
+                height={100}
+                alt="Get up to 10 tutor applications"
+                />
+        </div>
+          <h1 className='text-3xl'>Thai</h1>
+        </div>
         <div className='bg-green-600 p-4 border rounded-lg'>
         <div className='flex justify-center'>
         <Image
