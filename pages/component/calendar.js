@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addMonths, addDays, isSameMonth, isSameDay } from 'date-fns';
 import TimePicker from 'react-time-picker';
 
-const CustomCalendar = ({onSelect , onClose}) => {
+const CustomCalendar = ({onSelect}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [unavailableDates, setUnavailableDates] = useState([]);
@@ -55,7 +55,6 @@ const CustomCalendar = ({onSelect , onClose}) => {
     if (date >= new Date()) {
       setSelectedDate(date);
       onSelect(date)
-      onClose();
       console.log('Clicked Date:', format(date, 'ddMMyyyy'));
     }
   };

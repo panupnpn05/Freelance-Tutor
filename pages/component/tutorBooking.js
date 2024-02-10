@@ -5,16 +5,21 @@ import Image from 'next/image'
 import CustomCalendar from './calendar'
 import format from 'date-fns/format'
 
-export default function Booking({ date }) {
+export default function Booking({ data }) {
   const [showCalendar, setShowCalendar] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [bookingData, setBookingData] = useState()
+  const [userData, setUserData] = useState()
   const router = useRouter()
-
-  console.log(date)
 
   // Use useEffect to update the state when router.query changes
   useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem('userData'))
+
+    if (storedUserData) {
+      setUserData(storedUserData)
+    }
+
     const { tutorData } = router.query
     if (tutorData) {
       const parsedTutorData = JSON.parse(tutorData)
@@ -31,9 +36,41 @@ export default function Booking({ date }) {
     setShowCalendar(false)
   }
 
+  const handleCreate = async () =>{
+    FormData = {
+        tutorFullname: bookingData.name,
+        tutorEmail: bookingData.email,
+        tutorAge: bookingData.age,
+        tutorClasses: bookingData.class,
+        tutorCost: bookingData.cost,
+        tutorDescription: bookingData.description,
+        studentFullname: userData.user_info.user_data.name,
+        studentEmail: userData.user_info.user_data.email,
+        studentAge: userData.user_info.user_data.age,
+        studentPhone: userData.user_info.user_data.phoneNumber,
+        studentSchool: userData.user_info.user_data.school
+
+    }
+
+    console.log(FormData)
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_CREATE_REQUEST_BOOKING_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(FormData),
+        })
+        const result = await response.json()
+        console.log(result)
+      } catch (error) {
+        console.error('Error during create user', error)
+      }
+  }
+
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       {bookingData && (
         <div className=" h-full w-full">
           <div className="bg-gradient-to-t from-emerald-800 to-green-400">
@@ -53,7 +90,6 @@ export default function Booking({ date }) {
                   <div className="absolute w-1/4">
                     <CustomCalendar
                       onSelect={handleDateSelection}
-                      onClose={handleCalendarClose}
                     />
                   </div>
                 )}
@@ -87,9 +123,6 @@ export default function Booking({ date }) {
                     Email : {bookingData.email}
                   </div>
                   <div className="text-gray-600 mt-5">
-                    Date of Birth : {bookingData.dob}
-                  </div>
-                  <div className="text-gray-600 mt-5">
                     Age : {bookingData.age}
                   </div>
                   <div className="text-gray-600 mt-5">
@@ -106,7 +139,7 @@ export default function Booking({ date }) {
                 <div className=" w-full">
                   <button
                     className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
-                    // onClick={handleCreate}
+                    onClick={handleCreate}
                   >
                     Confirm Create Request
                   </button>
