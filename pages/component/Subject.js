@@ -1,3 +1,4 @@
+import Link from 'next/link';
 export default function Subject() {
   return (
     <>
@@ -25,7 +26,7 @@ export default function Subject() {
               color: "white",
               textDecoration: "none",
             }}
-            href="/signin" className="text-xl bg-green-500"
+            href="/CreateTutor" className="text-xl bg-green-500"
           >
             Become a Tutor
           </a>

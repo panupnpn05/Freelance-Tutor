@@ -4,6 +4,7 @@ import { storage } from '../api/getimage'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { useRouter } from 'next/router'
 
+
 export default function Tutorcard({ tutorData }) {
   const [className, setClassName] = useState('')
   const [classInfo, setClassInfo] = useState([])
