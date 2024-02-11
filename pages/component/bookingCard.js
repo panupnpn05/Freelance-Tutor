@@ -127,7 +127,7 @@ export default function RequestBookingCard({ tutorData, updateList }) {
             <div className="flex justify-between">
                 <div className="text-2xl font-semibold">{TutorName.class ? Data.StudentName : Data.TutorName }</div>
                 <div className="text-2xl font-semibold">
-                  ฿{Data.TutorCost}/hr
+                  {Data.Date}
                 </div>
             </div>
             <div className="text-gray-600 mt-5">

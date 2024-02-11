@@ -9,6 +9,8 @@ const Tutor = () => {
   const [tutorName, setTutorName] = useState('')
   const [ID , setID] = useState()
 
+  console.log(tutorsData)
+
   const tutorsCount = tutorsData ? Object.entries(tutorsData).length : 0
 
   const fetchData = async () => {
