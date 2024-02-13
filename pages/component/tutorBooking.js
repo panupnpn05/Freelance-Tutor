@@ -61,6 +61,7 @@ export default function Booking({ data }) {
           body: JSON.stringify(FormData),
         })
         const result = await response.json()
+        window.location.href = '/student_manage/bookingManage';
         console.log(result)
       } catch (error) {
         console.error('Error during create user', error)

@@ -39,7 +39,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="md:w-1/2 md:text-center">
-                  <h1 className="text-5xl mb-4">
+                  <h1 className="text-4xl font-semibold mb-4">
                     Find the Best Tutors in Thailand
                   </h1>
                   <p className="text-lg mb-8">
@@ -84,7 +84,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="py-12 bg-sky-200">
+          <div className="py-12 bg-customBlue">
             <div className="container mx-auto">
               <div className="mb-20">
                 <Title />

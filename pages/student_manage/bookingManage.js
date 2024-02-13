@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import { React, useEffect, useState } from 'react'
 import { storage } from '../api/getimage'
 import { ref, getDownloadURL } from 'firebase/storage'
 import Navbar from '../component/Navbar'
@@ -14,12 +14,14 @@ const Tutor = () => {
   const [openChat, setOpenChat] = useState(false)
   const [ID, setID] = useState()
 
+
   const fetchData = async () => {
     try {
-      // Check if tutorName is not an empty string before making the second API call
-      if (tutorName) {
+
+        // Check if tutorName is not an empty string before making the second API call
+
         const IDresponse = await fetch(
-          `${process.env.NEXT_PUBLIC_TUTOR_BOOKING_ID}/${tutorName.user_info.user_data.name}`,
+          `${process.env.NEXT_PUBLIC_STUDENT_BOOKING_ID}/${tutorName.user_info.user_data.name}`,
           {
             method: 'POST', // Specify the HTTP method
           },
@@ -27,24 +29,20 @@ const Tutor = () => {
         const IDResult = await IDresponse.json()
         setID(IDResult)
         console.log('Booking ID response:', IDResult)
-      }
-
-      // Handle the result as needed
+        // Handle the result as needed
     } catch (error) {
       console.error('Error fetching tutors data:', error)
     }
   }
 
-  const handleUpdateList = useCallback(() => {
+  const handleUpdateList = () => {
     fetchData()
-  }, [fetchData])
+  }
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem('userData'))
-    if (storedUserData) {
-      setTutorName(storedUserData)
-    }
-  }, [setTutorName])
+    setTutorName(storedUserData)
+  }, [])
 
   useEffect(() => {
     console.log(tutorName)
@@ -52,11 +50,11 @@ const Tutor = () => {
 
     // Set up a fetch interval of 5 seconds
     const intervalId = setInterval(() => {
-      fetchData()
-    }, 10000)
-
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId)
+        fetchData()
+      }, 10000)
+  
+      // Clear the interval when the component unmounts
+      return () => clearInterval(intervalId)
   }, [tutorName])
 
   const handleOpenConfirmed = () => {
@@ -76,6 +74,7 @@ const Tutor = () => {
     setOpenConfirmed(false)
   }
 
+
   const handleOpenChat = (data) => {
     console.log(data)
     setOpenChat(!openChat)
@@ -85,6 +84,7 @@ const Tutor = () => {
   const handleCloseChat = () =>{
     setOpenChat(false)
   }
+
 
   return (
     <div className="h-screen">
@@ -117,31 +117,25 @@ const Tutor = () => {
         <div className="w-3/4  flex space-x-5">
           <div className=" w-1/3 space-y-5">
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openRequest == true && 'text-md bg-emerald-800 text-white'
-              }`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${openRequest == true && 'text-md bg-emerald-800 text-white'}`}
               onClick={handleOpenRequest}
             >
               {ID && ID.pending_id.length} Request
             </div>
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openConfirmed == true && 'text-md bg-emerald-800 text-white '
-              }`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${openConfirmed == true && 'text-md bg-emerald-800 text-white '}`}
               onClick={handleOpenConfirmed}
             >
               {ID && ID.confirmed_id.length} Confirmed
             </div>
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openCompleted == true && 'text-md bg-emerald-800 text-white'
-              }`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${openCompleted == true && 'text-md bg-emerald-800 text-white'}`}
               onClick={handleOpenCompleted}
             >
               {ID && ID.completed_id.length} Completed
             </div>
           </div>
-          <div className="w-full">
+          <div className='w-full'>
             <div className="w-full">
               {ID &&
                 openRequest == true &&
@@ -151,11 +145,9 @@ const Tutor = () => {
                       tutorData={IDdata.bookingRequestId}
                       status={'pending_booking_create'}
                       updateList={handleUpdateList}
-                      userData={
-                        tutorName && tutorName.user_info.user_data.class
-                      }
+                      userData={tutorName && tutorName.user_info.user_data.class}
                       openChat={handleOpenChat}
-                    />
+                      />
                   </div>
                 ))}
             </div>
@@ -170,7 +162,8 @@ const Tutor = () => {
                       updateList={handleUpdateList}
                       userData={tutorName && tutorName.user_info.user_data.class}
                       openChat={handleOpenChat}
-                    />
+
+                      />
                   </div>
                 ))}
             </div>
@@ -185,7 +178,8 @@ const Tutor = () => {
                       updateList={handleUpdateList}
                       userData={tutorName && tutorName.user_info.user_data.class}
                       openChat={handleOpenChat}
-                    />
+
+                      />
                   </div>
                 ))}
             </div>
@@ -194,9 +188,8 @@ const Tutor = () => {
       </div>
       {openChat === true && 
       <div className="fixed bottom-0 w-1/3 right-10">
-      <Chat tutor={tutorName} student={studentName.StudentName} from={'tutor'} closeChat={handleCloseChat}/>
+        <Chat tutor={studentName.TutorName} student={tutorName} from={'student'} closeChat={handleCloseChat}/>
       </div>} 
-      
     </div>
   )
 }

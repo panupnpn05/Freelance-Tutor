@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { storage } from '../api/getimage'
-import { ref, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL} from 'firebase/storage'
 import { useRouter } from 'next/router'
 
 
@@ -20,38 +20,29 @@ export default function Tutorcard({ tutorData }) {
       }
     }
     fetchImage()
-
-    const firstClass = tutorData.Classes_data
-      ? Object.entries(tutorData.Classes_data)[0]
-      : null
-
-    if (firstClass) {
-      const [initialClassName, initialClassInfo] = firstClass
-      setClassName(initialClassName)
-      setClassInfo(initialClassInfo)
-    }
   }, [tutorData])
 
   const router = useRouter()
 
   const handleBooking = (tutorData) => {
-    tutorData.imageUrl = imageUrl;
-    router.push({
-      pathname: '/component/tutorBooking',
-      query: { tutorData: JSON.stringify(tutorData) },
-    })
+      tutorData.imageUrl = imageUrl;
+      router.push({
+        pathname: '/component/tutorBooking',
+        query: { tutorData: JSON.stringify(tutorData) },
+      })
+    
   }
 
   console.log(className, classInfo)
   // console.log(tutorData.name, imageUrl)
   return (
     <>
-      <div className="bg-white shadow-xl  rounded-xl overflow-hidden">
+      <div className="bg-white shadow-xl  rounded-xl overflow-hidden w-full">
         <div className="flex pt-5 space-x-8 px-6">
           <div className=" w-32 h-32 rounded-full overflow-hidden relative grow-0 shrink-0">
             <Image src={imageUrl} fill style={{ objectFit: 'cover' }} />
           </div>
-          <div>
+          <div className='w-full'>
             <div className="flex justify-between">
               <div>
                 <div className="text-2xl font-semibold">{tutorData.name}</div>
