@@ -10,13 +10,12 @@ export default function Navbar() {
   const handleLoginPage = () => {
     setLoginPageClicked(!loginPageClicked)
   }
-
   const handleLogout = () => {
     // Clear the user state
     setUser([])
-
     // Clear the 'userData' from localStorage
     localStorage.removeItem('userData')
+    setProfileClick(false)
   }
 
   const handleUserLogin = (userData) => {
@@ -46,30 +45,34 @@ export default function Navbar() {
     }
   }, [loginPageClicked])
 
+  const sendProptoparent =(data) =>{
+    Sendname("Panu");
+  }
+
   useEffect(() => {
     const handleStorageChange = () => {
       const storedUserData = JSON.parse(localStorage.getItem('userData'))
       setUser(storedUserData || {})
     }
-    window.addEventListener('storage', handleStorageChange)
+  
+    window.addEventListener('storage', handleStorageChange);
+  
     return () => {
       window.removeEventListener('storage', handleStorageChange)
     }
-  }, [])
-
-  console.log(user)
+  }, []);
   return (
-    <div>
-      <div className="flex justify-center items-center w-full h-20 static">
+    <div className="shadow-lg">
+      <div className="flex justify-center items-center w-full h-15 static">
         <div className="w-3/4 flex justify-between items-center text-lg">
           <a className="text-3xl font-bold text-green-900" href="/">
-          <Image
+            <Image
               src="/Image/image-removebg-preview.png"
               alt="Logo"
-              width={120} 
+              width={120}
               height={120}
               style={{ objectFit: 'cover' }}
-          />
+            />
           </a>
           <a className="" href="/alltutor">
             ติวเตอร์ทั้งหมด
@@ -92,15 +95,25 @@ export default function Navbar() {
                 className="h-5 bg-red-200 p-4 flex items-center rounded-lg font-semibold cursor-pointer"
                 onClick={handleProfileClick}
               >
-                {user.user_info.name}
+                {user.user_info.user_data.name}
               </div>
               {ProfileClick == true && (
-                <div className='absolute bg-blue-200'>
+                <div className="absolute bg-blue-200">
                   <div className=" cursor-pointer" onClick={handleLogout}>
                     signout
                   </div>
-                  {user.user_info.name === 'Admin Admin' && <a className=' cursor-pointer' href='/CreateTutor'>Add tutor</a>}
-                  
+                  {user.user_info.name === 'Admin Admin' ? (
+                    <a
+                      className=" cursor-pointer"
+                      href="/admin_manage/tutorCreatePage"
+                    >
+                      Manage Request
+                    </a>
+                  ) : user.user_info.user_data.class ? (
+                    <a className='' href='/tutor_manage/bookingRequest' onClick={() => Sendname(user)}>Booking Request</a>
+                  ) : (
+                    <a></a>
+                  )}
                 </div>
               )}
             </div>

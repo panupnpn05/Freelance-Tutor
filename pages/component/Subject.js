@@ -1,3 +1,4 @@
+import Link from 'next/link';
 export default function Subject() {
   return (
     <>
@@ -22,11 +23,10 @@ export default function Subject() {
             style={{
               display: "inline-block",
               padding: "15px 20px",
-              background: "lightgreen",
               color: "white",
               textDecoration: "none",
             }}
-            href="/signin" className="text-xl"
+            href="/CreateTutor" className="text-xl bg-green-500"
           >
             Become a Tutor
           </a>
@@ -35,11 +35,10 @@ export default function Subject() {
               marginLeft: "55px",
               display: "inline-block",
               padding: "15px 30px",
-              background: "lightgreen",
               color: "white",
               textDecoration: "none",
             }}
-            href="/alltutor"  className="text-xl"
+            href="/alltutor"  className="text-xl bg-green-500"
           >
             Hire a Tutor
           </a>
