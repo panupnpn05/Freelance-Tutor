@@ -59,6 +59,8 @@ export default function Signup() {
         body: JSON.stringify({ phoneNumber, fullname, email, password, dob }),
       })
       const result = await response.json()
+      alert("Sing Up successful")
+      window.location.href = '/';
       console.log(result)
     } catch (error) {
       console.error('Error during create user', error)

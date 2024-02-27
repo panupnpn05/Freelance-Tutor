@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import CustomCalendar from './calendar'
-import format from 'date-fns/format'
+import { format, parse } from 'date-fns';
 
 export default function Booking({ data }) {
   const [showCalendar, setShowCalendar] = useState(false)
@@ -32,7 +32,7 @@ export default function Booking({ data }) {
   }
 
   const handleDateSelection = (date) => {
-    setSelectedDate(date)
+    setSelectedDate(format(date, 'dd/MM/yyyy'))
     setShowCalendar(false)
   }
 
@@ -48,11 +48,10 @@ export default function Booking({ data }) {
         studentEmail: userData.user_info.user_data.email,
         studentAge: userData.user_info.user_data.age,
         studentPhone: userData.user_info.user_data.phoneNumber,
-        studentSchool: userData.user_info.user_data.school
-
+        studentSchool: userData.user_info.user_data.school,
+        date: selectedDate
     }
 
-    console.log(FormData)
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_CREATE_REQUEST_BOOKING_API, {
           method: 'POST',
@@ -62,6 +61,7 @@ export default function Booking({ data }) {
           body: JSON.stringify(FormData),
         })
         const result = await response.json()
+        window.location.href = '/student_manage/bookingManage';
         console.log(result)
       } catch (error) {
         console.error('Error during create user', error)
@@ -83,7 +83,9 @@ export default function Booking({ data }) {
                   placeholder="Select Date"
                   onClick={handleDateClick}
                   value={
-                    selectedDate ? format(selectedDate, 'dd MMMM yyyy') : ''
+                    selectedDate
+                      ? format(parse(selectedDate, 'dd/MM/yyyy', new Date()), 'dd MMMM yyyy')
+                      : ''
                   }
                 />
                 {showCalendar && (
