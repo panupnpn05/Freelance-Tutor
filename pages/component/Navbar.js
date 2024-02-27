@@ -75,6 +75,10 @@ export default function Navbar() {
               style={{ objectFit: 'cover' }}
             />
           </a>
+          <div className='space-x-6'>
+          <a className="text-red-500 " href="/">
+            Home
+          </a>
           {user !== null &&
           user.user_info &&
           user.user_info.user_data &&
@@ -88,20 +92,24 @@ export default function Navbar() {
             </a>
           ) : (
             <a className="" href="/alltutor">
-              ติวเตอร์ทั้งหมด
+              Find a Tutor
+          </a>
+          <a className="" href="/CreateTutor">
+            Become a Tutor
             </a>
+          </div>
           )}
 
           {(user && Object.keys(user).length === 0) || user === null ? (
             <div className="space-x-4 flex justify-between items-center cursor-pointer">
               <div className="w-full" onClick={handleLoginPage}>
-                เข้าสู่ระบบ
+                Login
               </div>
               <a
                 className="w-full h-1/2 rounded-lg p-2 border border-green-600 hover:border-9 hover:bg-green-600 hover:text-white duration-300 whitespace-nowrap"
                 href="/signup"
               >
-                สมัครเข้าใช้งาน
+                Signup
               </a>
             </div>
           ) : (
