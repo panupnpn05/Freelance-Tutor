@@ -16,7 +16,7 @@ export default function Navbar() {
     // Update the user state and force a re-render
     setUser(null)
     setProfileClick(false)
-    window.location.href = '/';
+    window.location.href = '/'
   }
 
   const handleUserLogin = (userData) => {
@@ -75,103 +75,108 @@ export default function Navbar() {
               style={{ objectFit: 'cover' }}
             />
           </a>
-          <div className='space-x-6'>
-          <a className="text-red-500 " href="/">
-            Home
-          </a>
-          {user !== null &&
-          user.user_info &&
-          user.user_info.user_data &&
-          user.user_info.user_data.class ? (
-            <a
-              className=""
-              href="/tutor_manage/bookingRequest"
-              onClick={() => Sendname(user)}
-            >
-              Manage Booking
+          <div className="space-x-6">
+            <a className="text-red-500 " href="/">
+              Home
             </a>
-          ) : (
-            <a className="" href="/alltutor">
-              Find a Tutor
-          </a>
-          <a className="" href="/CreateTutor">
-            Become a Tutor
-            </a>
-          </div>
-          )}
-
-          {(user && Object.keys(user).length === 0) || user === null ? (
-            <div className="space-x-4 flex justify-between items-center cursor-pointer">
-              <div className="w-full" onClick={handleLoginPage}>
-                Login
-              </div>
+            {user !== null &&
+            user.user_info &&
+            user.user_info.user_data &&
+            user.user_info.user_data.class ? (
               <a
-                className="w-full h-1/2 rounded-lg p-2 border border-green-600 hover:border-9 hover:bg-green-600 hover:text-white duration-300 whitespace-nowrap"
-                href="/signup"
+                className=""
+                href="/tutor_manage/bookingRequest"
+                onClick={() => Sendname(user)}
               >
-                Signup
+                Manage Booking
               </a>
-            </div>
-          ) : (
-            <div className="">
-              <div
-                className=" border border-emerald-600 p-2 px-6 bg-emerald-600 text-white hover:bg-white duration-200 hover:text-emerald-600 flex items-center rounded-lg font-semibold cursor-pointer"
-                onClick={handleProfileClick}
-              >
-                {user.user_info.user_data.name}
+            ) : (
+              <div>
+                <a className="" href="/alltutor">
+                  Find a Tutor
+                </a>
+                <a className="" href="/CreateTutor">
+                  Become a Tutor
+                </a>
               </div>
-              {ProfileClick == true && (
-                <div className="absolute bg-gray-200 border-2 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
-                  {user.user_info.user_data.name === 'Admin Admin' ? (
-                    <div className='flex flex-col'>
-                    <a
-                      className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                      href="/admin_manage/tutorCreatePage"
-                    >
-                      Manage Request
-                    </a>
-                    </div>
-                  ) : user.user_info.user_data.class ? (
-                    <div className='flex flex-col'>
-                    <a
-                      className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                      href="/tutor_manage/bookingRequest"
-                      onClick={() => Sendname(user)}
-                    >
-                      Profile
-                    </a>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col space-y-1">
-                      <a className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500">
-                        Profile
-                      </a>
-                      <a
-                        className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                        href="/student_manage/bookingManage"
-                        onClick={() => Sendname(user)}
-                      >
-                        Manage Booking
-                      </a>
-                    </div>
-                  )}
-                  <div
-                    className=" cursor-pointer border border-red-500 py-1 bg-red-500 hover:text-red-500 hover:bg-white duration-300 text-center text-white rounded-md"
-                    onClick={handleLogout}
-                  >
-                    signout
-                  </div>
+            )}
+
+            {(user && Object.keys(user).length === 0) || user === null ? (
+              <div className="space-x-4 flex justify-between items-center cursor-pointer">
+                <div className="w-full" onClick={handleLoginPage}>
+                  Login
                 </div>
-              )}
+                <a
+                  className="w-full h-1/2 rounded-lg p-2 border border-green-600 hover:border-9 hover:bg-green-600 hover:text-white duration-300 whitespace-nowrap"
+                  href="/signup"
+                >
+                  Signup
+                </a>
+              </div>
+            ) : (
+              <div className="">
+                <div
+                  className=" border border-emerald-600 p-2 px-6 bg-emerald-600 text-white hover:bg-white duration-200 hover:text-emerald-600 flex items-center rounded-lg font-semibold cursor-pointer"
+                  onClick={handleProfileClick}
+                >
+                  {user.user_info.user_data.name}
+                </div>
+                {ProfileClick == true && (
+                  <div className="absolute bg-gray-200 border-2 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
+                    {user.user_info.user_data.name === 'Admin Admin' ? (
+                      <div className="flex flex-col">
+                        <a
+                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
+                          href="/admin_manage/tutorCreatePage"
+                        >
+                          Manage Request
+                        </a>
+                      </div>
+                    ) : user.user_info.user_data.class ? (
+                      <div className="flex flex-col">
+                        <a
+                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
+                          href="/tutor_manage/bookingRequest"
+                          onClick={() => Sendname(user)}
+                        >
+                          Profile
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col space-y-1">
+                        <a className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500">
+                          Profile
+                        </a>
+                        <a
+                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
+                          href="/student_manage/bookingManage"
+                          onClick={() => Sendname(user)}
+                        >
+                          Manage Booking
+                        </a>
+                      </div>
+                    )}
+                    <div
+                      className=" cursor-pointer border border-red-500 py-1 bg-red-500 hover:text-red-500 hover:bg-white duration-300 text-center text-white rounded-md"
+                      onClick={handleLogout}
+                    >
+                      signout
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          {loginPageClicked && (
+            <div className=" absolute w-full top-0 z-50">
+              {' '}
+              <Signin
+                onUserLogin={handleUserLogin}
+                onClose={handleSigninClose}
+              />
             </div>
           )}
         </div>
-        {loginPageClicked && (
-          <div className=" absolute w-full top-0 z-50">
-            {' '}
-            <Signin onUserLogin={handleUserLogin} onClose={handleSigninClose} />
-          </div>
-        )}
       </div>
     </div>
   )
