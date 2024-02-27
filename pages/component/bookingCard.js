@@ -73,7 +73,7 @@ export default function RequestBookingCard({
       (FormData.hours = calculateHours().toString())
     try {
       const response = await fetch(
-        'http://127.0.0.1:8000/create_confirmed_booking',
+        'https://testapi-test-1.fly.dev/create_confirmed_booking',
         {
           method: 'POST',
           headers: {
@@ -97,7 +97,7 @@ export default function RequestBookingCard({
     FormData.hours = Data.Hours
     try {
       const response = await fetch(
-        'http://127.0.0.1:8000/create_completed_booking',
+        'https://testapi-test-1.fly.dev/create_completed_booking',
         {
           method: 'POST',
           headers: {
@@ -117,7 +117,7 @@ export default function RequestBookingCard({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/delete_request_id/${status}/${Data.StudentName}/${Data.TutorName}/${tutorData}`,
+        `https://testapi-test-1.fly.dev/delete_request_id/${status}/${Data.StudentName}/${Data.TutorName}/${tutorData}`,
         {
           method: 'DELETE',
           headers: {
@@ -140,7 +140,7 @@ export default function RequestBookingCard({
         if (storedUserData) {
           setTutorName(storedUserData.user_info.user_data)
           const response = await fetch(
-            `http://127.0.0.1:8000/get_booking_id/${status}/${tutorData}`,
+            `https://testapi-test-1.fly.dev/get_booking_id/${status}/${tutorData}`,
             {
               method: 'GET',
             },
