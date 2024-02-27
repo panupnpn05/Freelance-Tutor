@@ -85,6 +85,8 @@ const CreateUserForm = () => {
       } catch (error){
         console.error('Error uploading image', error);
       }
+      alert("Request Create Successful.\n Please wait for admin approve")
+      window.location.href = '/';
     } catch (error) {
       console.error('Error:', error)
     }
@@ -108,13 +110,15 @@ const CreateUserForm = () => {
   // };
 
   return (
-    <div className=" bg-gray-200">
-      {/* <Navbar/> */}
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto p-8 border rounded-lg shadow-lg bg-white"
-      >
-        <div className="text-center mb-8">
+    <div>
+      <Navbar/>
+      <div className='bg-cover bg-center bg-no-repeat p-8' style={{ backgroundImage: 'url("/Image/photo1.avif")' }}>
+        <div className='mt-8'>
+          <form 
+            onSubmit={handleSubmit}
+            className="max-w-lg mx-auto p-8 border rounded-lg shadow-lg bg-white"
+          >
+            <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold text-green-600 mb-2">
             Welcome to Tutor Registration
           </h1>
@@ -135,8 +139,7 @@ const CreateUserForm = () => {
                 type="text"
                 name="firstName"
                 onChange={(e) => setFirstName(e.target.value)}
-
-                className="form-input mt-1 w-full border border-gray-300 rounded-md"
+                className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
               />
             </div>
             <div>
@@ -145,7 +148,7 @@ const CreateUserForm = () => {
                 type="text"
                 name="lastName"
                 onChange={(e) => setLastName(e.target.value)}
-                className="form-input mt-1 w-full border border-gray-300 rounded-md"
+                className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
               />
             </div>
           </div>
@@ -155,18 +158,18 @@ const CreateUserForm = () => {
               type="text"
               name="email"
               onChange={(e) => setEmail(e.target.value)}
-              className="form-input mt-1 w-full border border-gray-300 rounded-md"
+              className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
             />
             <div>
               <label className="block text-gray-700">Password</label>
-              <div className=" flex">
+              <div className=" flex items-center">
                 <input
                   type={showPassword === true ? 'text' : 'password'}
                   name="password"
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-input mt-1 w-full border p-2 border-gray-300 rounded-md"
+                  className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
                 />
-                <div onClick={handleShowPassword} className=" cursor-pointer">
+                <div onClick={handleShowPassword} className=" cursor-pointer pl-1">
                   show
                 </div>
               </div>
@@ -189,7 +192,7 @@ const CreateUserForm = () => {
                 type="text"
                 name="hourRate"
                 onChange={(e) => setCost(e.target.value)}
-                className="form-input mt-1 shadow-md border border-gray-300 rounded-md w-2/5"
+                className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
               />
             </label>
           </div>
@@ -204,7 +207,7 @@ const CreateUserForm = () => {
               <textarea
                 name="description"
                 onChange={(e) => setDescription(e.target.value)}
-                className="form-textarea w-full mt-1 shadow-md p-2 border border-gray-300 rounded-md"
+                className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
               />
             </div>
           </div>
@@ -213,18 +216,19 @@ const CreateUserForm = () => {
         <select
           name="subjectTaught"
           onChange={(e) => setSubject(e.target.value)}
-          className="form-select mt-1 w-2/5 shadow-md border border-gray-300 rounded-md"
+          className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
         >
           <option value="">Select subject</option>
           {subjects.map((subject) => (
             <option key={subject.value} value={subject.value}>
               {subject.label}
             </option>
+            
           ))}
         </select>
 
         {/* Profile Image */}
-        <div className="mb-6">
+        <div className="mb-6 mt-4">
           <label className="block text-gray-700 mb-2">Profile Image</label>
           <input
             type="file"
@@ -251,6 +255,8 @@ const CreateUserForm = () => {
           </button>
         </div>
       </form>
+    </div>
+    </div>
     </div>
   )
 }

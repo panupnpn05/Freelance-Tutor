@@ -39,7 +39,7 @@ const Tutor = () => {
   return (
     <div className=''>
       <Navbar />
-      <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400">
+      <div className="w-full flex justify-center bg-gradient-to-t from-cyan-600 to-green-400">
         <div className=" pt-14 w-3/4 h-full text-white">
           <div>
             <div className="mb-4 font-bold text-3xl">
