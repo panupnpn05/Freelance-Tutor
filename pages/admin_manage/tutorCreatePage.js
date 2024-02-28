@@ -3,7 +3,7 @@ import { storage } from '../api/getimage'
 import { ref , getDownloadURL } from 'firebase/storage'
 import Navbar from '../component/Navbar'
 import CreatePendingCard from '../component/pendingCreateCard'
-
+import Approvecard from '../component/approvecard'
 const Tutor = () => {
   const [tutorsData, setTutorsData] = useState(null)
   const handleSearch = (searchText) => {

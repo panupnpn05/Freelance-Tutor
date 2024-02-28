@@ -5,15 +5,17 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import userImg from '@/public/Image/userImg.jpeg';
 import TimeRangePicker from './timePicker'
 import format from 'date-fns/format'
-import Ratingstar from './ratingstar';
+import Acceptbutton from './acceptbutton';
+import Rejectbutton from './rejectbutton';
 
-export default function RequestBookingCard({
+export default function RequestApprovecard({
   tutorData,
   status,
   updateList,
   userData,
   openChat,
-}) {
+}) 
+{
   const [imageUrl, setImageUrl] = useState('')
   const [Data, setData] = useState([])
   const [TutorName, setTutorName] = useState([])
@@ -49,6 +51,8 @@ export default function RequestBookingCard({
 
     return null
   }
+  let FormData = {}; // Initialize FormData here
+
   if (Data) {
     FormData = {
       tutorFullname: Data.TutorName,
@@ -172,11 +176,9 @@ export default function RequestBookingCard({
     fetchImage()
   }, [tutorData])
 
-  const handlelOpenChat = () =>{
+  const handleOpenChat = () =>{
     openChat(Data)
   }
-
-
 
   return (
     <div>
@@ -217,7 +219,7 @@ export default function RequestBookingCard({
                   {TutorName.class ? Data.StudentEmail : Data.TutorEmail}
                   {' '}/{" "}
                 </p>
-                <p className=' text-emerald-700 font-semibold cursor-pointer ml-1' onClick={handlelOpenChat}>{" "}send message</p>
+                <p className=' text-emerald-700 font-semibold cursor-pointer ml-1' onClick={handleOpenChat}>{" "}send message</p>
                 </div>
                 <div className="text-gray-600 mt-5">
                   {TutorName.class ? `Phone: ${Data.StudentPhone}` : ''}
@@ -230,42 +232,20 @@ export default function RequestBookingCard({
                     ? `Learning : ${Data.TutorClass}`
                     : `Teaching : ${Data.TutorClass}`}
                 </div>
-                <div>
-                {Data.Status === 'completed'? <Ratingstar/> : ""}
-                </div>
               </div>
+            </div>
+            <div>
+            <div className="flex mt-5">
+          <div className="border-t border-dashed border-gray-300  w-full"></div>
+          <div className=" w-1/3 flex">
+          <Acceptbutton/>
+          <Rejectbutton/>
+          </div>
+        </div>
             </div>
 
             <div className="flex w-full mt-5 border-gray-700">
               <div className=" w-full">
-                {Data.Status == 'pending' && userData !== undefined && (
-                  <button
-                    className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
-                    onClick={handleCreate}
-                  >
-                    Confirm Booking
-                  </button>
-                )}
-                {Data.Status == 'confirmed' && userData !== undefined && (
-                  <button
-                    className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
-                    onClick={
-                      Data.Status === 'confirmed' ? handleConfirm : handleCreate
-                    }
-                  >
-                    Confirm Completed
-                  </button>
-                )}
-              </div>
-              <div className=" w-full">
-                {Data.Status != 'completed' && userData !== undefined && (
-                  <button
-                    className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
-                    onClick={handleDelete}
-                  >
-                    Cancle Booking
-                  </button>
-                )}
               </div>
             </div>
           </div>
@@ -286,5 +266,6 @@ export default function RequestBookingCard({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
+
