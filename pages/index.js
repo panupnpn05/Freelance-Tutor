@@ -50,28 +50,28 @@ export default function Home() {
                   <div>
                     <h1 className="text-3xl font-bold mb-4">Why Choose Us?</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="bg-gray-100 p-4 rounded-lg">
+                      <div className="bg-blue-400 p-4 rounded-lg">
                         <h1 className="text-xl mb-2">Professionalism:</h1>
                         <p>
                           Our team has extensive experience and expertise in
                           tutoring.
                         </p>
                       </div>
-                      <div className="bg-gray-100 p-4 rounded-lg">
+                      <div className="bg-blue-400 p-4 rounded-lg">
                         <h1 className="text-xl mb-2">Customization:</h1>
                         <p>
                           We tailor our teaching to meet your needs and learning
                           style.
                         </p>
                       </div>
-                      <div className="bg-gray-100 p-4 rounded-lg">
+                      <div className="bg-blue-400 p-4 rounded-lg">
                         <h1 className="text-xl mb-2">Flexibility:</h1>
                         <p>
                           We offer scheduling options that can accommodate your
                           time constraints.
                         </p>
                       </div>
-                      <div className="bg-gray-100 p-4 rounded-lg">
+                      <div className="bg-blue-400 p-4 rounded-lg">
                         <h1 className="text-xl mb-2">Effective Learning:</h1>
                         <p>
                           Our teaching methods and learning tools ensure

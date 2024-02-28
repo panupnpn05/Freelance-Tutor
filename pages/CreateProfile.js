@@ -56,6 +56,11 @@ const AddProfilePage = () => {
     event.preventDefault();
     // Upload image and send data to the database
   };
+  const [course, setCourse] = useState("");
+
+const handleCourseChange = (event) => {
+  setCourse(event.target.value);
+};
 
   return (
     <div className="container mx-auto mt-8">
@@ -66,7 +71,7 @@ const AddProfilePage = () => {
             htmlFor="fullName"
             className="block text-sm font-medium text-gray-700"
           >
-            Full Name:
+            Full Name(ชื่อเต็ม):
           </label>
           <input
             type="text"
@@ -81,7 +86,7 @@ const AddProfilePage = () => {
             htmlFor="profileImage"
             className="block text-sm font-medium text-gray-700 mr-2"
           >
-            Profile Image:
+            Profile Image(รูปโปรไฟล์):
           </label>
           <input
             type="file"
@@ -107,7 +112,7 @@ const AddProfilePage = () => {
             htmlFor="bio"
             className="block text-sm font-medium text-gray-700"
           >
-            Bio:
+            Bio(ประวัติส่วนตัว):
           </label>
           <textarea
             id="bio"
@@ -121,7 +126,7 @@ const AddProfilePage = () => {
             htmlFor="subject"
             className="block text-sm font-medium text-gray-700"
           >
-            Subject:
+            Subject(วิชาที่สอน):
           </label>
           <select
             id="subject"
@@ -141,11 +146,25 @@ const AddProfilePage = () => {
           </select>
         </div>
         <div className="mb-4">
+  <label
+    htmlFor="course"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Course(วันที่สะดวกสอน):
+  </label>
+  <textarea
+    id="course"
+    value={course}
+    onChange={handleCourseChange}
+    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+  />
+</div>
+        <div className="mb-4">
           <label
             htmlFor="teachingMethodology"
             className="block text-sm font-medium text-gray-700"
           >
-            Teaching Methodology:
+            Teaching Methodology(วิธีการสอน):
           </label>
           <textarea
             id="teachingMethodology"
@@ -186,7 +205,7 @@ const AddProfilePage = () => {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Email:
+            Email(อีเมล):
           </label>
           <input
             type="email"
@@ -201,7 +220,7 @@ const AddProfilePage = () => {
             htmlFor="phoneNumber"
             className="block text-sm font-medium text-gray-700"
           >
-            Phone Number:
+            Phone Number(เบอร์โทรศัพท์):
           </label>
           <input
             type="tel"

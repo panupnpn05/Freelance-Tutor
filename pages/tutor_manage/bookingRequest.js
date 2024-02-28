@@ -13,6 +13,7 @@ const Tutor = () => {
   const [openCompleted, setOpenCompleted] = useState(false)
   const [openChat, setOpenChat] = useState(false)
   const [ID, setID] = useState()
+  const [reviewText, setReviewText] = useState('')
 
   const fetchData = async () => {
     try {
@@ -84,6 +85,17 @@ const Tutor = () => {
 
   const handleCloseChat = () =>{
     setOpenChat(false)
+  }
+
+  const handleReviewTextChange = (event) => {
+    setReviewText(event.target.value)
+  }
+
+  const submitReview = (bookingId) => {
+    // Submit review logic here
+    console.log('Review submitted:', reviewText)
+    // Clear the review text area after submission
+    setReviewText('')
   }
 
   return (
@@ -186,6 +198,23 @@ const Tutor = () => {
                       userData={tutorName && tutorName.user_info.user_data.class}
                       openChat={handleOpenChat}
                     />
+                    {/* Add review textarea and submit button */}
+                    <div className="mt-4">
+                      <textarea
+                        placeholder="Write your review here..."
+                        rows="4"
+                        cols="50"
+                        value={reviewText}
+                        onChange={handleReviewTextChange}
+                        className="p-2 block w-full border border-gray-300 rounded-md"
+                      />
+                      <button
+                        onClick={() => submitReview(IDdata.bookingCompletedId)}
+                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md"
+                      >
+                        Submit Review
+                      </button>
+                    </div>
                   </div>
                 ))}
             </div>

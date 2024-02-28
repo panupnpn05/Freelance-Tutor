@@ -75,10 +75,18 @@ export default function Navbar() {
               style={{ objectFit: 'cover' }}
             />
           </a>
-          <div className="space-x-6">
-            <a className="text-red-500 " href="/">
+          <div className="flex items-center">
+            <a className="text-red-500 mx-4" href="/">
               Home
             </a>
+            <a className="mx-4" href="/alltutor">
+              Find a Tutor
+            </a>
+            <a className="mx-4" href="/CreateTutor">
+              Become a Tutor
+            </a>
+          </div>
+          <div className="flex items-center">
             {user !== null &&
             user.user_info &&
             user.user_info.user_data &&
@@ -91,18 +99,11 @@ export default function Navbar() {
                 Manage Booking
               </a>
             ) : (
-              <div>
-                <a className="" href="/alltutor">
-                  Find a Tutor
-                </a>
-                <a className="" href="/CreateTutor">
-                  Become a Tutor
-                </a>
-              </div>
+              ''
             )}
 
             {(user && Object.keys(user).length === 0) || user === null ? (
-              <div className="space-x-4 flex justify-between items-center cursor-pointer">
+              <div className="space-x-4 flex items-center">
                 <div className="w-full" onClick={handleLoginPage}>
                   Login
                 </div>

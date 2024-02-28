@@ -10,7 +10,7 @@ const CustomCalendar = ({onSelect}) => {
   useEffect(() => {
     const fetchUnavailableDates = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/unavailable-dates');
+        const response = await fetch('https://testapi-test-1.fly.dev/api/unavailable-dates');
         const data = await response.json();
 
         if (response.ok) {
