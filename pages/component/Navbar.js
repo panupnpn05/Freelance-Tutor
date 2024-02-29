@@ -63,7 +63,7 @@ export default function Navbar() {
     }
   }, [])
   return (
-    <div className="shadow-lg">
+    <div className="shadow-lg bg-white">
       <div className="flex justify-center items-center w-full h-15 static">
         <div className="w-3/4 flex justify-between items-center text-lg">
           <a className="text-3xl font-bold text-green-900" href="/">
@@ -85,23 +85,32 @@ export default function Navbar() {
             <a className="mx-4" href="/CreateTutor">
               Become a Tutor
             </a>
-          </div>
-          <div className="flex items-center">
             {user !== null &&
             user.user_info &&
             user.user_info.user_data &&
             user.user_info.user_data.class ? (
-              <a
-                className=""
-                href="/tutor_manage/bookingRequest"
-                onClick={() => Sendname(user)}
-              >
-                Manage Booking
-              </a>
+              <div>
+                {' '}
+                <a
+                  className=""
+                  href="/tutor_manage/bookingRequest"
+                  onClick={() => Sendname(user)}
+                >
+                  Manage Booking
+                </a>
+                <a
+                  className=""
+                  href="/tutor_manage/courseCreate"
+                  onClick={() => Sendname(user)}
+                >
+                  Create course
+                </a>
+              </div>
             ) : (
               ''
             )}
-
+          </div>
+          <div className="flex items-center">
             {(user && Object.keys(user).length === 0) || user === null ? (
               <div className="space-x-4 flex items-center">
                 <div className="w-full" onClick={handleLoginPage}>
@@ -169,7 +178,7 @@ export default function Navbar() {
             )}
           </div>
           {loginPageClicked && (
-            <div className=" absolute w-full top-0 z-50">
+            <div className=" absolute w-full left-0 top-0 z-50">
               {' '}
               <Signin
                 onUserLogin={handleUserLogin}

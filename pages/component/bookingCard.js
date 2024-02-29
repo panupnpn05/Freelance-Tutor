@@ -66,6 +66,7 @@ export default function RequestBookingCard({
     }
   }
 
+  console.log(Data)
   const handleApply = async () => {
     FormData.startTime = format(startTime, 'HH:mm')
     FormData.endTime = format(endTime, 'HH:mm')
@@ -73,7 +74,7 @@ export default function RequestBookingCard({
       (FormData.hours = calculateHours().toString())
     try {
       const response = await fetch(
-        'https://testapi-test-1.fly.dev/create_confirmed_booking',
+        process.env.NEXT_PUBLIC_CREATE_CONFIRMED_BOOKING,
         {
           method: 'POST',
           headers: {
@@ -97,7 +98,7 @@ export default function RequestBookingCard({
     FormData.hours = Data.Hours
     try {
       const response = await fetch(
-        'https://testapi-test-1.fly.dev/create_completed_booking',
+        process.env.NEXT_PUBLIC_CREATE_COMPLETE_BOOKING,
         {
           method: 'POST',
           headers: {
@@ -117,7 +118,7 @@ export default function RequestBookingCard({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://testapi-test-1.fly.dev/delete_request_id/${status}/${Data.StudentName}/${Data.TutorName}/${tutorData}`,
+        `${process.env.NEXT_PUBLIC_DELETE_REQUEST_ID}/${status}/${Data.StudentName}/${Data.TutorName}/${tutorData}`,
         {
           method: 'DELETE',
           headers: {
@@ -140,7 +141,7 @@ export default function RequestBookingCard({
         if (storedUserData) {
           setTutorName(storedUserData.user_info.user_data)
           const response = await fetch(
-            `https://testapi-test-1.fly.dev/get_booking_id/${status}/${tutorData}`,
+            `${process.env.NEXT_PUBLIC_GET_BOOKING_ID}/${status}/${tutorData}`,
             {
               method: 'GET',
             },

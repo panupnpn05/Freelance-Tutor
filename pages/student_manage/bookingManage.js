@@ -14,6 +14,8 @@ const Tutor = () => {
   const [openChat, setOpenChat] = useState(false)
   const [ID, setID] = useState()
 
+  console.log(ID)
+
 
   const fetchData = async () => {
     try {
