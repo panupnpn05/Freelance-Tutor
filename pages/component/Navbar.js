@@ -146,7 +146,7 @@ export default function Navbar() {
                       <div className="flex flex-col">
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                          href="/tutor_manage/bookingRequest"
+                          href="/CreateProfile"
                           onClick={() => Sendname(user)}
                         >
                           Profile
@@ -154,7 +154,9 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <div className="flex flex-col space-y-1">
-                        <a className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500">
+                        <a className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
+                        href="/CreateProfile"
+                        onClick={() => Sendname(user)}>
                           Profile
                         </a>
                         <a
