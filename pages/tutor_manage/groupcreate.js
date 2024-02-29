@@ -45,7 +45,7 @@ export default function groupcreate() {
     }));
   };
 
-  console.log(file)
+  console.log('hello')
 
   const handleCreate = async () => {
     FormData = {
