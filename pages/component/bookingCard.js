@@ -6,7 +6,7 @@ import userImg from '@/public/Image/userImg.jpeg';
 import TimeRangePicker from './timePicker'
 import format from 'date-fns/format'
 import Review from "./review";
-import Ratingstar from './ratingstar';
+// import Ratingstar from './ratingstar';
 
 export default function RequestBookingCard({
   tutorData,
@@ -255,9 +255,9 @@ export default function RequestBookingCard({
                 {Data.Status === 'completed'? <Review onSubmit={handleSubmitReview} /> : ""} 
                 <div>
                 </div>
-                <div>
+                {/* <div>
                 {Data.Status === 'completed'? <Ratingstar/> : ""}
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">
