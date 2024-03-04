@@ -1,5 +1,5 @@
 import Navbar from '../component/Navbar'
-import { UserGroupIcon, UserIcon } from '@heroicons/react/24/solid'
+import { UserGroupIcon, UserIcon, ClockIcon } from '@heroicons/react/24/solid'
 
 export default function coursecreate() {
   return (
@@ -20,6 +20,7 @@ export default function coursecreate() {
             <div className=" mt-4">Group Course</div>
           </div>
         </a>
+        
         <a
           href="./individualcreate"
           className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
@@ -29,6 +30,17 @@ export default function coursecreate() {
               <UserIcon />
             </div>
             <div>Individual Course</div>
+          </div>
+        </a>
+        <a
+          href="./hourlycreate"
+          className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
+        >
+          <div className="">
+            <div className=" h-1/6 w-full flex justify-center">
+              <ClockIcon />
+            </div>
+            <div className=" mt-4">Hourly Class</div>
           </div>
         </a>
       </div>

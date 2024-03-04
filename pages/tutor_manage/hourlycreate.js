@@ -61,7 +61,7 @@ export default function groupcreate() {
     formData.append('startTime', startTime);
     formData.append('endTime', endTime);
     formData.append('duration', duration);
-    formData.append('Type', 'individual');
+    formData.append('Type', 'hourly');
   
     try {
       // Make the first request to create the course with JSON data
@@ -231,7 +231,7 @@ export default function groupcreate() {
             </div>
           </div>
           <div className=" flex justify-between items-center space-x-4 w-full pb-3">
-            <div className=" w-full">
+            {/* <div className=" w-full">
               <label htmlFor="location" className="text-md">
                 Course Duration (weeks):
               </label>
@@ -240,7 +240,7 @@ export default function groupcreate() {
                 className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
                 onChange={(e) => setDuration(e.target.value)}
               ></input>
-            </div>
+            </div> */}
             <div className=" w-full">
               <label htmlFor="location" className="text-md">
                 Course Cost:
