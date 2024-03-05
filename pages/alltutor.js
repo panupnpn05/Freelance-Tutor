@@ -11,18 +11,20 @@ const Tutor = () => {
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
   }
-  const tutorsCount = tutorsData ? Object.entries(tutorsData).length : 0
+
+const tutorsCount = tutorsData
+  ? Object.entries(tutorsData).filter(([tutorName, tutorData]) => tutorData.status !== 'inactive').length
+  : 0;
+  console.log(tutorsData)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_GET_TUTOR,
-        )
+        const response = await fetch(process.env.NEXT_PUBLIC_GET_TUTOR)
 
         if (response.ok) {
           const result = await response.json()
-          setTutorsData(result.Tutors_data)
+          setTutorsData(result.Courses_data)
         } else {
           console.error('Failed to fetch tutors data')
         }
@@ -37,7 +39,7 @@ const Tutor = () => {
   console.log(tutorsData)
 
   return (
-    <div className=''>
+    <div className="">
       <Navbar />
       <div className="w-full flex justify-center bg-gradient-to-t from-cyan-600 to-green-400">
         <div className=" pt-14 w-3/4 h-full text-white">
@@ -52,19 +54,15 @@ const Tutor = () => {
                 Get Test Prep and Homework assistance too.
               </h1>
             </div>
-            
           </div>
-          <div className="pb-8">
-
-            </div>
+          <div className="pb-8"></div>
         </div>
       </div>
       <div className="flex w-full justify-center bg-gray-50">
         <div className="w-3/4  flex space-x-5">
-          <div className="w-1/3 ">
-          </div>
+          <div className="w-1/3 "></div>
           <div className="w-full font-semibold text-gray-500 mt-4 mb-3">
-            {tutorsCount} Tutors Found
+            {tutorsCount} Courses Found
           </div>
         </div>
       </div>
@@ -73,11 +71,13 @@ const Tutor = () => {
           <div className="w-1/3">
             <Element />
           </div>
-          <div className='w-full'>
+          <div className="w-full">
             {tutorsData &&
               Object.entries(tutorsData).map(([tutorName, tutorData]) => (
                 <div key={tutorName} className="mb-5">
-                  <Tutorcard tutorData={tutorData} />
+                  {tutorData.status !== 'inactive' && (
+                    <Tutorcard tutorData={tutorData} />
+                  )}
                 </div>
               ))}
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { storage } from '../api/getimage'
 import { ref, getDownloadURL } from 'firebase/storage'
 import Navbar from '../component/Navbar'
@@ -14,13 +14,15 @@ const Tutor = () => {
   const [openChat, setOpenChat] = useState(false)
   const [ID, setID] = useState()
   const [reviewText, setReviewText] = useState('')
+  const [type, setType] = useState('hourly')
 
-  const fetchData = async () => {
+  const fetchData = async (selectedType) => {
+    console.log('type:', selectedType)
     try {
       // Check if tutorName is not an empty string before making the second API call
       if (tutorName) {
         const IDresponse = await fetch(
-          `${process.env.NEXT_PUBLIC_TUTOR_BOOKING_ID}/${tutorName.user_info.user_data.name}`,
+          `${process.env.NEXT_PUBLIC_TUTOR_BOOKING_ID}/${tutorName.user_info.user_data.name}/${selectedType}`,
           {
             method: 'POST', // Specify the HTTP method
           },
@@ -47,17 +49,20 @@ const Tutor = () => {
     }
   }, [setTutorName])
 
+  const typeRef = useRef(type)
+
   useEffect(() => {
-    console.log(tutorName)
-    fetchData()
+    typeRef.current = type
+  }, [type])
 
-    // Set up a fetch interval of 5 seconds
-    const intervalId = setInterval(() => {
-      fetchData()
-    }, 10000)
+  useEffect(() => {
+    fetchData(typeRef.current)
 
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId)
+    // const intervalId = setInterval(() => {
+    //   fetchData(typeRef.current)
+    // }, 10000)
+
+    // return () => clearInterval(intervalId)
   }, [tutorName])
 
   const handleOpenConfirmed = () => {
@@ -83,7 +88,7 @@ const Tutor = () => {
     setStudentName(data)
   }
 
-  const handleCloseChat = () =>{
+  const handleCloseChat = () => {
     setOpenChat(false)
   }
 
@@ -98,13 +103,21 @@ const Tutor = () => {
     setReviewText('')
   }
 
+  const handleSetType = (selectedType) => {
+    console.log('type : ', selectedType)
+    setType(selectedType)
+    fetchData(selectedType)
+  }
+
+  console.log(ID)
+
   return (
     <div className="h-screen">
       <Navbar />
       <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400 mb-6 ">
         <div className=" pt-14 w-3/4 h-full text-white">
-          <div>
-            <div className="mb-4 font-bold text-3xl">Booking Manage</div>
+          <div className=" flex items-center mb-4">
+            {/* <div className=" font-bold text-3xl">Booking Manage</div> */}
             {/* <div className="text-xl mb-8">
               <h1>
                 Find the best tutors in Bangkok. Get personalized one-on-one
@@ -112,6 +125,24 @@ const Tutor = () => {
                 Get Test Prep and Homework assistance too.
               </h1>
             </div> */}
+            <div
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              onClick={() => handleSetType('hourly')}
+            >
+              Hourly Class
+            </div>
+            <div
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              onClick={() => handleSetType('individual')}
+            >
+              Individual Course
+            </div>
+            <div
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              onClick={() => handleSetType('group')}
+            >
+              Group Course
+            </div>
           </div>
           <div className="pb-8"></div>
         </div>
@@ -134,15 +165,21 @@ const Tutor = () => {
               }`}
               onClick={handleOpenRequest}
             >
-              {ID && ID.pending_id.length} Request
+              {ID && ID.filtered_data.bookingPending_id
+                ? ID.filtered_data.bookingPending_id.length
+                : 0}{' '}
+              Request
             </div>
             <div
               className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openConfirmed == true && 'text-md bg-emerald-800 text-white '
+                openConfirmed == true && 'text-md bg-emerald-800 text-white'
               }`}
               onClick={handleOpenConfirmed}
             >
-              {ID && ID.confirmed_id.length} Confirmed
+              {ID && ID.filtered_data.bookingConfirmed_id
+                ? ID.filtered_data.bookingConfirmed_id.length
+                : 0}{' '}
+              Confirmed
             </div>
             <div
               className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
@@ -150,82 +187,105 @@ const Tutor = () => {
               }`}
               onClick={handleOpenCompleted}
             >
-              {ID && ID.completed_id.length} Completed
+              {ID && ID.filtered_data.bookingCompleted_id
+                ? ID.filtered_data.bookingCompleted_id.length
+                : 0}{' '}
+              Completed
             </div>
           </div>
           <div className="w-full">
             <div className="w-full">
               {ID &&
+               ID.filtered_data.bookingPending_id &&
                 openRequest == true &&
-                Object.entries(ID.pending_id).map(([IDindex, IDdata]) => (
-                  <div key={IDindex} className="mb-5">
-                    <RequestBookingCard
-                      tutorData={IDdata.bookingRequestId}
-                      status={'pending_booking_create'}
-                      updateList={handleUpdateList}
-                      userData={
-                        tutorName && tutorName.user_info.user_data.class
-                      }
-                      openChat={handleOpenChat}
-                    />
-                  </div>
-                ))}
-            </div>
-            <div className="w-full">
-              {ID &&
-                openConfirmed == true &&
-                Object.entries(ID.confirmed_id).map(([IDindex, IDdata]) => (
-                  <div key={IDindex} className="mb-5">
-                    <RequestBookingCard
-                      tutorData={IDdata.bookingConfirmedId}
-                      status={'confirmed_booking_create'}
-                      updateList={handleUpdateList}
-                      userData={tutorName && tutorName.user_info.user_data.class}
-                      openChat={handleOpenChat}
-                    />
-                  </div>
-                ))}
-            </div>
-            <div className="w-full">
-              {ID &&
-                openCompleted == true &&
-                Object.entries(ID.completed_id).map(([IDindex, IDdata]) => (
-                  <div key={IDindex} className="mb-5">
-                    <RequestBookingCard
-                      tutorData={IDdata.bookingCompletedId}
-                      status={'completed_booking_create'}
-                      updateList={handleUpdateList}
-                      userData={tutorName && tutorName.user_info.user_data.class}
-                      openChat={handleOpenChat}
-                    />
-                    {/* Add review textarea and submit button */}
-                    <div className="mt-4">
-                      <textarea
-                        placeholder="Write your review here..."
-                        rows="4"
-                        cols="50"
-                        value={reviewText}
-                        onChange={handleReviewTextChange}
-                        className="p-2 block w-full border border-gray-300 rounded-md"
+                Object.entries(ID.filtered_data.bookingPending_id).map(
+                  ([IDindex, IDdata]) => (
+                    <div key={IDindex} className="mb-5">
+                      <RequestBookingCard
+                        tutorData={IDdata.bookingRequestId}
+                        status={'pending_booking_create'}
+                        updateList={handleUpdateList}
+                        userData={
+                          tutorName && tutorName.user_info.user_data.class
+                        }
+                        openChat={handleOpenChat}
                       />
-                      <button
-                        onClick={() => submitReview(IDdata.bookingCompletedId)}
-                        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md"
-                      >
-                        Submit Review
-                      </button>
                     </div>
-                  </div>
-                ))}
+                  ),
+                )}
+            </div>
+            <div className="w-full">
+              {ID &&
+                ID.filtered_data.bookingConfirmed_id &&
+                openConfirmed == true &&
+                Object.entries(ID.filtered_data.bookingConfirmed_id).map(
+                  ([IDindex, IDdata]) => (
+                    <div key={IDindex} className="mb-5">
+                      <RequestBookingCard
+                        tutorData={IDdata.bookingConfirmedId}
+                        status={'confirmed_booking_create'}
+                        updateList={handleUpdateList}
+                        userData={
+                          tutorName && tutorName.user_info.user_data.class
+                        }
+                        openChat={handleOpenChat}
+                      />
+                    </div>
+                  ),
+                )}
+            </div>
+            <div className="w-full">
+              {ID &&
+                ID.filtered_data.bookingCompleted_id &&
+                openCompleted == true &&
+                Object.entries(ID.filtered_data.bookingCompleted_id).map(
+                  ([IDindex, IDdata]) => (
+                    <div key={IDindex} className="mb-5">
+                      <RequestBookingCard
+                        tutorData={IDdata.bookingCompletedId}
+                        status={'completed_booking_create'}
+                        updateList={handleUpdateList}
+                        userData={
+                          tutorName && tutorName.user_info.user_data.class
+                        }
+                        openChat={handleOpenChat}
+                      />
+                      {/* Add review textarea and submit button */}
+                      <div className="mt-4">
+                        <textarea
+                          placeholder="Write your review here..."
+                          rows="4"
+                          cols="50"
+                          value={reviewText}
+                          onChange={handleReviewTextChange}
+                          className="p-2 block w-full border border-gray-300 rounded-md"
+                        />
+                        <button
+                          onClick={() =>
+                            submitReview(IDdata.bookingCompletedId)
+                          }
+                          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md"
+                        >
+                          Submit Review
+                        </button>
+                      </div>
+                    </div>
+                  ),
+                )}
             </div>
           </div>
         </div>
       </div>
-      {openChat === true && 
-      <div className="fixed bottom-0 w-1/3 right-10">
-      <Chat tutor={tutorName} student={studentName.StudentName} from={'tutor'} closeChat={handleCloseChat}/>
-      </div>} 
-      
+      {openChat === true && (
+        <div className="fixed bottom-0 w-1/3 right-10">
+          <Chat
+            tutor={tutorName}
+            student={studentName.StudentName}
+            from={'tutor'}
+            closeChat={handleCloseChat}
+          />
+        </div>
+      )}
     </div>
   )
 }

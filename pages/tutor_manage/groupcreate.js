@@ -11,7 +11,6 @@ export default function groupcreate() {
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('none')
   const [participants, setParticipant] = useState('')
-  const [days, setDays] = useState([])
   const [duration, setDuration] = useState('')
   const [selectedDays, setSelectedDays] = useState({
     Sunday: false,
@@ -45,58 +44,72 @@ export default function groupcreate() {
     }));
   };
 
-  console.log('hello')
-
   const handleCreate = async () => {
-    FormData = {
-      Fullname: User.user_info.user_data.name,
-      Email: User.user_info.user_data.email,
-      Class: User.user_info.user_data.class,
-      Course: course,
-      Cost: cost,
-      Description: description,
-      location: location,
-      participants: participants,
-      days: days,
-      startTime: startTime,
-      endTime: endTime,
-      duration: duration,
-      Type: 'group'
-    }
+    // Create FormData instance
+    const formData = new FormData();
+  
+    // Append form fields to FormData
+    formData.append('Fullname', User.user_info.user_data.name);
+    formData.append('Email', User.user_info.user_data.email);
+    formData.append('Class', User.user_info.user_data.class);
+    formData.append('Course', course);
+    formData.append('Cost', cost);
+    formData.append('Description', description);
+    formData.append('location', location);
+    formData.append('participants', participants);
+    formData.append('days', JSON.stringify(selectedDays));
+    formData.append('startTime', startTime);
+    formData.append('endTime', endTime);
+    formData.append('duration', duration);
+    formData.append('Type', 'group');
+
+    console.log(JSON.stringify(Object.fromEntries(formData)))
+  
     try {
+      // Make the first request to create the course with JSON data
       const response = await fetch('http://127.0.0.1:8000/create_course', {
         method: 'POST',
         headers: {
+          // You are sending JSON data, so set the Content-Type accordingly
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(FormData),
-      })
-      const result = await response.json()
-      console.log(result)
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+      } else {
+        console.error('Error during create course');
+      }
     } catch (error) {
-      console.error('Error during create user', error)
+      console.error('Error during create course', error);
     }
+  
     try {
-      const formData = new FormData()
-      formData.append('file', file.courseImage)
-
-      const response = await fetch(
+      // Make the second request to upload the image
+      formData.delete('file'); // Remove previous 'file' entry
+      formData.append('file', file.courseImage);
+  
+      const uploadResponse = await fetch(
         `${process.env.NEXT_PUBLIC_UPLOAD_TUTOR_PROFILE}/${course}`,
         {
           method: 'POST',
           body: formData,
         },
-      )
-      if (response.ok) {
-        const data = await response.json()
-        console.log(data)
+      );
+  
+      if (uploadResponse.ok) {
+        const uploadData = await uploadResponse.json();
+        console.log(uploadData);
       } else {
-        console.error('Error uploading image')
+        console.error('Error uploading image');
       }
     } catch (error) {
-      console.error('Error uploading image', error)
+      console.error('Error uploading image', error);
     }
-  }
+  };
+  
 
   const handleDayToggle = (day) => {
     setSelectedDays((prevDays) => ({
