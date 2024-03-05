@@ -250,25 +250,6 @@ const Tutor = () => {
                         }
                         openChat={handleOpenChat}
                       />
-                      {/* Add review textarea and submit button */}
-                      <div className="mt-4">
-                        <textarea
-                          placeholder="Write your review here..."
-                          rows="4"
-                          cols="50"
-                          value={reviewText}
-                          onChange={handleReviewTextChange}
-                          className="p-2 block w-full border border-gray-300 rounded-md"
-                        />
-                        <button
-                          onClick={() =>
-                            submitReview(IDdata.bookingCompletedId)
-                          }
-                          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md"
-                        >
-                          Submit Review
-                        </button>
-                      </div>
                     </div>
                   ),
                 )}

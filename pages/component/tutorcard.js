@@ -13,10 +13,13 @@ import {
   EnvelopeIcon,
   BookOpenIcon,
   ClockIcon,
+  StarIcon,
 } from '@heroicons/react/24/solid'
 
 export default function Tutorcard({ tutorData }) {
   const [imageUrl, setImageUrl] = useState('')
+  const [rating, setRating] = useState()
+
   useEffect(() => {
     const fetchImage = async () => {
       try {
@@ -24,6 +27,19 @@ export default function Tutorcard({ tutorData }) {
           ref(storage, `${tutorData.Course}.jpg`),
         )
         setImageUrl(url)
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_GET_RATING}/${tutorData.TutorName}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        const result = await response.json()
+        setRating(result.average_rating)
+        console.log(result)
       } catch (error) {
         console.error('Error fetching image:', error)
       }
@@ -78,7 +94,8 @@ export default function Tutorcard({ tutorData }) {
               </div>
               <div className="w-1/2">
                 <div className="text-right text-2xl font-semibold flex justify-end">
-                  ฿{tutorData.Cost}{tutorData.Type === 'hourly' && <div>/hr</div>}
+                  ฿{tutorData.Cost}
+                  {tutorData.Type === 'hourly' && <div>/hr</div>}
                 </div>
                 {tutorData.Type !== 'hourly' && (
                   <div className="flex justify-end">
@@ -142,20 +159,25 @@ export default function Tutorcard({ tutorData }) {
         </div>
 
         <div className="flex mt-5">
-          <div className="border-t border-dashed border-gray-300  w-full items-center pl-4 flex space-x-2">
-            <CheckBadgeIcon className=" w-6 text-gray-600" />
-            {tutorData.Type === 'group' ? (
-              <UserGroupIcon className="w-6 text-gray-600" />
-            ) : tutorData.Type === 'individual' ? (
-              <UserIcon className="w-6 text-gray-600" />
-            ) : (
-              <ClockIcon className="w-6 text-gray-600" />
-            )}
-            {tutorData.Location === 'online' ? (
-              <ComputerDesktopIcon className=" w-6 text-gray-600 " />
-            ) : (
-              <MapPinIcon className=" w-6 text-gray-600 " />
-            )}
+          <div className="border-t border-dashed border-gray-300  w-full items-center px-4 flex justify-between">
+            <div className="flex space-x-2">
+              <CheckBadgeIcon className=" w-6 text-gray-600" />
+              {tutorData.Type === 'group' ? (
+                <UserGroupIcon className="w-6 text-gray-600" />
+              ) : tutorData.Type === 'individual' ? (
+                <UserIcon className="w-6 text-gray-600" />
+              ) : (
+                <ClockIcon className="w-6 text-gray-600" />
+              )}
+              {tutorData.Location === 'online' ? (
+                <ComputerDesktopIcon className=" w-6 text-gray-600 " />
+              ) : (
+                <MapPinIcon className=" w-6 text-gray-600 " />
+              )}
+            </div>
+            <div className="flex items-center spa">
+            <StarIcon className="w-6 ml-1 text-yellow-500" />{rating} 
+            </div>
           </div>
           <div className=" w-1/3 flex">
             <button

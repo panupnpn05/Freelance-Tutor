@@ -16,6 +16,7 @@ export default function RequestBookingCard({
   userData,
   openChat,
   type,
+  sendReview,
 }) {
   const [imageUrl, setImageUrl] = useState('')
   const [Data, setData] = useState([])
@@ -24,6 +25,9 @@ export default function RequestBookingCard({
   const [endTime, setEndTime] = useState([])
   const [Timepicker, setTimePicker] = useState(false)
   const [studentsList, setStudentsList] = useState(false)
+  const [rating, setRating] = useState(false)
+  const [comment, setComment] = useState('')
+  const [reviewstart, setReviewStart] = useState()
   const handleCreate = async () => {
     if (Data.Type == 'hourly') {
       setTimePicker(!Timepicker)
@@ -70,7 +74,7 @@ export default function RequestBookingCard({
       id: tutorData,
       participants: Data.Participants,
       days: Data.Days,
-      courseId: Data.CourseId
+      courseId: Data.CourseId,
     }
   }
 
@@ -101,7 +105,7 @@ export default function RequestBookingCard({
       } catch (error) {
         console.error('Error during create user', error)
       }
-    } else if(Data.Type == 'individual') {
+    } else if (Data.Type == 'individual') {
       try {
         const response = await fetch(
           process.env.NEXT_PUBLIC_CREATE_CONFIRMED_BOOKING,
@@ -127,8 +131,7 @@ export default function RequestBookingCard({
       } catch (error) {
         console.error('Error during create user', error)
       }
-    }
-    else {
+    } else {
       try {
         const response = await fetch(
           process.env.NEXT_PUBLIC_CREATE_CONFIRMED_BOOKING,
@@ -234,21 +237,41 @@ export default function RequestBookingCard({
     openChat(Data)
   }
 
+  const handleOpenReview = () => {
+    setRating(!rating)
+  }
+
+  const handleReview = (review) => {
+    setComment(review)
+  }
+
+  const handleStars = (index) => {
+    setReviewStart(index)
+  }
+
   const handleOpenStudents = () => {
     setStudentsList(!studentsList)
   }
-  const handleSubmitReview = async (reviewData) => {
+
+  const handleSubmitReview = async () => {
     try {
-      if (Data.Status === 'completed_booking_create') {
-        console.log('Submit review:', reviewData)
-        // ทำสิ่งที่ต้องการกับข้อมูลรีวิวที่ได้รับ เช่น ส่งไปยัง API หรือประมวลผลต่อไป
-      } else {
-        console.log('Cannot submit review. Booking status is not completed.')
-        // ทำสิ่งที่ต้องการเมื่อไม่สามารถส่งรีวิวได้ เช่น แสดงข้อความผิดพลาด
-      }
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CREATE_REVIEW}/${Data.TutorName}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({course: Data.TutorCourse , reviewer:userData.name, star:reviewstart, comment:comment}),
+        },
+      )
+      console.log(JSON.stringify({course: Data.TutorCourse , reviewer:userData.name, star:reviewstart, comment:comment}))
+      const result = await response.json()
+      console.log(result)
     } catch (error) {
-      console.error('Error submitting review:', error)
+      console.error('Error during create user', error)
     }
+    updateList()
   }
 
   FormData.bookingRequestId = ''
@@ -264,7 +287,6 @@ export default function RequestBookingCard({
     daysData = JSON.parse(Data.Days)
   }
   console.log(Data)
-  console.log(students)
 
   return (
     <div>
@@ -281,7 +303,9 @@ export default function RequestBookingCard({
               </div>
               <div className=" w-full">
                 <div className="flex justify-between">
-                  <div className="text-2xl font-semibold">{Data.Date}</div>
+                  {Data.Type == 'hourly' && (
+                    <div className="text-2xl font-semibold">{Data.Date}</div>
+                  )}
                 </div>
                 {Data.Type != 'group' ? (
                   <div className="">
@@ -421,13 +445,25 @@ export default function RequestBookingCard({
                   </div>
                 )}
 
-                {Data.Status === 'completed' ? (
-                  <Review onSubmit={handleSubmitReview} />
-                ) : (
-                  ''
+                {rating && (
+                  <div className=" border rounded-xl overflow-hidden mt-5">
+                    <div className="bg-gray-400 text-white text-lg py-1 text-center">
+                      Review
+                    </div>
+                    <div className=" my-1 mx-1">
+                      <Ratingstar sendReview={handleStars} />
+                    </div>
+                    <div className="border px-1">
+                      <Review sendReview={handleReview} />
+                    </div>
+                    <button
+                      className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
+                      onClick={() => handleSubmitReview()}
+                    >
+                      Submit Review
+                    </button>
+                  </div>
                 )}
-                <div></div>
-                <div>{Data.Status === 'completed' ? <Ratingstar /> : ''}</div>
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">
@@ -462,6 +498,16 @@ export default function RequestBookingCard({
                 )}
               </div>
             </div>
+            <div className=" w-full">
+              {Data.Status == 'completed' && userData.school && (
+                <button
+                  className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
+                  onClick={handleOpenReview}
+                >
+                  Review This Tutor
+                </button>
+              )}
+            </div>
           </div>
 
           {Timepicker && (
@@ -491,7 +537,7 @@ export default function RequestBookingCard({
                       <p>Phone: {student.StudentPhone}</p>
                       {/* Include other student details as needed */}
                     </div>
-                    <div className='flex justify-center w-1/6 cursor-pointer bg-red-500 hover:bg'>
+                    <div className="flex justify-center w-1/6 cursor-pointer bg-red-500 hover:bg">
                       <div className="">Delete</div>
                     </div>
                   </div>
