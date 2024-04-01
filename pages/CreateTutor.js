@@ -85,9 +85,27 @@ const CreateUserForm = () => {
       } catch (error){
         console.error('Error uploading image', error);
       }
-      alert("Request Create Successful.\n Please wait for admin approve")
-      window.location.href = '/';
+      Swal.fire({
+        title: 'Request Created',
+        text: 'Please wait for admin approve',
+        icon: 'success',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          window.location.href = '/';
+        }
+      }) 
     } catch (error) {
+      Swal.fire({
+        title: 'Create request failed',
+        text: 'Please wait a minute and try again',
+        icon: 'error',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          window.location.href = '/';
+        }
+      }) 
       console.error('Error:', error)
     }
   }
