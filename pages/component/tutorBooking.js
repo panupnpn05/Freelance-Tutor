@@ -72,8 +72,6 @@ export default function Booking({ data }) {
         courseId: bookingData.Courseid,
         duration: bookingData.Duration,
         participants: bookingData.Participants,
-        startTime: bookingData.StartTime,
-        endTime: bookingData.EndTime,
         location: bookingData.Location,
         days: bookingData.Days,
       }

@@ -7,24 +7,24 @@ const CustomCalendar = ({onSelect}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [unavailableDates, setUnavailableDates] = useState([]);
 
-  useEffect(() => {
-    const fetchUnavailableDates = async () => {
-      try {
-        const response = await fetch(process.env.NEXT_PUBLIC_UNVAILABLE_DATES);
-        const data = await response.json();
+  // useEffect(() => {
+  //   const fetchUnavailableDates = async () => {
+  //     try {
+  //       const response = await fetch(process.env.NEXT_PUBLIC_UNVAILABLE_DATES);
+  //       const data = await response.json();
 
-        if (response.ok) {
-          setUnavailableDates(data.unavailableDates.map(dateStr => new Date(dateStr)));
-        } else {
-          console.error('Error fetching unavailable dates:', data.error);
-        }
-      } catch (error) {
-        console.error('Error fetching unavailable dates:', error);
-      }
-    };
+  //       if (response.ok) {
+  //         setUnavailableDates(data.unavailableDates.map(dateStr => new Date(dateStr)));
+  //       } else {
+  //         console.error('Error fetching unavailable dates:', data.error);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching unavailable dates:', error);
+  //     }
+  //   };
 
-    fetchUnavailableDates();
-  }, []);
+  //   fetchUnavailableDates();
+  // }, []);
 
   const weeksInMonth = (month) => {
     const firstDay = startOfWeek(startOfMonth(month));
