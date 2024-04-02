@@ -34,6 +34,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     setEditedDay(day)
   }
 
+
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     setFile((prevData) => ({
@@ -47,11 +48,6 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     SendClose()
   }
 
-  console.log(SendData)
-
-  const handleTry = () => {
-    console.log(JSON.stringify(Object.fromEntries(formData)))
-  }
 
   const handleEdit = async () => {
     // Create FormData instance
@@ -97,27 +93,47 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     if (file.courseImage !== null) {
       try {
         // Make the second request to upload the image
-        formData.delete('file') // Remove previous 'file' entry
-        formData.append('file', file.courseImage)
-
+        formData.delete('file'); // Remove previous 'file' entry
+        formData.append('file', file.courseImage);
+    
         const uploadResponse = await fetch(
           `${process.env.NEXT_PUBLIC_UPLOAD_TUTOR_PROFILE}/${course}`,
           {
             method: 'POST',
             body: formData,
-          },
-        )
-
+          }
+        );
+    
         if (uploadResponse.ok) {
-          const uploadData = await uploadResponse.json()
-          console.log(uploadData)
+          const uploadData = await uploadResponse.json();
+          console.log(uploadData);
         } else {
-          console.error('Error uploading image')
+          console.error('Error uploading image');
         }
       } catch (error) {
-        console.error('Error uploading image', error)
+        console.error('Error uploading image', error);
+      }
+    } else {
+      try {
+        // Send the request with the old image URL
+        const uploadResponse = await fetch(
+          `http://127.0.0.1:8000/rename_file/${SendData.Course}/${course}`,
+          {
+            method: 'PUT',
+          }
+        );
+    
+        if (uploadResponse.ok) {
+          const uploadData = await uploadResponse.json();
+          console.log(uploadData);
+        } else {
+          console.error('Error uploading image');
+        }
+      } catch (error) {
+        console.error('Error uploading image', error);
       }
     }
+    
   }
 
   const handleStartTime = (day, time) => {
@@ -150,8 +166,6 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     }))
   }
 
-  console.log(SendData)
-  console.log(file)
   return (
     <div className="bg-gray-100/50 backdrop-blur-xl">
       <div>
@@ -284,7 +298,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
                 <img
                   id="previewImage"
                   src={
-                    file.imagePreview !== null ? file.imagePreview : imageUrl
+                    file.imagePreview !== null ? file.imagePreview : imgUrl
                   }
                   alt=""
                   className="w-full h-full object-cover z-10 rounded-full absolute inset-0"
