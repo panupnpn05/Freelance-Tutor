@@ -314,6 +314,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
                 <input
                   placeholder="Course Duration"
                   className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
+                  value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                 ></input>
               </div>

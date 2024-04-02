@@ -41,7 +41,6 @@ export default function Tutorcard({ tutorData }) {
         )
         const result = await response.json()
         setRating(result.average_rating)
-        console.log(result)
       } catch (error) {
         console.error('Error fetching image:', error)
       }
@@ -56,7 +55,6 @@ export default function Tutorcard({ tutorData }) {
       )
       const result = await response.json()
       setReview(result)
-      console.log(result)
     }
     fetchImage()
   }, [tutorData])
@@ -74,13 +72,10 @@ export default function Tutorcard({ tutorData }) {
     });
   };
 
-  console.log(tutorData)
-
   const daysData = JSON.parse(tutorData.Days)
 
   const handleOpenCourse = () => {
     setOpencourse(!opencourse)
-    console.log('hello')
   }
 
   return (
@@ -134,9 +129,6 @@ export default function Tutorcard({ tutorData }) {
                   ) : (
                     <div>Available time :</div>
                   )}
-                  <div className="ml-1">
-                    {tutorData.StartTime} - {tutorData.EndTime}
-                  </div>{' '}
                 </div>
                 <div className="flex flex-col items-end mt-2">
                   {Object.entries(daysData).map(([day, timeData]) => (
