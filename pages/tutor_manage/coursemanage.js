@@ -29,7 +29,7 @@ const ManageCourses = () => {
             },
           )
           const result = await response.json()
-          console.log(result)
+          console.log(`${process.env.NEXT_PUBLIC_GET_COURSE}/${storedUserData.user_info.user_data.name}/courses`)
           setCourses(result.courses)
         } catch (error) {
           console.error('Error fetching image:', error)
