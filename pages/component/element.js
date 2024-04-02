@@ -88,7 +88,7 @@ const Element = () => {
         </div>
         <div className='w-3/4 h-px bg-gray-400 mb-4'></div>
 
-        <div>
+        <d  iv>
             <h1 className='mb-4 font-bold text-gray-700'>Location Preference</h1>
           <input
             type="checkbox"
@@ -99,7 +99,7 @@ const Element = () => {
 
           />
           <label htmlFor="checkboxOption6" className='m-2'>Tutor's place</label>
-        </div>
+        </d>
 
         <div>
           <input
@@ -153,6 +153,105 @@ const Element = () => {
           />
           <label htmlFor="radioOption2"className='m-2'>No</label>
         </div>
+
+        <div className='w-3/4 h-px bg-gray-400 mb-4'></div>
+        <d  iv>
+            <h1 className='mb-4 font-bold text-gray-700'>Subject</h1>
+          <input
+            type="checkbox"
+            id="checkboxOption6"
+            checked={checkboxValues.checkbox6}
+            onChange={handleCheckboxChange('checkbox6')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption6" className='m-2'>Math</label>
+        </d>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>Science</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>Biology</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>Coding</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>Chinese</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>Japanese</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption7"
+            checked={checkboxValues.checkbox7}
+            onChange={handleCheckboxChange('checkbox7')}
+            className='w-4 h-4 mb-3'
+
+          />
+          <label htmlFor="checkboxOption7" className='m-2'>English</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            id="checkboxOption8"
+            checked={checkboxValues.checkbox8}
+            onChange={handleCheckboxChange('checkbox8')}
+            className='mb-8 w-4 h-4'
+          />
+          <label htmlFor="checkboxOption8" className='m-2'>Thai</label>
+        </div>
+        
+        
       </form>
     </div>
   );

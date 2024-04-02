@@ -452,7 +452,7 @@ export default function RequestBookingCard({
                 )}
                 <div></div>
                 <div>{Data.Status === 'completed' ? <Ratingstar /> : ''}</div>
->>>>>>>>> Temporary merge branch 2
+
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">
