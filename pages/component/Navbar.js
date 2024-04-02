@@ -46,8 +46,6 @@ export default function Navbar() {
     }
   }, [loginPageClicked])
 
-  console.log(user)
-
   useEffect(() => {
     const handleStorageChange = () => {
       const storedUserData = JSON.parse(localStorage.getItem('userData'))
@@ -81,6 +79,9 @@ export default function Navbar() {
               <div>
                 <a className="mx-4" href="/allcourse">
                   Find a Course
+                </a>
+                <a className="mx-4" href="/alltutor">
+                  Find a Tutor
                 </a>
                 <a className="mx-4" href="/CreateTutor">
                   Become a Tutor

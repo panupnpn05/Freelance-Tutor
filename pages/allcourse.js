@@ -22,9 +22,10 @@ const Tutor = () => {
   console.log(tutorsData)
 
 
-  const fetchData = async (typeFilter, locationFilter) => {
+  const fetchData = async (typeFilter, locationFilter, subjectFilter) => {
     try {
       let url = process.env.NEXT_PUBLIC_GET_TUTOR
+      
       if (typeFilter !== undefined) {
         url += (locationFilter !== undefined ? `?type=${typeFilter}&location=${locationFilter}` : `?type=${typeFilter}`);
       }
@@ -72,6 +73,18 @@ const Tutor = () => {
       fetchData(typeFilter, '')
     }
   }
+
+  const handleSubjectFilter = (data) => {
+    console.log(data)
+    if (data !== subjectFilter) {
+      setTypeFilter(data)
+      fetchData(typeFilter, locationFilter, data)
+    } else {
+      setTypeFilter('')
+      fetchData('',locationFilter)
+    }
+  }
+
 
   console.log(tutorsData)
 
