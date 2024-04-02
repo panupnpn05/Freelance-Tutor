@@ -64,13 +64,15 @@ export default function Tutorcard({ tutorData }) {
   const router = useRouter()
 
   const handleBooking = (tutorData) => {
-    tutorData.review = review.reviews
-    tutorData.imageUrl = imageUrl
+    if (review) {
+      tutorData.review = review.reviews;
+    }
+    tutorData.imageUrl = imageUrl;
     router.push({
       pathname: '/component/tutorBooking',
       query: { tutorData: JSON.stringify(tutorData) },
-    })
-  }
+    });
+  };
 
   console.log(tutorData)
 
