@@ -5,11 +5,13 @@ import SearchBar from './component/SearchBar'
 import Element from './component/element'
 import Navbar from './component/Navbar'
 import Tutorcard from './component/tutorcard'
+import Subject from './component/Subject'
 
 const Tutor = () => {
   const [tutorsData, setTutorsData] = useState(null)
   const [typeFilter, setTypeFilter] = useState()
   const [locationFilter, setLocationFilter] = useState()
+  const [subjectfilter, setSubjectFilter] = useState()
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
   }
@@ -22,7 +24,7 @@ const Tutor = () => {
   console.log(tutorsData)
 
 
-  const fetchData = async (typeFilter, locationFilter) => {
+  const fetchData = async (typeFilter, locationFilter, subjectfilter) => {
     try {
       let url = process.env.NEXT_PUBLIC_GET_TUTOR
       if (typeFilter !== undefined) {
@@ -30,6 +32,9 @@ const Tutor = () => {
       }
       if (locationFilter !== undefined) {
         url += (typeFilter !== undefined ? `&location=${locationFilter}` : `?location=${locationFilter}`);
+      }
+      if (subjectfilter !== undefined) { // เปลี่ยนจาก subjectFilter เป็น subjectfilter
+        url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=${subjectfilter}` : `?subject=${subjectfilter}`);
       }
 
       const response = await fetch(url)
@@ -73,6 +78,17 @@ const Tutor = () => {
     }
   }
 
+  const handleSubjectFilter = (data) => {
+    console.log(data);
+    if (data !== subjectfilter) { // เปลี่ยนจาก subjectFilter เป็น subjectfilter
+      setSubjectFilter(data);
+      fetchData(typeFilter, locationFilter, data); // เพิ่มพารามิเตอร์ subjectfilter ที่นี่
+    } else {
+      setSubjectFilter('');
+      fetchData(typeFilter, locationFilter, ''); // เพิ่มพารามิเตอร์ subjectfilter ที่นี่
+    }
+  }
+
   console.log(tutorsData)
 
   return (
@@ -109,6 +125,7 @@ const Tutor = () => {
             <Element
               coursefilter={handleCourseFilter}
               locationfilter={handleLocationFilter}
+              subjectfilter={handleSubjectFilter}
             />
           </div>
           <div className="w-full">
