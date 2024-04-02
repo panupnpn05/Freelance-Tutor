@@ -46,9 +46,7 @@ export default function Navbar() {
     }
   }, [loginPageClicked])
 
-  const sendProptoparent = (data) => {
-    Sendname('Panu')
-  }
+  console.log(user)
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -79,12 +77,17 @@ export default function Navbar() {
             <a className="text-red-500 mx-4" href="/">
               Home
             </a>
-            <a className="mx-4" href="/alltutor">
-              Find a Tutor
-            </a>
-            <a className="mx-4" href="/CreateTutor">
-              Become a Tutor
-            </a>
+            {!user?.user_info?.user_data?.class && (
+              <div>
+                <a className="mx-4" href="/alltutor">
+                  Find a Tutor
+                </a>
+                <a className="mx-4" href="/CreateTutor">
+                  Become a Tutor
+                </a>
+              </div>
+            )}
+
             {user !== null &&
             user.user_info &&
             user.user_info.user_data &&
@@ -92,18 +95,25 @@ export default function Navbar() {
               <div>
                 {' '}
                 <a
-                  className=""
+                  className="mx-4"
                   href="/tutor_manage/bookingRequest"
-                  onClick={() => Sendname(user)}
-                >
+                  onClick={user && (() => Sendname(user))}
+                  >
                   Manage Booking
                 </a>
                 <a
-                  className=""
+                  className="mx-4"
                   href="/tutor_manage/courseCreate"
-                  onClick={() => Sendname(user)}
-                >
+                  onClick={user && (() => Sendname(user))}
+                  >
                   Create course
+                </a>
+                <a
+                  className="mx-4"
+                  href="/tutor_manage/coursemanage"
+                  onClick={user && (() => Sendname(user))}
+                >
+                  Course Manage
                 </a>
               </div>
             ) : (
@@ -147,23 +157,25 @@ export default function Navbar() {
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/CreateProfile"
-                          onClick={() => Sendname(user)}
-                        >
+                          onClick={user && (() => Sendname(user))}
+                          >
                           Profile
                         </a>
                       </div>
                     ) : (
                       <div className="flex flex-col space-y-1">
-                        <a className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                        href="/CreateProfile"
-                        onClick={() => Sendname(user)}>
+                        <a
+                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
+                          href="/CreateProfile"
+                          onClick={user && (() => Sendname(user))}
+                          >
                           Profile
                         </a>
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/student_manage/bookingManage"
-                          onClick={() => Sendname(user)}
-                        >
+                          onClick={user && (() => Sendname(user))}
+                          >
                           Manage Booking
                         </a>
                       </div>

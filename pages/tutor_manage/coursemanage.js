@@ -1,39 +1,42 @@
 // pages/manage-courses.js
 
-import { useState, useEffect } from 'react';
-import Navbar from '../component/Navbar';
-import CourseCard from '../component/coursecard';
+import { useState, useEffect } from 'react'
+import Navbar from '../component/Navbar'
+import CourseCard from '../component/coursecard'
+import { getDownloadURL, ref } from 'firebase/storage'
+import { storage } from '../api/getimage'
 
 const ManageCourses = () => {
   // Mock data for courses (replace with actual data from backend)
   const [courses, setCourses] = useState([
-  ]);
-  
-
-  // const coursesArray = Object.values(coursesData.courses);
-
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-
-        const response = await fetch(
-          `https://testapi-test-1.fly.dev/user_tutor/Joe Rawipas/courses`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        )
-        const result = await response.json()
-        console.log(result)
-        setCourses(result.courses)
-      } catch (error) {
-        console.error('Error fetching image:', error)
-      }
+    {
+      id: 1,
+      name: 'Teaching Mathematics (One-on-One)',
+      tutor: 'John Doe',
+      format: 'One-on-One',
+      email: 'johndoe@example.com',
+      mode: 'Online',
+      active: true
+    },
+    {
+      id: 2,
+      name: 'Teaching English (Hourly)',
+      tutor: 'Jane Smith',
+      format: 'Hourly',
+      email: 'janesmith@example.com',
+      mode: 'Offline',
+      active: false
+    },
+    {
+      id: 3,
+      name: 'Teaching Science (Group)',
+      tutor: 'Michael Johnson',
+      format: 'Group',
+      email: 'michaeljohnson@example.com',
+      mode: 'Online',
+      active: true
     }
-    fetchImage()
-  }, [])
+  ]);
 
   // Function to toggle course activation status
   const toggleActivation = (id) => {
@@ -45,24 +48,23 @@ const ManageCourses = () => {
     }));
   }
 
-  console.log(courses)
   return (
     <div>
       <Navbar />
       <div className="container mx-auto mt-10">
         <h1 className="text-3xl font-bold mb-6">Manage Courses</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {Object.entries(courses).map(course => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {courses.map(course => (
             <CourseCard
               key={course.id}
-              course={course[1]}
+              course={course}
               toggleActivation={toggleActivation}
             />
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default ManageCourses;
