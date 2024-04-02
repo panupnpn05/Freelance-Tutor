@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-const Ratingstar = () => {
+const Ratingstar = ({sendReview}) => {
   const [selectedStars, setSelectedStars] = useState(0);
 
   const handleStarClick = (index) => {
-    setSelectedStars(index + 1);
+    setSelectedStars(index + 1)
+    sendReview(index + 1); // Call the callback function to send the review to the parent component
   };
 
   return (
@@ -17,7 +18,7 @@ const Ratingstar = () => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className={`mr-1 h-5 w-5 text-warning cursor-pointer ${index < selectedStars ? "text-emerald-800" : ""}`}
+            className={`mr-1 h-7 w-7 cursor-pointer ${index < selectedStars ? " text-amber-300" : ""}`}
             onClick={() => handleStarClick(index)}
           >
             <path

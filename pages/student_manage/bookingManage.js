@@ -19,10 +19,9 @@ const Tutor = () => {
 
 
   const fetchData = async () => {
+    
     try {
-
         // Check if tutorName is not an empty string before making the second API call
-
         const IDresponse = await fetch(
           `${process.env.NEXT_PUBLIC_STUDENT_BOOKING_ID}/${tutorName.user_info.user_data.name}`,
           {
@@ -148,7 +147,7 @@ const Tutor = () => {
                       tutorData={IDdata.bookingRequestId}
                       status={'pending_booking_create'}
                       updateList={handleUpdateList}
-                      userData={tutorName && tutorName.user_info.user_data.class}
+                      userData={tutorName && tutorName.user_info.user_data}
                       openChat={handleOpenChat}
 
                       />
@@ -164,7 +163,7 @@ const Tutor = () => {
                       tutorData={IDdata.bookingConfirmedId}
                       status={'confirmed_booking_create'}
                       updateList={handleUpdateList}
-                      userData={tutorName && tutorName.user_info.user_data.class}
+                      userData={tutorName && tutorName.user_info.user_data}
                       openChat={handleOpenChat}
 
                       />
@@ -180,7 +179,7 @@ const Tutor = () => {
                       tutorData={IDdata.bookingCompletedId}
                       status={'completed_booking_create'}
                       updateList={handleUpdateList}
-                      userData={tutorName && tutorName.user_info.user_data.class}
+                      userData={tutorName && tutorName.user_info.user_data}
                       openChat={handleOpenChat}
 
                       />

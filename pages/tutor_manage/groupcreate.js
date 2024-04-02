@@ -21,11 +21,20 @@ export default function groupcreate() {
     Friday: false,
     Saturday: false,
   })
+  const [timeRanges, setTimeRanges] = useState({
+    Sunday: { startTime: null, endTime: null },
+    Monday: { startTime: null, endTime: null },
+    Tuesday: { startTime: null, endTime: null },
+    Wednesday: { startTime: null, endTime: null },
+    Thursday: { startTime: null, endTime: null },
+    Friday: { startTime: null, endTime: null },
+    Saturday: { startTime: null, endTime: null },
+  })
   const [User, setUser] = useState()
   const [file, setFile] = useState({
     courseImage: null,
     imagePreview: null,
-  });
+  })
   const [borderStyle, setBorderStyle] = useState(
     'border-2 border-solid border-gray-500',
   )
@@ -34,82 +43,78 @@ export default function groupcreate() {
     document.getElementById('fileInput').click()
   }
 
-
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     setFile((prevData) => ({
       ...prevData,
       courseImage: file,
       imagePreview: URL.createObjectURL(file),
-    }));
-  };
+    }))
+  }
 
   const handleCreate = async () => {
     // Create FormData instance
-    const formData = new FormData();
-  
+    const formData = new FormData()
+
     // Append form fields to FormData
-    formData.append('Fullname', User.user_info.user_data.name);
-    formData.append('Email', User.user_info.user_data.email);
-    formData.append('Class', User.user_info.user_data.class);
-    formData.append('Course', course);
-    formData.append('Cost', cost);
-    formData.append('Description', description);
-    formData.append('location', location);
-    formData.append('participants', participants);
-    formData.append('days', JSON.stringify(selectedDays));
-    formData.append('startTime', startTime);
-    formData.append('endTime', endTime);
-    formData.append('duration', duration);
-    formData.append('Type', 'group');
+    formData.append('Fullname', User.user_info.user_data.name)
+    formData.append('Email', User.user_info.user_data.email)
+    formData.append('Class', User.user_info.user_data.class)
+    formData.append('Course', course)
+    formData.append('Cost', cost)
+    formData.append('Description', description)
+    formData.append('location', location)
+    formData.append('participants', participants)
+    formData.append('days', JSON.stringify(timeRanges))
+    formData.append('duration', duration)
+    formData.append('Type', 'group')
 
     console.log(JSON.stringify(Object.fromEntries(formData)))
-  
+
     try {
       // Make the first request to create the course with JSON data
-      const response = await fetch('http://127.0.0.1:8000/create_course', {
+      const response = await fetch(process.env.NEXT_PUBLIC_CREATE_COURSE, {
         method: 'POST',
         headers: {
           // You are sending JSON data, so set the Content-Type accordingly
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(Object.fromEntries(formData)),
-      });
-  
+      })
+
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
+        const result = await response.json()
+        console.log(result)
       } else {
-        console.error('Error during create course');
+        console.error('Error during create course')
       }
     } catch (error) {
-      console.error('Error during create course', error);
+      console.error('Error during create course', error)
     }
-  
+
     try {
       // Make the second request to upload the image
-      formData.delete('file'); // Remove previous 'file' entry
-      formData.append('file', file.courseImage);
-  
+      formData.delete('file') // Remove previous 'file' entry
+      formData.append('file', file.courseImage)
+
       const uploadResponse = await fetch(
         `${process.env.NEXT_PUBLIC_UPLOAD_TUTOR_PROFILE}/${course}`,
         {
           method: 'POST',
           body: formData,
         },
-      );
-  
+      )
+
       if (uploadResponse.ok) {
-        const uploadData = await uploadResponse.json();
-        console.log(uploadData);
+        const uploadData = await uploadResponse.json()
+        console.log(uploadData)
       } else {
-        console.error('Error uploading image');
+        console.error('Error uploading image')
       }
     } catch (error) {
-      console.error('Error uploading image', error);
+      console.error('Error uploading image', error)
     }
-  };
-  
+  }
 
   const handleDayToggle = (day) => {
     setSelectedDays((prevDays) => ({
@@ -118,12 +123,34 @@ export default function groupcreate() {
     }))
   }
 
-  const handleStartTime = (startTime) => {
-    setStartTime((FormData.startTime = format(startTime, 'HH:mm')))
+  const handleStartTime = (day, time) => {
+    const formattedTime = new Date(time).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+    setTimeRanges((prevState) => ({
+      ...prevState,
+      [day]: {
+        ...prevState[day],
+        startTime: formattedTime,
+      },
+    }))
   }
 
-  const handleEndTime = (endTime) => {
-    setEndTime((FormData.endTime = format(endTime, 'HH:mm')))
+  const handleEndTime = (day, time) => {
+    const formattedTime = new Date(time).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+    setTimeRanges((prevState) => ({
+      ...prevState,
+      [day]: {
+        ...prevState[day],
+        endTime: formattedTime,
+      },
+    }))
   }
 
   useEffect(() => {
@@ -197,19 +224,42 @@ export default function groupcreate() {
               </div>
             ))}
           </div>
-          <div className=" flex justify-between pt-3">
-            <div className="w-2/3">
-              <TimeRangePicker
-                onStartTimeChange={handleStartTime}
-                onEndTimeChange={handleEndTime}
-              />
-              {/* <div
-                className=" p-3 text-center bg-green-300 cursor-pointer"
-                onClick={handleApply}
-              >
-                Apply
-              </div> */}
+          <div>
+            <div
+              className={`grid ${
+                Object.keys(selectedDays).filter((day) => selectedDays[day])
+                  .length === 1
+                  ? 'grid-cols-1'
+                  : 'grid-cols-2'
+              } gap-4`}
+            >
+              {Object.keys(selectedDays).map(
+                (day) =>
+                  selectedDays[day] && (
+                    <div
+                      key={day}
+                      className={`grid ${
+                        parseInt(day) % 2 !== 0 ? 'grid-cols-1' : 'grid-cols-2'
+                      } border rounded-xl overflow-hidden`}
+                    >
+                      <span className="text-center w-full py-2 mb-1 bg-gray-300 text-lg font-medium">
+                        {day}
+                      </span>
+                      <div className="px-2 pb-2">
+                        <TimeRangePicker
+                          className="bg-white rounded-lg shadow-md"
+                          onStartTimeChange={(time) =>
+                            handleStartTime(day, time)
+                          }
+                          onEndTimeChange={(time) => handleEndTime(day, time)}
+                        />
+                      </div>
+                    </div>
+                  ),
+              )}
             </div>
+          </div>
+          <div className=" flex justify-center pt-3">
             <div
               id="imageCircle"
               onClick={openFileInput}
