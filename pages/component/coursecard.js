@@ -94,18 +94,18 @@ const CourseCard = ({ course, id }) => {
         </div>
 
         <div className=" px-4 pb-4">
-          <p>
-            <strong>Teaching Format:</strong> {course.Type}
+          <p className='flex mb-3 mt-8 '>
+            <strong className='flex mr-2'>Teaching Format : </strong> {course.Type}
           </p>
-          <p>
-            <strong>Email:</strong> {course.TutorEmail}
+          <p className='flex mb-3'>
+            <strong className='flex mr-2'>Email : </strong> {course.TutorEmail}
           </p>
-          <p>
-            <strong>Teaching Mode:</strong>{' '}
+          <p className='flex mb-3'>
+            <strong className='flex mr-2'>Teaching Mode : </strong>{' '}
             {course.Location === 'onsite' ? 'Onsite' : 'Online'}
           </p>
-          <strong>Days:</strong>{' '}
-          <p className=" w-1/2">
+          <strong className='mb-8'>Days :  </strong>{' '}
+          <p className=" w-1/2 mt-4">
             {Object.entries(days).map(([day, timeData]) => (
               <div key={day} className="text-center">
                 {timeData && timeData.startTime && timeData.endTime ? (
@@ -121,6 +121,7 @@ const CourseCard = ({ course, id }) => {
               </div>
             ))}
           </p>
+         
           {course.Type !== 'hourly' && (
             <div>
               <p>
@@ -131,8 +132,8 @@ const CourseCard = ({ course, id }) => {
               </p>
             </div>
           )}
-          <p>
-            <strong>Cost:</strong> {course.Cost}
+          <p className='mt-2'>
+            <strong >Cost : </strong> {course.Cost}
           </p>
           <div className="flex justify-between mt-4">
             <div>

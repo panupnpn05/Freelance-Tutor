@@ -44,7 +44,7 @@ const ManageCourses = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto  py-12 bg-[url('/Image/hand-painted-watercolor-pastel-sky-background_23-2148902771.avif')] bg-cover">
         <div className="flex">
           <h1 className="text-3xl font-bold mb-6">Manage Courses</h1>
           <div className='flex ml-3 space-x-2 mt-1'>
