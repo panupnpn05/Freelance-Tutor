@@ -79,8 +79,8 @@ export default function Navbar() {
             </a>
             {!user?.user_info?.user_data?.class && (
               <div>
-                <a className="mx-4" href="/alltutor">
-                  Find a Tutor
+                <a className="mx-4" href="/allcourse">
+                  Find a Course
                 </a>
                 <a className="mx-4" href="/CreateTutor">
                   Become a Tutor
