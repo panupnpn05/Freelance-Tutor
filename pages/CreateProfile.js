@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { getDownloadURL } from "firebase/storage";
+import { ref } from "firebase/storage";
+import { storage } from "./api/getimage";
 
 const AddProfilePage = () => {
   const [fullName, setFullName] = useState("John Doe");
@@ -6,10 +10,34 @@ const AddProfilePage = () => {
   const [teachingMethodology, setTeachingMethodology] = useState("");
   const [teachingStyle, setTeachingStyle] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [phoneNumber, setPhoneNumber] = useState("123-456-7890");
-  const [subject, setSubject] = useState("coding");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [subject, setSubject] = useState("");
+  const [tutorName, setTutorName] = useState("");
 
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        if (tutorName) {
+          const url = await getDownloadURL(
+            ref(storage, `${tutorName.user_info.user_data.name}.jpg`)
+          );
+          console.log(url)
+          setProfileImage(url);
+        }
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [tutorName]);
+
+  console.log(tutorName);
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    setTutorName(storedUserData);
+  }, []);
   const handleFullNameChange = (event) => {
     setFullName(event.target.value);
   };
@@ -35,6 +63,9 @@ const AddProfilePage = () => {
     }
   };
 
+  console.log(tutorName);
+  console.log(profileImage);
+
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
     setProfileImage(imageFile);
@@ -56,6 +87,11 @@ const AddProfilePage = () => {
     event.preventDefault();
     // Upload image and send data to the database
   };
+  const [course, setCourse] = useState("");
+
+  const handleCourseChange = (event) => {
+    setCourse(event.target.value);
+  };
 
   return (
     <div className="container mx-auto mt-8">
@@ -66,12 +102,12 @@ const AddProfilePage = () => {
             htmlFor="fullName"
             className="block text-sm font-medium text-gray-700"
           >
-            Full Name:
+            Full Name(ชื่อเต็ม):
           </label>
           <input
             type="text"
             id="fullName"
-            value={fullName}
+            value={tutorName && tutorName.user_info.user_data.name}
             onChange={handleFullNameChange}
             className="mt-1 p-2 block w-3/4 border border-gray-300 rounded-md"
           />
@@ -81,7 +117,7 @@ const AddProfilePage = () => {
             htmlFor="profileImage"
             className="block text-sm font-medium text-gray-700 mr-2"
           >
-            Profile Image:
+            Profile Image(รูปโปรไฟล์):
           </label>
           <input
             type="file"
@@ -94,7 +130,7 @@ const AddProfilePage = () => {
         {profileImage && (
           <div className="mb-4 flex items-center">
             <img
-              src={URL.createObjectURL(profileImage)}
+              src={profileImage}
               alt="Profile Image"
               className="w-32 h-32 rounded-full mr-4"
             />
@@ -107,7 +143,7 @@ const AddProfilePage = () => {
             htmlFor="bio"
             className="block text-sm font-medium text-gray-700"
           >
-            Bio:
+            Bio(ประวัติส่วนตัว):
           </label>
           <textarea
             id="bio"
@@ -121,11 +157,11 @@ const AddProfilePage = () => {
             htmlFor="subject"
             className="block text-sm font-medium text-gray-700"
           >
-            Subject:
+            Subject(วิชาที่สอน):
           </label>
           <select
             id="subject"
-            value={subject}
+            value={tutorName && tutorName.user_info.user_data.class}
             onChange={handleSubjectChange}
             className="mt-1 p-2 block w-2/5 border border-gray-300 rounded-md"
           >
@@ -142,10 +178,24 @@ const AddProfilePage = () => {
         </div>
         <div className="mb-4">
           <label
+            htmlFor="course"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Course(วันที่สะดวกสอน):
+          </label>
+          <textarea
+            id="course"
+            value={course}
+            onChange={handleCourseChange}
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+          />
+        </div>
+        <div className="mb-4">
+          <label
             htmlFor="teachingMethodology"
             className="block text-sm font-medium text-gray-700"
           >
-            Teaching Methodology:
+            Teaching Methodology(วิธีการสอน):
           </label>
           <textarea
             id="teachingMethodology"
@@ -186,12 +236,12 @@ const AddProfilePage = () => {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Email:
+            Email(อีเมล):
           </label>
           <input
             type="email"
             id="email"
-            value={email}
+            value={tutorName && tutorName.user_info.user_data.email}
             onChange={handleEmailChange}
             className="mt-1 p-2 block w-3/5 border border-gray-300 rounded-md"
           />
@@ -201,7 +251,7 @@ const AddProfilePage = () => {
             htmlFor="phoneNumber"
             className="block text-sm font-medium text-gray-700"
           >
-            Phone Number:
+            Phone Number(เบอร์โทรศัพท์):
           </label>
           <input
             type="tel"

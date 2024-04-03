@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { ArrowLeftIcon} from '@heroicons/react/24/solid'
 import {XCircleIcon} from '@heroicons/react/24/outline'
-
+import Swal from 'sweetalert2'
 
 export default function Signup() {
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -59,10 +59,27 @@ export default function Signup() {
         body: JSON.stringify({ phoneNumber, fullname, email, password, dob }),
       })
       const result = await response.json()
-      alert("Sing Up successful")
-      window.location.href = '/';
-      console.log(result)
+      Swal.fire({
+        title: 'Successful',
+        text: 'Your signup successful',
+        icon: 'success',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          window.location.href = '/';
+        }
+      })
     } catch (error) {
+      Swal.fire({
+        title: 'Sign up failed',
+        text: 'Please wait a minute and try again',
+        icon: 'error',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          window.location.href = '/';
+        }
+      }) 
       console.error('Error during create user', error)
     }
   }
@@ -76,7 +93,7 @@ export default function Signup() {
         <div className="w-full my-8 mx-8 space-y-5">
           <div className="text-3xl font-bold">Sign Up</div>
           <div className="flex justify-between space-x-3">
-            <div className="">
+            <div className="w-full">
               <input
                 type="text"
                 placeholder="First Name"
@@ -84,7 +101,7 @@ export default function Signup() {
                 onChange={(e) => setFirstName(e.target.value)}
               ></input>
             </div>
-            <div className="">
+            <div className=" w-full">
               <input
                 type="text"
                 placeholder="Last Name"

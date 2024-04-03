@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { format, parse } from 'date-fns';
 
-const TimeRangePicker = ({ onStartTimeChange, onEndTimeChange }) => {
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+const TimeRangePicker = ({ onStartTimeChange, onEndTimeChange, startDefTime, endDefTime }) => {
+  const [startTime, setStartTime] = useState(startDefTime ? parse(startDefTime, 'HH:mm', new Date()) : null);
+  const [endTime, setEndTime] = useState(endDefTime ? parse(endDefTime, 'HH:mm', new Date()) : null);
 
   const handleStartTimeChange = (newTime) => {
     setStartTime(newTime);

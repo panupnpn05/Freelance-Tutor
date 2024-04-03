@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 
-const Element = () => {
+const Element = ({coursefilter ,locationfilter}) => {
   const [radioValue, setRadioValue] = useState('');
   const [checkboxValues, setCheckboxValues] = useState({
-    checkbox1: false,
-    checkbox2: false,
-    checkbox3: false,
-    checkbox4: false,
-    checkbox5: false,
-    checkbox6: false,
-    checkbox7: false,
-    checkbox8: false,
+    individual: false,
+    group: false,
+    hourly: false,
+    onsite: false,
+    online: false,
   });
 
   const handleRadioChange = (event) => {
     setRadioValue(event.target.value);
   };
 
-  const handleCheckboxChange = (checkboxName) => (event) => {
+  const handleCourseChange = (checkboxName) => (event) => {
     setCheckboxValues((prevValues) => ({
       ...prevValues,
       [checkboxName]: event.target.checked,
     }));
+    coursefilter(checkboxName)
+  };
+
+  const handleLocationChange = (checkboxName) => (event) => {
+    setCheckboxValues((prevValues) => ({
+      ...prevValues,
+      [checkboxName]: event.target.checked,
+    }));
+    locationfilter(checkboxName)
   };
 
   return (
@@ -33,10 +39,10 @@ const Element = () => {
             type="checkbox"
             id="checkboxOption1"
             checked={checkboxValues.checkbox1}
-            onChange={handleCheckboxChange('checkbox1')}
+            onChange={handleCourseChange('individual')}
             className=' w-4 h-4 mb-3'
           />
-          <label htmlFor="checkboxOption1" className='m-2'>Private Lessons</label>
+          <label htmlFor="checkboxOption1" className='m-2'>Private course</label>
         </div>
 
         <div>
@@ -44,61 +50,25 @@ const Element = () => {
             type="checkbox"
             id="checkboxOption2"
             checked={checkboxValues.checkbox2}
-            onChange={handleCheckboxChange('checkbox2')}
-            className='w-4 h-4 mb-8'
+            onChange={handleCourseChange('group')}
+            className='w-4 h-4 mb-3'
           />
-          <label htmlFor="checkboxOption2" className='m-2'>Group Class</label>
+          <label htmlFor="checkboxOption2" className='m-2'>Group course</label>
         </div>
-        <div className='w-3/4 h-px bg-gray-400 mb-4'></div>
-        
         <div>
-            <h1 className='mb-4 font-bold text-gray-700'>Gender Preference</h1>
           <input
             type="checkbox"
             id="checkboxOption3"
             checked={checkboxValues.checkbox3}
-            onChange={handleCheckboxChange('checkbox3')}
-            className='w-4 h-4 mb-3'
-
+            onChange={handleCourseChange('hourly')}
+            className=' w-4 h-4 mb-8'
           />
-          <label htmlFor="checkboxOption3" className='m-2'>Male</label>
-        </div>
-
-        <div>
-          <input
-            type="checkbox"
-            id="checkboxOption4"
-            checked={checkboxValues.checkbox4}
-            onChange={handleCheckboxChange('checkbox4')}
-            className='w-4 h-4 mb-3'
-
-          />
-          <label htmlFor="checkboxOption4" className='m-2'>Female</label>
-        </div>
-
-        <div>
-          <input
-            type="checkbox"
-            id="checkboxOption5"
-            checked={checkboxValues.checkbox5}
-            onChange={handleCheckboxChange('checkbox5')}
-            className='mb-8 w-4 h-4'
-          />
-          <label htmlFor="checkboxOption5" className='m-2'>Other</label>
+          <label htmlFor="checkboxOption1" className='m-2'>Hourly class</label>
         </div>
         <div className='w-3/4 h-px bg-gray-400 mb-4'></div>
 
         <div>
             <h1 className='mb-4 font-bold text-gray-700'>Location Preference</h1>
-          <input
-            type="checkbox"
-            id="checkboxOption6"
-            checked={checkboxValues.checkbox6}
-            onChange={handleCheckboxChange('checkbox6')}
-            className='w-4 h-4 mb-3'
-
-          />
-          <label htmlFor="checkboxOption6" className='m-2'>Tutor's place</label>
         </div>
 
         <div>
@@ -106,11 +76,11 @@ const Element = () => {
             type="checkbox"
             id="checkboxOption7"
             checked={checkboxValues.checkbox7}
-            onChange={handleCheckboxChange('checkbox7')}
+            onChange={handleLocationChange('onsite')}
             className='w-4 h-4 mb-3'
 
           />
-          <label htmlFor="checkboxOption7" className='m-2'>Student's place</label>
+          <label htmlFor="checkboxOption7" className='m-2'>Onsite</label>
         </div>
 
         <div>
@@ -118,41 +88,13 @@ const Element = () => {
             type="checkbox"
             id="checkboxOption8"
             checked={checkboxValues.checkbox8}
-            onChange={handleCheckboxChange('checkbox8')}
+            onChange={handleLocationChange('online')}
             className='mb-8 w-4 h-4'
           />
           <label htmlFor="checkboxOption8" className='m-2'>Online</label>
         </div>
         <div className='w-3/4 h-px bg-gray-400 mb-4'></div>
 
-        <div>
-            <h1 className='mb-4 font-bold text-gray-700'>Free First Lesson</h1>
-          <input
-            type="radio"
-            id="radioOption1"
-            name="radioGroup"
-            value="option1"
-            checked={radioValue === 'option1'}
-            onChange={handleRadioChange}
-            className='w-4 h-4 mb-3'
-
-          />
-          <label htmlFor="radioOption1" className='m-2'>Yes</label>
-        </div>
-
-        <div>
-          <input
-            type="radio"
-            id="radioOption2"
-            name="radioGroup"
-            value="option2"
-            checked={radioValue === 'option2'}
-            onChange={handleRadioChange}
-            className='w-4 h-4 mb-8'
-
-          />
-          <label htmlFor="radioOption2"className='m-2'>No</label>
-        </div>
       </form>
     </div>
   );
