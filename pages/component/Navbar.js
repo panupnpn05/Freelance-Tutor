@@ -123,7 +123,7 @@ export default function Navbar() {
           </div>
           <div className="flex items-center">
             {(user && Object.keys(user).length === 0) || user === null ? (
-              <div className="space-x-4 flex items-center">
+              <div className="space-x-4 flex items-center cursor-pointer">
                 <div className="w-full" onClick={handleLoginPage}>
                   Login
                 </div>
