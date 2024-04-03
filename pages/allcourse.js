@@ -76,7 +76,7 @@ const Tutor = () => {
       fetchData(typeFilter, location, subjectfilter) 
     } else {
       setLocationFilter('')
-      fetchData(typeFilter, '', )
+      fetchData(typeFilter, '',subjectfilter )
     }
   }
 
