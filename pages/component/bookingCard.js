@@ -479,25 +479,14 @@ export default function RequestBookingCard({
                   </div>
                 )}
 
-                {rating && (
-                  <div className=" border rounded-xl overflow-hidden mt-5">
-                    <div className="bg-gray-400 text-white text-lg py-1 text-center">
-                      Review
-                    </div>
-                    <div className=" my-1 mx-1">
-                      <Ratingstar sendReview={handleStars} />
-                    </div>
-                    <div className="border px-1">
-                      <Review sendReview={handleReview} />
-                    </div>
-                    <button
-                      className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
-                      onClick={() => handleSubmitReview()}
-                    >
-                      Submit Review
-                    </button>
-                  </div>
+                {Data.Status === 'completed' ? (
+                  <Review onSubmit={handleSubmitReview} />
+                ) : (
+                  ''
                 )}
+                <div></div>
+                <div>{Data.Status === 'completed' ? <Ratingstar /> : ''}</div>
+
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">

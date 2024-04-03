@@ -5,11 +5,13 @@ import SearchBar from './component/SearchBar'
 import Element from './component/element'
 import Navbar from './component/Navbar'
 import Tutorcard from './component/tutorcard'
+import Subject from './component/Subject'
 
 const Tutor = () => {
   const [tutorsData, setTutorsData] = useState(null)
   const [typeFilter, setTypeFilter] = useState()
   const [locationFilter, setLocationFilter] = useState()
+  const [subjectfilter, setSubjectFilter] = useState()
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
   }
@@ -22,9 +24,9 @@ const Tutor = () => {
   console.log(tutorsData)
 
 
-  const fetchData = async (typeFilter, locationFilter, subjectFilter) => {
+  const fetchData = async (typeFilter, locationFilter, subjectfilter) => {
     try {
-      let url = process.env.NEXT_PUBLIC_GET_TUTOR
+      let url = process.env.NEXT_PUBLIC_GET_ALL_COURSE
       
       if (typeFilter !== undefined) {
         url += (locationFilter !== undefined ? `?type=${typeFilter}&location=${locationFilter}` : `?type=${typeFilter}`);
@@ -32,6 +34,10 @@ const Tutor = () => {
       if (locationFilter !== undefined) {
         url += (typeFilter !== undefined ? `&location=${locationFilter}` : `?location=${locationFilter}`);
       }
+      if (subjectfilter !== undefined) {
+        url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=${subjectfilter}` : `?subject=${subjectfilter}`);
+      }
+      
 
       const response = await fetch(url)
 
@@ -56,10 +62,10 @@ const Tutor = () => {
     console.log(data)
     if (data !== typeFilter) {
       setTypeFilter(data)
-      fetchData(data, locationFilter)
+      fetchData(data, locationFilter, subjectfilter)
     } else {
       setTypeFilter('')
-      fetchData('',locationFilter)
+      fetchData('',locationFilter,subjectfilter)
     }
   }
 
@@ -67,24 +73,23 @@ const Tutor = () => {
     console.log(location)
     if (location !== locationFilter) {
       setLocationFilter(location)
-      fetchData(typeFilter, location) 
+      fetchData(typeFilter, location, subjectfilter) 
     } else {
       setLocationFilter('')
-      fetchData(typeFilter, '')
+      fetchData(typeFilter, '', )
     }
   }
 
   const handleSubjectFilter = (data) => {
-    console.log(data)
-    if (data !== subjectFilter) {
-      setTypeFilter(data)
-      fetchData(typeFilter, locationFilter, data)
+    console.log(data);
+    if (data !== subjectfilter) { // เปลี่ยนจาก subjectFilter เป็น subjectfilter
+      setSubjectFilter(data);
+      fetchData(typeFilter, locationFilter, data); // เพิ่มพารามิเตอร์ subjectfilter ที่นี่
     } else {
-      setTypeFilter('')
-      fetchData('',locationFilter)
+      setSubjectFilter('');
+      fetchData(typeFilter, locationFilter, ''); // เพิ่มพารามิเตอร์ subjectfilter ที่นี่
     }
   }
-
 
   console.log(tutorsData)
 
@@ -122,6 +127,7 @@ const Tutor = () => {
             <Element
               coursefilter={handleCourseFilter}
               locationfilter={handleLocationFilter}
+              subjectfilter={handleSubjectFilter}
             />
           </div>
           <div className="w-full">

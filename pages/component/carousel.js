@@ -40,6 +40,7 @@ export default function CarouselSlider() {
     <div className="carousel-container">
       <Slider {...settings}>
         <div className='bg-red-600 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/math.png"
@@ -48,9 +49,11 @@ export default function CarouselSlider() {
                 alt="Get up to 10 tutor applications"
                 />
         </div>
-          <h1 className='text-3xl'>Math</h1>
+          <h1 className='text-3xl' href="/">Math</h1>
+          </a>
         </div>
         <div className='bg-blue-600 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/science.png"
@@ -60,8 +63,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Science</h1>
+          </a>
         </div>
         <div className='bg-sky-500 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/english.png"
@@ -71,8 +76,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>English</h1>
+          </a>
         </div>
         <div className='bg-yellow-600 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/coding.png"
@@ -82,8 +89,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Coding</h1>
+          </a>
         </div>
         <div className='bg-pink-600 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/Japanese_icon_(for_user_box).svg.png"
@@ -93,8 +102,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Japanese</h1>
+          </a>
         </div>
         <div className='bg-yellow-500 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/chinese.png"
@@ -104,8 +115,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Chinese</h1>
+          </a>
         </div>
         <div className='bg-emerald-500 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/thai.png"
@@ -115,8 +128,10 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Thai</h1>
+          </a>
         </div>
         <div className='bg-green-600 p-4 border rounded-lg'>
+        <a href="/allcourse">
         <div className='flex justify-center'>
         <Image
                 src="/Image/biology.png"
@@ -126,6 +141,7 @@ export default function CarouselSlider() {
                 />
         </div>
           <h1 className='text-3xl'>Biology</h1>
+          </a>
         </div>
       </Slider>
     </div>
