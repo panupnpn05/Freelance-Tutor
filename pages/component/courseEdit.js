@@ -117,7 +117,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
       try {
         // Send the request with the old image URL
         const uploadResponse = await fetch(
-          `http://127.0.0.1:8000/rename_file/${SendData.Course}/${course}`,
+          `${process.env.NEXT_PUBLIC_RENAME_IMAGE}/${SendData.Course}/${course}`,
           {
             method: 'PUT',
           }

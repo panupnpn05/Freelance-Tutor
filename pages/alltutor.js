@@ -35,7 +35,7 @@ const Tutor = () => {
 
   const fetchData = async (subjectFilter) => {
     try {
-        let url = 'http://127.0.0.1:8000/get_tutors'
+        let url = process.env.NEXT_PUBLIC_GET_TUTOR
         if (subjectFilter !== undefined) {
           url += `?subject=${subjectFilter}`;
         }
