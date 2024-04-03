@@ -49,9 +49,9 @@ const Chat = ({ tutor, student, from, closeChat }) => {
        }));
        setMessages(messageArray);
        
-       // Check if the document is not visible and the user has granted permission
-       if (document.visibilityState === 'hidden' && Notification.permission === 'granted') {
-         showNotification();
+       // Check if the document is not visible
+       if (document.visibilityState === 'unloaded') {
+         console.log('hello'); // Log "hello" to the console
        }
      } else {
        setMessages([]);
