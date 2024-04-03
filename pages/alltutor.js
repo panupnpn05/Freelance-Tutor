@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import { storage } from './api/getimage'
 import { ref, getDownloadURL } from 'firebase/storage'
+import { useRouter } from 'next/router';
 import Element from './component/elementTutor'
 import Navbar from './component/Navbar'
 import Image from 'next/image'
@@ -18,9 +19,9 @@ import {
 } from '@heroicons/react/24/solid'
 
 const Tutor = () => {
+  const router = useRouter();
   const [tutorsData, setTutorsData] = useState(null)
-  const [typeFilter, setTypeFilter] = useState()
-  const [locationFilter, setLocationFilter] = useState()
+  const [subjectFilter, setSubjectFilter] = useState()
   const [imageUrl, setImageUrl] = useState([])
   const handleSearch = (searchText) => {
     console.log('ค้นหา: ', searchText)
@@ -32,17 +33,14 @@ const Tutor = () => {
       ).length
     : 0
 
-  const fetchData = async (typeFilter, locationFilter) => {
+  const fetchData = async (subjectFilter) => {
     try {
-      //   let url = process.env.NEXT_PUBLIC_GET_TUTOR
-      //   if (typeFilter !== undefined) {
-      //     url += (locationFilter !== undefined ? `?type=${typeFilter}&location=${locationFilter}` : `?type=${typeFilter}`);
-      //   }
-      //   if (locationFilter !== undefined) {
-      //     url += (typeFilter !== undefined ? `&location=${locationFilter}` : `?location=${locationFilter}`);
-      //   }
+        let url = 'http://127.0.0.1:8000/get_tutors'
+        if (subjectFilter !== undefined) {
+          url += `?subject=${subjectFilter}`;
+        }
 
-      const response = await fetch('http://127.0.0.1:8000/get_tutors')
+      const response = await fetch(url)
 
       if (response.ok) {
         const result = await response.json()
@@ -85,30 +83,28 @@ const Tutor = () => {
   }
 
   useEffect(() => {
-    fetchData(typeFilter, locationFilter)
+    fetchData(subjectFilter)
   }, [])
 
-  const handleCourseFilter = (data) => {
+  const handleSubjectFilter = (data) => {
     console.log(data)
-    if (data !== typeFilter) {
-      setTypeFilter(data)
-      fetchData(data, locationFilter)
+    if (data !== subjectFilter) {
+      setSubjectFilter(data)
+      fetchData(data)
     } else {
-      setTypeFilter('')
-      fetchData('', locationFilter)
+      setSubjectFilter('')
+      fetchData('')
     }
   }
 
-  const handleLocationFilter = (location) => {
-    console.log(location)
-    if (location !== locationFilter) {
-      setLocationFilter(location)
-      fetchData(typeFilter, location)
-    } else {
-      setLocationFilter('')
-      fetchData(typeFilter, '')
-    }
+  const handleTutorCourse = (data) =>{
+    console.log(data)
+    router.push({
+      pathname: '/component/tutorcourse',
+      query: { tutorData: JSON.stringify(data) },
+    });
   }
+
 
   console.log(tutorsData)
 
@@ -144,8 +140,7 @@ const Tutor = () => {
         <div className="w-3/4  flex space-x-5">
           <div className="w-1/3">
             <Element
-              coursefilter={handleCourseFilter}
-              locationfilter={handleLocationFilter}
+              subjectfilter={handleSubjectFilter}
             />
           </div>
           <div className="w-full">
@@ -154,7 +149,7 @@ const Tutor = () => {
                 <div key={tutorName} className="mb-5">
                   <div
                     className="bg-white shadow-xl  rounded-xl overflow-hidden w-full hover:bg-slate-100 duration-200 cursor-pointer"
-                    onClick={() => handleBooking(tutorData)}
+                    onClick={() => handleTutorCourse(tutorData)}
                   >
                     <div className="flex pt-5 space-x-8 px-6">
                       <div className=" w-32 h-32 rounded-full overflow-hidden relative grow-0 shrink-0">
@@ -168,18 +163,21 @@ const Tutor = () => {
                         <div className="flex justify-between">
                           <div>
                             <div className="text-2xl font-semibold">
-                            {tutorData.name}
+                              {tutorData.name}
                             </div>
                             <div className="text-gray-600 mt-1">
                               Bangkok, Thailand
                             </div>
-                            <div className="text-gray-600 flex items-center">
-                              <EnvelopeIcon className=" w-3 mr-1" /> :{' '}{tutorData.email}
+                            <div className="text-gray-600 hover:text-gray-900 hover:scale-105 flex items-center">
+                              <EnvelopeIcon className="w-3 mr-1" /> :{' '}
+                              <a href={`mailto:${tutorData.email}`}>
+                                {tutorData.email}
+                              </a>
                             </div>
                           </div>
                           <div className="w-1/2">
                             <div className="text-right text-2xl font-semibold flex justify-end">
-                            {tutorData.class}
+                              {tutorData.class}
                             </div>
                           </div>
                         </div>
@@ -204,7 +202,7 @@ const Tutor = () => {
                           ) : tutorData.Type === 'individual' ? (
                             <UserIcon className="w-6 text-gray-600" />
                           ) : (
-                            <ClockIcon className="w-6 text-gray-600" />
+                            <ClockIcon className="w-6 text-gray-600" /> 
                           )}
                           {tutorData.Location === 'online' ? (
                             <ComputerDesktopIcon className=" w-6 text-gray-600 " />
@@ -212,15 +210,15 @@ const Tutor = () => {
                             <MapPinIcon className=" w-6 text-gray-600 " />
                           )}
                         </div> */}
-                        <div className="flex items-center spa">
-                          <StarIcon className="w-6 ml-1 text-yellow-500" />
-                          {tutorData.rating}
+                        <div className="flex items-center">
+                          <StarIcon className="w-6 ml-1 text-yellow-500 pr-1" />
+                          {tutorData.rating === 0 ? "No reviews" : tutorData.rating}
                         </div>
                       </div>
                       <div className=" w-1/3 flex">
                         <button
                           className=" bg-green-500 w-full text-white px-4 py-2 hover:bg-green-700 duration-300 whitespace-nowrap"
-                          onClick={() => handleBooking(tutorData)}
+                          onClick={() => handleTutorCourse(tutorData)}
                         >
                           Booking
                         </button>

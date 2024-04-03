@@ -7,7 +7,6 @@ const Chat = ({ tutor, student, from , closeChat}) => {
   const [messages, setMessages] = useState([])
   const containerRef = useRef(null);
 
-  console.log('hello1')
   let chatRef
 
   if (from === 'tutor') {
