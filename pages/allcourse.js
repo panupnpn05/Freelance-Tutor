@@ -24,9 +24,9 @@ const Tutor = () => {
   console.log(tutorsData)
 
 
-  const fetchData = async (typeFilter, locationFilter) => {
+  const fetchData = async (typeFilter, locationFilter, subjectfilter) => {
     try {
-      let url = process.env.NEXT_PUBLIC_GET_TUTOR
+      let url = process.env.NEXT_PUBLIC_GET_ALL_COURSE
       
       if (typeFilter !== undefined) {
         url += (locationFilter !== undefined ? `?type=${typeFilter}&location=${locationFilter}` : `?type=${typeFilter}`);
@@ -36,8 +36,6 @@ const Tutor = () => {
       }
       if (subjectfilter !== undefined) {
         url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=${subjectfilter}` : `?subject=${subjectfilter}`);
-      } else {
-        url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=` : `?subject=`);
       }
       
 
@@ -92,18 +90,6 @@ const Tutor = () => {
       fetchData(typeFilter, locationFilter, ''); // เพิ่มพารามิเตอร์ subjectfilter ที่นี่
     }
   }
-
-  const handleSubjectFilter = (data) => {
-    console.log(data)
-    if (data !== subjectFilter) {
-      setTypeFilter(data)
-      fetchData(typeFilter, locationFilter, data)
-    } else {
-      setTypeFilter('')
-      fetchData('',locationFilter)
-    }
-  }
-
 
   console.log(tutorsData)
 
