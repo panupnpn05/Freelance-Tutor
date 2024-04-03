@@ -33,9 +33,12 @@ const Tutor = () => {
       if (locationFilter !== undefined) {
         url += (typeFilter !== undefined ? `&location=${locationFilter}` : `?location=${locationFilter}`);
       }
-      if (subjectfilter !== undefined) { // เปลี่ยนจาก subjectFilter เป็น subjectfilter
+      if (subjectfilter !== undefined) {
         url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=${subjectfilter}` : `?subject=${subjectfilter}`);
+      } else {
+        url += (typeFilter !== undefined || locationFilter !== undefined ? `&subject=` : `?subject=`);
       }
+      
 
       const response = await fetch(url)
 
@@ -60,10 +63,10 @@ const Tutor = () => {
     console.log(data)
     if (data !== typeFilter) {
       setTypeFilter(data)
-      fetchData(data, locationFilter)
+      fetchData(data, locationFilter, subjectfilter)
     } else {
       setTypeFilter('')
-      fetchData('',locationFilter)
+      fetchData('',locationFilter,subjectfilter)
     }
   }
 
@@ -71,10 +74,10 @@ const Tutor = () => {
     console.log(location)
     if (location !== locationFilter) {
       setLocationFilter(location)
-      fetchData(typeFilter, location) 
+      fetchData(typeFilter, location, subjectfilter) 
     } else {
       setLocationFilter('')
-      fetchData(typeFilter, '')
+      fetchData(typeFilter, '', )
     }
   }
 
