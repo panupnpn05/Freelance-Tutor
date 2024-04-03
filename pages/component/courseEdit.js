@@ -2,6 +2,7 @@ import Navbar from '../component/Navbar'
 import TimeRangePicker from '../component/timePicker'
 import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
 
 export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [course, setCourse] = useState(SendData.Course)
@@ -12,6 +13,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [location, setLocation] = useState(SendData.Location)
   const [imageUrl, setImageUrl] = useState(imgUrl)
   const days = JSON.parse(SendData.Days)
+  const router = useRouter();
   const [borderStyle, setBorderStyle] = useState(
     'border-2 border-solid border-gray-500',
   )
@@ -89,7 +91,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     } catch (error) {
       console.error('Error during create course', error)
     }
-
+    router.reload();
     if (file.courseImage !== null) {
       try {
         // Make the second request to upload the image
@@ -117,7 +119,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
       try {
         // Send the request with the old image URL
         const uploadResponse = await fetch(
-          `http://127.0.0.1:8000/rename_file/${SendData.Course}/${course}`,
+          `${process.env.NEXT_PUBLIC_RENAME_IMAGE}/${SendData.Course}/${course}`,
           {
             method: 'PUT',
           }

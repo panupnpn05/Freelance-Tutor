@@ -6,72 +6,82 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '../api/getimage'
 import EditCourse from './courseEdit'
 
-const CourseCard = ({ course, id }) => {
-  const days = JSON.parse(course.Days)
-  const [imageUrl, setImageUrl] = useState()
-  const [OpenEdit, setEditcourse] = useState(false)
 
+const CourseCard = ({ course, id, updateCourseStatus }) => {
+  const days = JSON.parse(course.Days);
+  const [imageUrl, setImageUrl] = useState();
+  const [OpenEdit, setEditcourse] = useState(false);
+ 
   useEffect(() => {
-    const fetchImage = async () => {
-      const url = await getDownloadURL(ref(storage, `${course.Course}.jpg`))
-      setImageUrl(url)
-    }
-
-    fetchImage()
-  }, [])
-
+     const fetchImage = async () => {
+       const url = await getDownloadURL(ref(storage, `${course.Course}.jpg`));
+       setImageUrl(url);
+     };
+ 
+     fetchImage();
+  }, []);
+ 
   const handleOpenEdit = () => {
-    setEditcourse(!OpenEdit)
-  }
-
+     setEditcourse(!OpenEdit);
+  };
+ 
   const handleClose = () => {
-    setEditcourse(!OpenEdit)
-  }
-
+     setEditcourse(!OpenEdit);
+  };
+ 
   const handleActivation = async (status) => {
     try {
+      const newStatus = status === 'active' ? 'inactive' : 'active';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_UPDATE_STATUS}/${course.Courseid}/${status}`,
+        `${process.env.NEXT_PUBLIC_UPDATE_STATUS}/${course.Courseid}/${newStatus}`,
         {
           method: 'POST',
           headers: {
-            // You are sending JSON data, so set the Content-Type accordingly
             'Content-Type': 'application/json',
           },
         },
-      )
+      );
 
       if (response.ok) {
-        const result = await response.json()
-        console.log(result)
+        const result = await response.json();
+        console.log(result);
+        // Update the course status in the parent component
+        updateCourseStatus(course.Courseid, newStatus);
+        // Refresh the page after successfully updating the course status
+        window.location.reload();
       } else {
-        console.error('Error during create course')
+        console.error('Error during update course status');
       }
     } catch (error) {
-      console.error('Error during create course', error)
+      console.error('Error during update course status', error);
     }
-  }
-
-  const handleDelete = async() => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_DELETE_COURSE}/${course.TutorName}/${course.Courseid}`,
-        {
-          method: 'DELETE',
-          headers: {
-            // You are sending JSON data, so set the Content-Type accordingly
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-
+  };
+ 
+  const handleDelete = async () => {
+     try {
+       const response = await fetch(
+         `${process.env.NEXT_PUBLIC_DELETE_COURSE}/${course.TutorName}/${course.Courseid}`,
+         {
+           method: 'DELETE',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+         },
+       );
+ 
+       if (response.ok) {
+        // รีเฟรชหน้าหลังจากการลบคอร์สสำเร็จ
+        window.location.reload();
+      } else {
+        console.error('Error during delete course');
+      }
     } catch (error) {
-      console.error('Error during create course', error)
+      console.error('Error during delete course', error);
     }
-  }
+  };
 
   return (
-    <div className="">
+    <div className="h-full w-full">
       <div
         className={`${
           course.status !== 'inactive' ? 'bg-white ' : 'bg-gray-100'
@@ -136,18 +146,18 @@ const CourseCard = ({ course, id }) => {
             <strong >Cost : </strong> {course.Cost}
           </p>
           <div className="flex justify-between mt-4">
-            <div>
-              {' '}
-              <button
-                className={`px-4 py-2 rounded-md mr-2 ${
-                  course.status === 'inactive'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-gray-300 text-gray-700'
-                }`}
-                onClick={() => handleActivation(course.status === 'inactive' ? 'active' : 'inactive')}
-              >
-                {course.status === 'inactive' ? 'Reactive' : 'Inactive'}
-              </button>
+          <div>
+          <button
+ className={`px-4 py-2 rounded-md mr-2 ${
+    course.status === 'inactive'
+      ? 'bg-green-500 text-white'
+      : 'bg-gray-300 text-gray-700'
+ }`}
+ onClick={() => handleActivation(course.status)} // Ensure this correctly passes the current status
+>
+ {course.status === 'inactive' ? 'Reactivate' : 'Inactivate'}
+</button>
+
               <button
                 className="px-6 py-2 rounded-md bg-yellow-500 cursor-pointer hover:bg-yellow-600 duration-200"
                 onClick={() => handleOpenEdit()}

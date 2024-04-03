@@ -27,7 +27,7 @@ export default function Home() {
       <div className="w-full h-full">
         <Navbar />
         <div>
-          <div className="py-12 bg-[url('/Image/blue-fluid-background_53876-114597.avif')] bg-cover">
+          <div className="py-12 bg-[url('/Image/main5a (1).jpg')] bg-cover">
             <div className="container mx-auto">
               <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
                 <div className="md:w-1/2 mb-8 md:mb-0 md:order-1">

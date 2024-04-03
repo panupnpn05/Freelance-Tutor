@@ -1,4 +1,4 @@
-// pages/manage-courses.js
+// pages\tutor_manage\coursemanage.js
 
 import { useState, useEffect } from 'react'
 import Navbar from '../component/Navbar'
@@ -12,7 +12,12 @@ const ManageCourses = () => {
   const [tutorName, setTutorName] = useState([])
   const [imageurl, setImageUrl] = useState()
 
-  // const coursesArray = Object.values(coursesData.courses);
+  // Define the updateCourseStatus function
+  const updateCourseStatus = (courseId, newStatus) => {
+    // Add logic here to update the status of the course
+    // This function will be called from CourseCard component
+    console.log(`Updating status of course ${courseId} to ${newStatus}`);
+  };
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem('userData'))
@@ -39,12 +44,10 @@ const ManageCourses = () => {
     }
   }, [])
 
-
-  console.log(courses)
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto  py-12 bg-[url('/Image/hand-painted-watercolor-pastel-sky-background_23-2148902771.avif')] bg-cover">
+      <div className="container mx-auto  py-12 bg-[url('/Image/1234.webp')] bg-cover">
         <div className="flex">
           <h1 className="text-3xl font-bold mb-6">Manage Courses</h1>
           <div className='flex ml-3 space-x-2 mt-1'>
@@ -59,13 +62,12 @@ const ManageCourses = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
           {Object.entries(courses).map((course) => (
-            <>
             <CourseCard
               key={course.id}
               id={course[0]}
               course={course[1]}
-            /></>
-            
+              updateCourseStatus={updateCourseStatus} // Pass the function as a prop
+            />
           ))}
         </div>
       </div>
