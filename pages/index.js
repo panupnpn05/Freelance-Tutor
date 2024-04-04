@@ -25,13 +25,13 @@ export default function Home() {
 
   return (
     <div>
-      <div className="w-full h-full">
+      <div className="w-full h-full bg-customBlue">
         <Navbar />
         <div>
           <div className="py-12 bg-[url('/Image/main5a (1).jpg')] bg-cover">
             <div className="container mx-auto">
               <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
-                <div className="md:w-1/2 mb-8 md:mb-0 md:order-1">
+                <div className="md:w-1/2 mb-8 md:mb-0 md:order-1 ">
                   <Image
                     src="/Image/Online-learning-amico-resize-copy.webp"
                     width={500}

@@ -221,7 +221,6 @@ export default function RequestBookingCard({
             },
           )
           const Result = await response.json()
-          console.log(Result)
           setData(Result.pending_id)
 
           const url = await getDownloadURL(
@@ -310,8 +309,6 @@ export default function RequestBookingCard({
   if (Data.Type == 'group') {
     daysData = JSON.parse(Data.Days)
   }
-  
-  console.log(Data)
 
   return (
     <div>
