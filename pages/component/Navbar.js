@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react'
-import Notifications from './notification'
 import Image from 'next/image'
 
 export default function Navbar() {
@@ -200,7 +199,6 @@ export default function Navbar() {
             </div>
         </div>
       </div>
-      <Notifications/>
     </div>
   )
 }
