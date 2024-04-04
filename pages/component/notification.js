@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database'; // Import the Firebase Realtime Database module
+import {toast} from 'react-toastify';
 
 export default function Notifications() {
  const [userData, setUserData] = useState();
@@ -19,6 +20,22 @@ export default function Notifications() {
  }, []);
 
  useEffect(() => {
+    function triggerCustomToast(sender, message) {
+        toast(
+           <div>
+             <div className=' font-semibold text-gray-700'>
+               {sender}
+             </div>
+             <div style={{ fontSize: '14px' }}>
+               {message}
+             </div>
+           </div>,
+           {
+             autoClose: 5000,
+             position: "bottom-left",
+           }
+        );
+       }
     let storedUserData;
 
     const loadUserData = () => {
@@ -74,6 +91,7 @@ export default function Notifications() {
                        // Trigger notification logic here for new messages
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
+                            triggerCustomToast(newMessage.sender, newMessage.text);
                            new Notification(`${newMessage.sender}`, {
                              body: `Message: ${newMessage.text}`,
                            });
@@ -100,6 +118,7 @@ export default function Notifications() {
                        // Trigger notification logic here for new messages
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
+                            triggerCustomToast(newMessage.sender, newMessage.text);
                            new Notification(`${newMessage.sender}`, {
                              body: `Message: ${newMessage.text}`,
                            });
