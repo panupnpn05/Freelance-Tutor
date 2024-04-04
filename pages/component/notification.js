@@ -92,9 +92,12 @@ export default function Notifications() {
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
                             triggerCustomToast(newMessage.sender, newMessage.text);
-                           new Notification(`${newMessage.sender}`, {
-                             body: `Message: ${newMessage.text}`,
-                           });
+                            if(document.visibilityState ==='hidden'){
+                              new Notification(`${newMessage.sender}`, {
+                                body: `Message: ${newMessage.text}`,
+                              });
+                            }
+                           
                          }
                        }
                    
@@ -119,9 +122,11 @@ export default function Notifications() {
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
                             triggerCustomToast(newMessage.sender, newMessage.text);
-                           new Notification(`${newMessage.sender}`, {
-                             body: `Message: ${newMessage.text}`,
-                           });
+                            if(document.visibilityState ==='hidden'){
+                              new Notification(`${newMessage.sender}`, {
+                                body: `Message: ${newMessage.text}`,
+                              });
+                            }
                          }
                        }
                    
