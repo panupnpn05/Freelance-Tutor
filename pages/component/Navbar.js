@@ -1,5 +1,6 @@
-import Signin from '../signin'
+
 import React, { useState, useEffect } from 'react'
+import Notifications from './notification'
 import Image from 'next/image'
 
 export default function Navbar() {
@@ -20,9 +21,11 @@ export default function Navbar() {
   }
 
   const handleUserLogin = (userData) => {
+    console.log(userData)
     setUser(userData)
     setLoginPageClicked(false) // Close the Signin component after login
     localStorage.setItem('userData', JSON.stringify(userData))
+    window.dispatchEvent(new CustomEvent('local-storage-change'));
   }
 
   const handleSigninClose = () => {
@@ -124,9 +127,9 @@ export default function Navbar() {
           <div className="flex items-center">
             {(user && Object.keys(user).length === 0) || user === null ? (
               <div className="space-x-4 flex items-center cursor-pointer">
-                <div className="w-full" onClick={handleLoginPage}>
+                <a className="w-full" href='/signin'>
                   Login
-                </div>
+                </a>
                 <a
                   className="w-full h-1/2 rounded-lg p-2 border border-green-600 hover:border-9 hover:bg-green-600 hover:text-white duration-300 whitespace-nowrap"
                   href="/signup"
@@ -192,17 +195,12 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          {loginPageClicked && (
             <div className=" absolute w-full left-0 top-0 z-50">
               {' '}
-              <Signin
-                onUserLogin={handleUserLogin}
-                onClose={handleSigninClose}
-              />
             </div>
-          )}
         </div>
       </div>
+      <Notifications/>
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { EnvelopeIcon, KeyIcon } from '@heroicons/react/24/solid'
 import { XCircleIcon } from '@heroicons/react/24/outline'
-import Navbar from './component/Navbar'
+import Swal from 'sweetalert2'
 
 export default function Signin({ onUserLogin, onClose }) {
   const [isChecked, setChecked] = useState(false)
@@ -15,9 +15,8 @@ export default function Signin({ onUserLogin, onClose }) {
 
   const handleClose = () => {
     // Call the onClose callback passed from Navbar
-    if (onClose) {
-      onClose()
-    }
+    window.history.back();
+
     // Additional logic for closing the Signin component
   }
 
@@ -33,10 +32,21 @@ export default function Signin({ onUserLogin, onClose }) {
       })
       const result = await response.json()
       setUserData(result)
+      localStorage.setItem('userData', JSON.stringify(result))
+      Swal.fire({
+        title: 'Successful',
+        text: 'Signin successful',
+        icon: 'success',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          window.location.href = '/';
+        }
+      })
       if(result.detail){
         console.log("please signin again")
       }else {
-        onUserLogin(result)
+        () => onUserLogin(result)
       }
     } catch (error) {
       console.error('Error during login:', error)

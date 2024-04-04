@@ -8,6 +8,7 @@ import Subject from './component/Subject'
 import { useEffect, useState } from 'react'
 import CarouselSlider from './component/carousel'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {

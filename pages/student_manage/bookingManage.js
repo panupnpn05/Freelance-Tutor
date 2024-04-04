@@ -195,7 +195,6 @@ const Tutor = () => {
       <div className="fixed bottom-0 w-1/3 right-10">
         <Chat tutor={studentName} student={tutorName} from={'student'} closeChat={handleCloseChat}/>
       </div>} 
-      
     </div>
   )
 }

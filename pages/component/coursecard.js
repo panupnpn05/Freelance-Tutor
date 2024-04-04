@@ -1,6 +1,7 @@
 // components/CourseCard.js
 
 const CourseCard = ({ course, toggleActivation }) => {
+  
     return (
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-2">{course.name}</h2>
