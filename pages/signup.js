@@ -66,7 +66,7 @@ export default function Signup() {
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed){
-          window.location.href = '/singin';
+          window.location.href = '/signin';
         }
       })
     } catch (error) {

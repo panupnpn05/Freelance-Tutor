@@ -130,7 +130,7 @@ export default function CreatePendingCard({ tutorData, updateList }) {
           </div>
           <div className=" w-full">
             <button className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap" onClick={handleDelete}>
-              Cancle Create Request
+              Cancel Create Request
             </button>
           </div>
         </div>

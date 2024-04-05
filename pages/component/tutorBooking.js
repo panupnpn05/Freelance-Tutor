@@ -73,7 +73,7 @@ export default function Booking({ data }) {
         days: bookingData.Days,
       }
 
-      if (bookingData.Type === 'group') {
+      if (bookingData.Type === 'group' || bookingData.Type === 'individual') {
         FormData.date = '12/12/2012'
       } else {
         FormData.date = selectedDate
@@ -144,8 +144,7 @@ export default function Booking({ data }) {
           <div className="bg-gradient-to-t from-emerald-800 to-green-400">
             <div className="text-base font-semibold overflow-y-auto w-full flex justify-center">
               <div className="my-10 space-y-2 w-1/4">
-                {bookingData.Type === 'hourly' ||
-                bookingData.Type === 'individual' ? (
+                {bookingData.Type === 'hourly' ? (
                   <div>
                     <div className="text-white text-xl">Study Date</div>
                     <input

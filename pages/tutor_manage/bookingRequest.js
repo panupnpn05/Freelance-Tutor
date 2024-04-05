@@ -40,6 +40,7 @@ const Tutor = () => {
 
   const handleUpdateList = useCallback(() => {
     fetchData('hourly')
+    setType('hourly')
   }, [fetchData])
 
   useEffect(() => {

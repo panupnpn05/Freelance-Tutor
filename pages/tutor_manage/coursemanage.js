@@ -46,8 +46,8 @@ const ManageCourses = () => {
   return (
     <div>
       <Navbar />
-      <div className='bg-gray-100 backdrop-blur-md'>
-      <div className="py-12 bg-cover z-10">
+      <div className='bg-gray-100'>
+      <div className="py-12 px-10 ">
         <div className="flex">
           <h1 className="text-3xl font-bold mb-6">Manage Courses</h1>
           <div className='flex ml-3 space-x-2 mt-1'>

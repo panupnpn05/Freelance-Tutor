@@ -513,7 +513,7 @@ export default function RequestBookingCard({
                     className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
                     onClick={handleDelete}
                   >
-                    Cancle Booking
+                    Cancel Booking
                   </button>
                 )}
               </div>

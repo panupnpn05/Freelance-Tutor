@@ -234,7 +234,7 @@ const handleCloseChat = () =>[
                 )}
 
                 {ProfileClick == true && (
-                  <div className="absolute bg-gray-200 border-2 ml-12 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
+                  <div className="absolute bg-gray-200 border-2 ml-12 border-gray-400 rounded-xl space-y-3 p-3 w-1/6 z-50">
                     {user.user_info.user_data.name === 'Admin Admin' ? (
                       <div className="flex flex-col">
                         <a

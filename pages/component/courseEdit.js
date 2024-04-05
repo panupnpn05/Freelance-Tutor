@@ -1,8 +1,8 @@
 import Navbar from '../component/Navbar'
 import TimeRangePicker from '../component/timePicker'
 import { format } from 'date-fns'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router';
+import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/router'
 
 export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [course, setCourse] = useState(SendData.Course)
@@ -13,7 +13,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [location, setLocation] = useState(SendData.Location)
   const [imageUrl, setImageUrl] = useState(imgUrl)
   const days = JSON.parse(SendData.Days)
-  const router = useRouter();
+  const router = useRouter()
   const [borderStyle, setBorderStyle] = useState(
     'border-2 border-solid border-gray-500',
   )
@@ -28,6 +28,26 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [selectedDays, setSelectedDays] = useState(days)
   const [editedDay, setEditedDay] = useState(null)
 
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        // Adjust the max-height based on the viewport height
+        containerRef.current.style.maxHeight = `${window.innerHeight}px`
+      }
+    }
+
+    // Set the initial max-height
+    handleResize()
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const handleDayClick = (day) => {
     setSelectedDays((prevSchedule) => ({
       ...prevSchedule,
@@ -35,7 +55,6 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     }))
     setEditedDay(day)
   }
-
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -49,7 +68,6 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   const handleClose = () => {
     SendClose()
   }
-
 
   const handleEdit = async () => {
     // Create FormData instance
@@ -91,29 +109,29 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     } catch (error) {
       console.error('Error during create course', error)
     }
-    router.reload();
+    router.reload()
     if (file.courseImage !== null) {
       try {
         // Make the second request to upload the image
-        formData.delete('file'); // Remove previous 'file' entry
-        formData.append('file', file.courseImage);
-    
+        formData.delete('file') // Remove previous 'file' entry
+        formData.append('file', file.courseImage)
+
         const uploadResponse = await fetch(
           `${process.env.NEXT_PUBLIC_UPLOAD_TUTOR_PROFILE}/${course}`,
           {
             method: 'POST',
             body: formData,
-          }
-        );
-    
+          },
+        )
+
         if (uploadResponse.ok) {
-          const uploadData = await uploadResponse.json();
-          console.log(uploadData);
+          const uploadData = await uploadResponse.json()
+          console.log(uploadData)
         } else {
-          console.error('Error uploading image');
+          console.error('Error uploading image')
         }
       } catch (error) {
-        console.error('Error uploading image', error);
+        console.error('Error uploading image', error)
       }
     } else {
       try {
@@ -122,20 +140,19 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
           `${process.env.NEXT_PUBLIC_RENAME_IMAGE}/${SendData.Course}/${course}`,
           {
             method: 'PUT',
-          }
-        );
-    
+          },
+        )
+
         if (uploadResponse.ok) {
-          const uploadData = await uploadResponse.json();
-          console.log(uploadData);
+          const uploadData = await uploadResponse.json()
+          console.log(uploadData)
         } else {
-          console.error('Error uploading image');
+          console.error('Error uploading image')
         }
       } catch (error) {
-        console.error('Error uploading image', error);
+        console.error('Error uploading image', error)
       }
     }
-    
   }
 
   const handleStartTime = (day, time) => {
@@ -169,7 +186,11 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   }
 
   return (
-    <div className="bg-gray-100/50 backdrop-blur-xl">
+    <div
+      className="bg-gray-100/50 backdrop-blur-xl"
+      ref={containerRef}
+      style={{ overflowY: 'scroll'}}
+    >
       <div>
         <Navbar />
       </div>
@@ -299,9 +320,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
               <div className="relative w-full h-full">
                 <img
                   id="previewImage"
-                  src={
-                    file.imagePreview !== null ? file.imagePreview : imgUrl
-                  }
+                  src={file.imagePreview !== null ? file.imagePreview : imgUrl}
                   alt=""
                   className="w-full h-full object-cover z-10 rounded-full absolute inset-0"
                 />
@@ -359,7 +378,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
               className="h-11 text-white font-semibold cursor-pointer text-lg hover:bg-red-600 duration-200 w-full rounded-lg flex items-center justify-center bg-red-400"
               onClick={handleClose}
             >
-              Cancle
+              Cancel
             </div>
           </div>
         </div>

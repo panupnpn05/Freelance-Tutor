@@ -78,9 +78,14 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
       console.error('Error during delete course', error)
     }
   }
+  useEffect(() => {
+    if (OpenEdit) {
+      window.scrollTo({ top: 0, left: 0});
+    }
+ }, [OpenEdit]);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full" style={{overflow: OpenEdit ? 'hidden' : 'auto' }}>
       <div
         className={`${
           course.status !== 'inactive' ? 'bg-white ' : 'bg-gray-100'
