@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Navbar from './component/Navbar'
+import Swal from 'sweetalert2'
+
 const CreateUserForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [firstName , setFirstName] = useState('')
