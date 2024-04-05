@@ -291,6 +291,15 @@ export default function RequestBookingCard({
       )
       const result = await response.json()
       console.log(result)
+      Swal.fire({
+        title: 'Review Submitted',
+        icon: 'success',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          Swal.close()
+        }
+      })
     } catch (error) {
       console.error('Error during create user', error)
     }

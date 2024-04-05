@@ -5,6 +5,7 @@ import Navbar from '../component/Navbar'
 import RequestBookingCard from '../component/bookingCard'
 import Chat from '../component/chat'
 import ratingstar from '../component/ratingstar'
+import Swal from 'sweetalert2'
 
 const Tutor = () => {
   const [studentName, setStudentName] = useState(null)
