@@ -63,7 +63,7 @@ const Chat = ({ tutor, student, from, closeChat }) => {
         }))
         setMessages(messageArray)
         if (containerRef.current) {
-          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          containerRef.current.scrollTop = containerRef.current.scrollHeight
         }
       } else {
         setMessages([])
@@ -80,35 +80,53 @@ const Chat = ({ tutor, student, from, closeChat }) => {
   useEffect(() => {
     // Scroll to the bottom when messages update
     if (containerRef.current) {
-       containerRef.current.scrollTo({
-         top: containerRef.current.scrollHeight,
-         behavior: 'smooth'
-       });
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
     }
-   }, [messages]);
+  }, [messages])
 
-//   useEffect(() => {
-//     if (containerRef.current) {
-//       containerRef.current.scrollTop = containerRef.current.scrollHeight;
-//     }
-//  }, []);
+  //   useEffect(() => {
+  //     if (containerRef.current) {
+  //       containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  //     }
+  //  }, []);
 
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp)
     const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0') // Months are 0-based in JavaScript
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+    const month = monthNames[date.getMonth()] // Use the monthNames array to get the month name // Months are 0-based in JavaScript
     const hours = date.getHours().toString().padStart(2, '0')
     const minutes = date.getMinutes().toString().padStart(2, '0')
-    return `${day}/${month} ${hours}:${minutes}`
+    return `${day} ${month} ${hours}:${minutes}`
   }
 
   console.log(imageUrl)
   return (
-    <div className=" bg-white border-2 border-gray-600 rounded-xl overflow-hidden w-full" >
+    <div className=" bg-white border-2 border-gray-600 rounded-xl overflow-hidden w-full">
       <div className="flex px-3 py-3 justify-between bg-gray-500 text-white">
         <div className="flex space-x-2">
           <div className=" w-8 h-8 rounded-full overflow-hidden relative grow-0 shrink-0">
-            <Image src={from === 'tutor' ? '/Image/userImg.jpeg':imageUrl} fill style={{ objectFit: 'cover' }} />
+            <Image
+              src={from === 'tutor' ? '/Image/userImg.jpeg' : imageUrl}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
           </div>
           <div className=" font-bold text-lg pt-px">
             {from === 'tutor' ? `${student}` : `${tutor}`}

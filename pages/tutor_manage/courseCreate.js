@@ -11,7 +11,7 @@ export default function coursecreate() {
       <div className="flex justify-center items-center h-screen space-x-16 border-2  text-xl">
         <a
           href="./groupcreate"
-          className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
+          className="w-1/4 h-1/3 items-center flex justify-center hover:scale-110 text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
         >
           <div className="">
             <div className=" h-1/6 w-full flex justify-center">
@@ -23,7 +23,7 @@ export default function coursecreate() {
         
         <a
           href="./individualcreate"
-          className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
+          className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 hover:scale-110 duration-200"
         >
           <div className="">
             <div className=" h-1/6 w-full flex justify-center">
@@ -34,7 +34,7 @@ export default function coursecreate() {
         </a>
         <a
           href="./hourlycreate"
-          className="w-1/4 h-1/3 items-center flex justify-center text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
+          className="w-1/4 h-1/3 items-center flex justify-center hover:scale-110 text-xl border-2 border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300 duration-200"
         >
           <div className="">
             <div className=" h-1/6 w-full flex justify-center">

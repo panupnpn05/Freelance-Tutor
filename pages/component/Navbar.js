@@ -2,17 +2,43 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Notifications from './notification'
 import { BellIcon, BellAlertIcon } from '@heroicons/react/24/outline'
+import Chat from './chat'
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
   const [ProfileClick, setProfileClick] = useState(false)
   const [loginPageClicked, setLoginPageClicked] = useState(false)
   const [newMessage, setNewMessage] = useState([])
+  const [openChat, setOpenChat] = useState(false)
   const [openNoti, setOpenNoti] = useState(false)
   const [user, setUser] = useState([])
+  const [selectedMessage, setSelectedMessage] = useState(null)
+  const router = useRouter();
 
-  const handleLoginPage = () => {
-    setLoginPageClicked(!loginPageClicked)
+  const handleOpenChat = (data) => {
+    console.log(user)
+    if (user.user_info.user_data.school) {
+      setSelectedMessage({
+        tutor: data.sender,
+        from: 'student',
+        student: user,
+      })
+    } else if (user.user_info.user_data.class) {
+      setSelectedMessage({
+        tutor: user,
+        from: 'tutor',
+        student: data.sender,
+      })
+    }
+    const updatedMessages = newMessage.filter(message => message.id !== data.id);
+ setNewMessage(updatedMessages);
+    setOpenChat(!openChat)
   }
+
+const handleCloseChat = () =>[
+  setOpenChat(!openChat)
+]
+
   const handleLogout = () => {
     // Clear the 'userData' from localStorage
     localStorage.removeItem('userData')
@@ -78,6 +104,10 @@ export default function Navbar() {
       window.removeEventListener('storage', handleStorageChange)
     }
   }, [])
+
+// const Sendname = (path) =>{
+//   router.push(`${path}?user=${encodeURIComponent(JSON.stringify(user))}`);
+// }
   return (
     <div className="shadow-lg bg-white">
       <div className="flex justify-center items-center w-full h-15 static">
@@ -118,22 +148,22 @@ export default function Navbar() {
                 <a
                   className="mx-4"
                   href="/tutor_manage/bookingRequest"
-                  onClick={user && (() => Sendname(user))}
-                >
+                  // onClick={() => user && Sendname(`/tutor_manage/bookingRequest`)}
+                  >
                   Manage Booking
                 </a>
                 <a
                   className="mx-4"
                   href="/tutor_manage/courseCreate"
-                  onClick={user && (() => Sendname(user))}
-                >
+                  // onClick={() => user && Sendname(user)}
+                  >
                   Create course
                 </a>
                 <a
                   className="mx-4"
                   href="/tutor_manage/coursemanage"
-                  onClick={user && (() => Sendname(user))}
-                >
+                  // onClick={() => user && Sendname(user)}
+                  >
                   Course Manage
                 </a>
               </div>
@@ -190,7 +220,8 @@ export default function Navbar() {
                       {newMessage.map((message, index) => (
                         <div
                           key={index}
-                          className="border border-gray-300 bg-white px-4 py-2"
+                          className="border border-gray-300 bg-white px-4 py-2 cursor-pointer"
+                          onClick={() => handleOpenChat(message)}
                         >
                           <div className=" text-base font-semibold">
                             {message.sender}
@@ -203,7 +234,7 @@ export default function Navbar() {
                 )}
 
                 {ProfileClick == true && (
-                  <div className="absolute bg-gray-200 border-2 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
+                  <div className="absolute bg-gray-200 border-2 ml-12 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
                     {user.user_info.user_data.name === 'Admin Admin' ? (
                       <div className="flex flex-col">
                         <a
@@ -218,8 +249,8 @@ export default function Navbar() {
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/CreateProfile"
-                          onClick={user && (() => Sendname(user))}
-                        >
+                          // onClick={() => user && Sendname(user)}
+                          >
                           Profile
                         </a>
                       </div>
@@ -227,16 +258,9 @@ export default function Navbar() {
                       <div className="flex flex-col space-y-1">
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                          href="/CreateProfile"
-                          onClick={user && (() => Sendname(user))}
-                        >
-                          Profile
-                        </a>
-                        <a
-                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/student_manage/bookingManage"
-                          onClick={user && (() => Sendname(user))}
-                        >
+                          // onClick={() => user && Sendname(user)}
+                          >
                           Manage Booking
                         </a>
                       </div>
@@ -255,7 +279,11 @@ export default function Navbar() {
           <div className=" absolute w-full left-0 top-0 z-50"> </div>
         </div>
       </div>
-
+      {openChat && (
+        <div className='fixed bottom-0 w-1/3 right-1 z-50'>
+        <Chat tutor={selectedMessage.tutor} student={selectedMessage.student} from={selectedMessage.from} closeChat={handleCloseChat}/>
+        </div>
+      )}
       <Notifications sendNewMessage={handleNewMessage} />
     </div>
   )

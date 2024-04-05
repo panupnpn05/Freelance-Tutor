@@ -78,12 +78,13 @@ export default function Tutorcard({ tutorData }) {
     setOpencourse(!opencourse)
   }
 
+  console.log(rating)
   return (
     <>
       <div
         className="bg-white shadow-xl  rounded-xl overflow-hidden w-full hover:bg-slate-100 duration-200 cursor-pointer"
         onClick={() => handleBooking(tutorData)}
-      >
+        >
         <div className="flex pt-5 space-x-8 px-6">
           <div className=" w-32 h-32 rounded-full overflow-hidden relative grow-0 shrink-0">
             <Image src={imageUrl} fill style={{ objectFit: 'cover' }} />

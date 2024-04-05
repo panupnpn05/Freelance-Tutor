@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Navbar from './component/Navbar'
+import Swal from 'sweetalert2'
+
 const CreateUserForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [firstName , setFirstName] = useState('')
@@ -7,7 +9,7 @@ const CreateUserForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [dob, setDob] = useState('')
-  const [cost, setCost] = useState('')
+  const [cost, setCost] = useState('200')
   const [description, setDescription] = useState('')
   const [classes, setSubject] =useState('')
   const [file, setFile] = useState({
@@ -193,7 +195,7 @@ const CreateUserForm = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="">
             <label className="block mt-4">
               <div>Date of Birth</div>
               <input
@@ -202,15 +204,6 @@ const CreateUserForm = () => {
                 className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
                 value={dob}
                 onChange={handleDOBInputChange}
-              />
-            </label>
-            <label className="block mt-4">
-              <div>Hourly Rate ฿/hr</div>
-              <input
-                type="text"
-                name="hourRate"
-                onChange={(e) => setCost(e.target.value)}
-                className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
               />
             </label>
           </div>
