@@ -118,7 +118,7 @@ const AddProfilePage = () => {
       bio
       const formData = new FormData()
 
-      formData.append('Fullname', fullName)
+      // formData.append('Fullname', fullName)
       formData.append('Class', subject)
       formData.append('Description', bio)
       formData.append('TeachMethod', teachingMethodology)
@@ -126,7 +126,7 @@ const AddProfilePage = () => {
 
       // Make a POST request to the /update_tutor/{old_name} endpoint
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_UPDATE_TUTOR}/${oldName}/${email}`,
+        `${process.env.NEXT_PUBLIC_UPDATE_TUTOR}/${oldName}`,
         {
           method: 'POST',
           headers: {
@@ -188,45 +188,45 @@ const AddProfilePage = () => {
           console.error('Error uploading image', error)
         }
       } else {
-        try {
-          // Send the request with the old image URL
-          const uploadResponse = await fetch(
-            `${process.env.NEXT_PUBLIC_RENAME_IMAGE}/${oldName}/${fullName}`,
-            {
-              method: 'PUT',
-            },
-          )
+        // try {
+        //   // Send the request with the old image URL
+        //   const uploadResponse = await fetch(
+        //     `${process.env.NEXT_PUBLIC_RENAME_IMAGE}/${oldName}/${fullName}`,
+        //     {
+        //       method: 'PUT',
+        //     },
+        //   )
 
-          if (uploadResponse.ok) {
-            const uploadData = await uploadResponse.json()
-            console.log(uploadData)
-            localStorage.removeItem('userData')
-            Swal.fire({
-              title: 'Edit profile successful',
-              text: 'Please signin again',
-              icon: 'success',
-              confirmButtonText: "Ok",
-            }).then((result) => {
-              if (result.isConfirmed){
-                window.location.href = '/';
-              }
-            })
-          } else {
-            console.error('Error uploading image')
-            Swal.fire({
-              title: 'Sign up failed',
-              text: 'Please wait a minute and try again',
-              icon: 'error',
-              confirmButtonText: "Ok",
-            }).then((result) => {
-              if (result.isConfirmed){
-                Swal.close()
-              }
-            }) 
-          }
-        } catch (error) {
-          console.error('Error uploading image', error)
-        }
+        //   if (uploadResponse.ok) {
+        //     const uploadData = await uploadResponse.json()
+        //     console.log(uploadData)
+        //     localStorage.removeItem('userData')
+        //     Swal.fire({
+        //       title: 'Edit profile successful',
+        //       text: 'Please signin again',
+        //       icon: 'success',
+        //       confirmButtonText: "Ok",
+        //     }).then((result) => {
+        //       if (result.isConfirmed){
+        //         window.location.href = '/';
+        //       }
+        //     })
+        //   } else {
+        //     console.error('Error uploading image')
+        //     Swal.fire({
+        //       title: 'Sign up failed',
+        //       text: 'Please wait a minute and try again',
+        //       icon: 'error',
+        //       confirmButtonText: "Ok",
+        //     }).then((result) => {
+        //       if (result.isConfirmed){
+        //         Swal.close()
+        //       }
+        //     }) 
+        //   }
+        // } catch (error) {
+        //   console.error('Error uploading image', error)
+        // }
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error)
@@ -240,7 +240,7 @@ const AddProfilePage = () => {
       <div className=' bg-white w-2/5 rounded-xl px-7 py-3'>
       <h1 className="text-3xl font-semibold text-center">Edit Profile</h1>
       <form onSubmit={handleSubmit} className="max-w-lg">
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label
             htmlFor="fullName"
             className="block text-sm font-medium text-gray-700"
@@ -254,8 +254,8 @@ const AddProfilePage = () => {
             onChange={handleFullNameChange}
             className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
           />
-        </div>
-        <div className="mb-4 flex items-center">
+        </div> */}
+        <div className="mb-4 flex items-center mt-4">
           <label
             htmlFor="profileImage"
             className="block text-sm font-medium text-gray-700 mr-2"
@@ -293,7 +293,7 @@ const AddProfilePage = () => {
         </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 mt-4">
           <label
             htmlFor="bio"
             className="block text-sm font-medium text-gray-700"
