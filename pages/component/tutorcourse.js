@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Element from './element'
+import Element from './elementTutorCourse'
 import Navbar from './Navbar'
 import Image from 'next/image'
 import TutorCoursecard from './tutorcoursecard'
