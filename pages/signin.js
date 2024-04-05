@@ -34,7 +34,7 @@ export default function Signin({ onUserLogin, onClose }) {
       setUserData(result)
       console.log(result)
       localStorage.setItem('userData', JSON.stringify(result))
-      if(result.detail !== 'User not found'){
+      if(result.detail !== 'User not found' && result.detail !== 'Incorrect password'){
         Swal.fire({
           title: 'Successful',
           text: 'Signin successful',

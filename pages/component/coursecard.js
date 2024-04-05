@@ -6,32 +6,31 @@ import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '../api/getimage'
 import EditCourse from './courseEdit'
 
-
 const CourseCard = ({ course, id, updateCourseStatus }) => {
-  const days = JSON.parse(course.Days);
-  const [imageUrl, setImageUrl] = useState();
-  const [OpenEdit, setEditcourse] = useState(false);
- 
+  const days = JSON.parse(course.Days)
+  const [imageUrl, setImageUrl] = useState()
+  const [OpenEdit, setEditcourse] = useState(false)
+
   useEffect(() => {
-     const fetchImage = async () => {
-       const url = await getDownloadURL(ref(storage, `${course.Course}.jpg`));
-       setImageUrl(url);
-     };
- 
-     fetchImage();
-  }, []);
- 
+    const fetchImage = async () => {
+      const url = await getDownloadURL(ref(storage, `${course.Course}.jpg`))
+      setImageUrl(url)
+    }
+
+    fetchImage()
+  }, [])
+
   const handleOpenEdit = () => {
-     setEditcourse(!OpenEdit);
-  };
- 
+    setEditcourse(!OpenEdit)
+  }
+
   const handleClose = () => {
-     setEditcourse(!OpenEdit);
-  };
- 
+    setEditcourse(!OpenEdit)
+  }
+
   const handleActivation = async (status) => {
     try {
-      const newStatus = status === 'active' ? 'inactive' : 'active';
+      const newStatus = status === 'active' ? 'inactive' : 'active'
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_UPDATE_STATUS}/${course.Courseid}/${newStatus}`,
         {
@@ -40,45 +39,45 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
             'Content-Type': 'application/json',
           },
         },
-      );
+      )
 
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
+        const result = await response.json()
+        console.log(result)
         // Update the course status in the parent component
-        updateCourseStatus(course.Courseid, newStatus);
+        updateCourseStatus(course.Courseid, newStatus)
         // Refresh the page after successfully updating the course status
-        window.location.reload();
+        window.location.reload()
       } else {
-        console.error('Error during update course status');
+        console.error('Error during update course status')
       }
     } catch (error) {
-      console.error('Error during update course status', error);
+      console.error('Error during update course status', error)
     }
-  };
- 
+  }
+
   const handleDelete = async () => {
-     try {
-       const response = await fetch(
-         `${process.env.NEXT_PUBLIC_DELETE_COURSE}/${course.TutorName}/${course.Courseid}`,
-         {
-           method: 'DELETE',
-           headers: {
-             'Content-Type': 'application/json',
-           },
-         },
-       );
- 
-       if (response.ok) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_DELETE_COURSE}/${course.TutorName}/${course.Courseid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      if (response.ok) {
         // รีเฟรชหน้าหลังจากการลบคอร์สสำเร็จ
-        window.location.reload();
+        window.location.reload()
       } else {
-        console.error('Error during delete course');
+        console.error('Error during delete course')
       }
     } catch (error) {
-      console.error('Error during delete course', error);
+      console.error('Error during delete course', error)
     }
-  };
+  }
 
   return (
     <div className="h-full w-full">
@@ -104,23 +103,24 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
         </div>
 
         <div className=" px-4 pb-4">
-          <p className='flex mb-3 mt-8 '>
-            <strong className='flex mr-2'>Teaching Format : </strong> {course.Type}
+          <p className="flex mb-3 mt-8 ">
+            <strong className="flex mr-2">Teaching Format : </strong>{' '}
+            {course.Type}
           </p>
-          <p className='flex mb-3'>
-            <strong className='flex mr-2'>Email : </strong> {course.TutorEmail}
+          <p className="flex mb-3">
+            <strong className="flex mr-2">Email : </strong> {course.TutorEmail}
           </p>
-          <p className='flex mb-3'>
-            <strong className='flex mr-2'>Teaching Mode : </strong>{' '}
+          <p className="flex mb-3">
+            <strong className="flex mr-2">Teaching Mode : </strong>{' '}
             {course.Location === 'onsite' ? 'Onsite' : 'Online'}
           </p>
-          <strong className='mb-8'>Days :  </strong>{' '}
-          <p className=" w-1/2 mt-4">
+          <strong className="mb-8">Days : </strong>{' '}
+          <p className=" w-1/2 ">
             {Object.entries(days).map(([day, timeData]) => (
               <div key={day} className="text-center">
                 {timeData && timeData.startTime && timeData.endTime ? (
                   <div className="border rounded-lg overflow-hidden font-medium mt-1 flex bg-white">
-                    <div className="w-2/12 py-1 bg-gray-200 flex justify-center items-center">
+                    <div className=" w-4/12 py-1 bg-gray-200 flex justify-center items-center">
                       {day.substring(0, 3)}
                     </div>
                     <div className="w-10/12 py-1">
@@ -131,32 +131,31 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
               </div>
             ))}
           </p>
-         
           {course.Type !== 'hourly' && (
-            <div>
+            <div className="mt-2">
               <p>
                 <strong>Duration:</strong> {course.Duration} hours
               </p>
-              <p>
+              <p className='mt-2'>
                 <strong>Participants:</strong> {course.Participants}
               </p>
             </div>
           )}
-          <p className='mt-2'>
-            <strong >Cost : </strong> {course.Cost}
+          <p className="mt-2">
+            <strong>Cost : </strong> {course.Cost}
           </p>
           <div className="flex justify-between mt-4">
-          <div>
-          <button
- className={`px-4 py-2 rounded-md mr-2 ${
-    course.status === 'inactive'
-      ? 'bg-green-500 text-white'
-      : 'bg-gray-300 text-gray-700'
- }`}
- onClick={() => handleActivation(course.status)} // Ensure this correctly passes the current status
->
- {course.status === 'inactive' ? 'Reactivate' : 'Inactivate'}
-</button>
+            <div>
+              <button
+                className={`px-4 py-2 rounded-md mr-2 ${
+                  course.status === 'inactive'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-gray-300 text-gray-700'
+                }`}
+                onClick={() => handleActivation(course.status)} // Ensure this correctly passes the current status
+              >
+                {course.status === 'inactive' ? 'Reactivate' : 'Inactivate'}
+              </button>
 
               <button
                 className="px-6 py-2 rounded-md bg-yellow-500 cursor-pointer hover:bg-yellow-600 duration-200"

@@ -2,6 +2,7 @@ import Navbar from '../component/Navbar'
 import TimeRangePicker from '../component/timePicker'
 import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 export default function groupcreate() {
   const [startTime, setStartTime] = useState([])
@@ -65,7 +66,7 @@ export default function groupcreate() {
     formData.append('Description', description)
     formData.append('location', location)
     formData.append('participants', '1')
-    formData.append('days', JSON.stringify(selectedDays))
+    formData.append('days', JSON.stringify(timeRanges))
     formData.append('duration', duration)
     formData.append('Type', 'individual')
 
@@ -79,6 +80,8 @@ export default function groupcreate() {
         },
         body: JSON.stringify(Object.fromEntries(formData)),
       })
+
+      console.log(JSON.stringify(Object.fromEntries(formData)))
 
       if (response.ok) {
         const result = await response.json()
@@ -106,6 +109,21 @@ export default function groupcreate() {
       if (uploadResponse.ok) {
         const uploadData = await uploadResponse.json()
         console.log(uploadData)
+        Swal.fire({
+          title: "Create Course successful",
+          html:'Do you want to create more course?',
+          icon: 'success',
+          showDenyButton: true,
+          confirmButtonText: "Yes",
+          denyButtonText: `No`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            window.location.href = '/tutor_manage/courseCreate'
+          } else if (result.isDenied) {
+            window.location.href = '/tutor_manage/coursemanage'
+          }
+        });
       } else {
         console.error('Error uploading image')
       }
@@ -303,7 +321,7 @@ export default function groupcreate() {
             </div>
           </div>
           <div
-            className="h-11 text-white font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
+            className="h-11 text-white font-semibold cursor-pointer text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
             onClick={handleCreate}
           >
             Create Course
