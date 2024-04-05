@@ -350,13 +350,13 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
           </div>
           <div className="flex space-x-4">
             <div
-              className="h-11 text-white font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
+              className="h-11 text-white cursor-pointer font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
               onClick={handleEdit}
             >
               Save Edit
             </div>
             <div
-              className="h-11 text-white font-semibold text-lg hover:bg-red-600 duration-200 w-full rounded-lg flex items-center justify-center bg-red-400"
+              className="h-11 text-white font-semibold cursor-pointer text-lg hover:bg-red-600 duration-200 w-full rounded-lg flex items-center justify-center bg-red-400"
               onClick={handleClose}
             >
               Cancle

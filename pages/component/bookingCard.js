@@ -476,19 +476,19 @@ export default function RequestBookingCard({
                   </div>
                 )}
 
-                {Data.Status === 'completed' ? (
-                  <Review onSubmit={handleSubmitReview} />
+                {Data.Status === 'completed' && userData.school ? (
+                  <Review sendReview={handleReview} />
                 ) : (
                   ''
                 )}
                 <div></div>
-                <div>{Data.Status === 'completed' ? <Ratingstar /> : ''}</div>
+                <div>{Data.Status === 'completed'&& userData.school ? <Ratingstar sendReview={handleStars} /> : ''}</div>
 
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">
               <div className=" w-full">
-                {Data.Status == 'pending' && userData !== undefined && (
+                {Data.Status == 'pending' && userData !== undefined && !userData.school&& (
                   <button
                     className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
                     onClick={handleCreate}
@@ -496,7 +496,7 @@ export default function RequestBookingCard({
                     Confirm Booking
                   </button>
                 )}
-                {Data.Status == 'confirmed' && userData !== undefined && (
+                {Data.Status == 'confirmed' && userData !== undefined && !userData.school &&(
                   <button
                     className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
                     onClick={
@@ -508,7 +508,7 @@ export default function RequestBookingCard({
                 )}
               </div>
               <div className=" w-full">
-                {Data.Status != 'completed' && userData !== undefined && (
+                {Data.Status != 'completed' && userData !== undefined && !userData.school && (
                   <button
                     className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
                     onClick={handleDelete}
@@ -521,8 +521,8 @@ export default function RequestBookingCard({
             <div className=" w-full">
               {Data.Status == 'completed' && userData.school && (
                 <button
-                  className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
-                  onClick={handleOpenReview}
+                  className=" bg-yellow-500 text-white px-4 py-2 w-full hover:bg-yellow-600 duration-300 whitespace-nowrap"
+                  onClick={handleSubmitReview}
                 >
                   Review This Tutor
                 </button>
@@ -531,7 +531,7 @@ export default function RequestBookingCard({
           </div>
 
           {Timepicker && (
-            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100">
+            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100 z-50">
               <TimeRangePicker
                 onStartTimeChange={handleStartTime}
                 onEndTimeChange={handleEndTime}

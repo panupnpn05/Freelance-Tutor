@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database'; // Import the Firebase Realtime Database module
 import {toast} from 'react-toastify';
 
-export default function Notifications() {
+export default function Notifications({sendNewMessage}) {
  const [userData, setUserData] = useState();
+ const audioRef = useRef();
 
  // Register Service Worker
  useEffect(() => {
@@ -91,7 +92,11 @@ export default function Notifications() {
                        // Trigger notification logic here for new messages
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
+                          if (audioRef.current) {
+                            audioRef.current.play();
+                          }
                             triggerCustomToast(newMessage.sender, newMessage.text);
+                            sendNewMessage(newMessage)
                             if(document.visibilityState ==='hidden'){
                               new Notification(`${newMessage.sender}`, {
                                 body: `Message: ${newMessage.text}`,
@@ -121,7 +126,11 @@ export default function Notifications() {
                        // Trigger notification logic here for new messages
                        if (Notification.permission === 'granted') {
                          if (newMessage.sender !== storedUserData.user_info.user_data.name) {
+                          if (audioRef.current) {
+                            audioRef.current.play();
+                          }
                             triggerCustomToast(newMessage.sender, newMessage.text);
+                            sendNewMessage(newMessage)
                             if(document.visibilityState ==='hidden'){
                               new Notification(`${newMessage.sender}`, {
                                 body: `Message: ${newMessage.text}`,
@@ -156,6 +165,9 @@ export default function Notifications() {
  console.log(userData);
 
  return (
-    <></>
+  <div>
+  {/* Your component's content */}
+  <audio ref={audioRef} src="/income.mp3" />
+</div>
  );
 }

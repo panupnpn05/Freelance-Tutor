@@ -32,17 +32,32 @@ export default function Signin({ onUserLogin, onClose }) {
       })
       const result = await response.json()
       setUserData(result)
+      console.log(result)
       localStorage.setItem('userData', JSON.stringify(result))
-      Swal.fire({
-        title: 'Successful',
-        text: 'Signin successful',
-        icon: 'success',
-        confirmButtonText: "Ok",
-      }).then((result) => {
-        if (result.isConfirmed){
-          window.location.href = '/';
-        }
-      })
+      if(result.detail !== 'User not found'){
+        Swal.fire({
+          title: 'Successful',
+          text: 'Signin successful',
+          icon: 'success',
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed){
+            window.location.href = '/';
+          }
+        })
+      }else{
+        Swal.fire({
+          title: 'Please sign-in again',
+          text: 'Email/Password incorrect',
+          icon: 'error',
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed){
+            Swal.close()
+          }
+        })
+      }
+      
       if(result.detail){
         console.log("please signin again")
       }else {
