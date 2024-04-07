@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
-export default function editCourse({ SendData, imgUrl, SendClose }) {
+export default function editCourse({ SendData, imgUrl, SendClose, status }) {
   const [course, setCourse] = useState(SendData.Course)
   const [cost, setCost] = useState(SendData.Cost)
   const [description, setDescription] = useState(SendData.Description)
@@ -29,6 +29,8 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
   const [editedDay, setEditedDay] = useState(null)
 
   const containerRef = useRef(null)
+
+  console.log(status)
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,6 +71,8 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     SendClose()
   }
 
+  console.log(SendData)
+
   const handleEdit = async () => {
     // Create FormData instance
     const formData = new FormData()
@@ -85,6 +89,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
     formData.append('days', JSON.stringify(selectedDays))
     formData.append('duration', duration)
     formData.append('Type', SendData.Type)
+    formData.append('status,','active')
 
     try {
       // Make the first request to create the course with JSON data
@@ -169,6 +174,34 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
       },
     }))
   }
+
+  const handleActivation = async (status) => {
+    try {
+      const newStatus = status === "active" ? "inactive" : "active";
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_UPDATE_STATUS}/${course.Courseid}/${newStatus}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        // Update the course status in the parent component
+        updateCourseStatus(course.Courseid, newStatus);
+        // Refresh the page after successfully updating the course status
+        window.location.reload();
+      } else {
+        console.error("Error during update course status");
+      }
+    } catch (error) {
+      console.error("Error during update course status", error);
+    }
+  };
 
   const handleEndTime = (day, time) => {
     const formattedTime = new Date(time).toLocaleTimeString('en-US', {
@@ -372,7 +405,7 @@ export default function editCourse({ SendData, imgUrl, SendClose }) {
               className="h-11 text-white cursor-pointer font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
               onClick={handleEdit}
             >
-              Save Edit
+              Reactive
             </div>
             <div
               className="h-11 text-white font-semibold cursor-pointer text-lg hover:bg-red-600 duration-200 w-full rounded-lg flex items-center justify-center bg-red-400"
