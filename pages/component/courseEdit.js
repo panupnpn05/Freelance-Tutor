@@ -230,7 +230,7 @@ export default function editCourse({ SendData, imgUrl, SendClose, status }) {
       <div className=" flex justify-center">
         <div className="bg-white w-2/5 mt-5 px-6 space-y-3 rounded-lg mb-5 pb-5">
           <div className=" text-center text-xl font-medium mb-4 mt-4">
-            Edit Course
+            Reactive Course
           </div>
           <div>
             <input
