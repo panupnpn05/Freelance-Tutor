@@ -274,7 +274,7 @@ const CreateUserForm = () => {
                   type="text"
                   name="email"
                   placeholder="Please enter subject"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setSubject(e.target.value)}
                   className="h-11 w-full pl-5 pr-4 border-b border-gray-600 rounded-lg drop-shadow outline-none"
                 />
               </div>
