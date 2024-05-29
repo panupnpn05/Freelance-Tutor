@@ -49,8 +49,6 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
         console.log(result);
         // Update the course status in the parent component
         updateCourseStatus(course.Courseid, newStatus);
-        // Refresh the page after successfully updating the course status
-        window.location.reload();
       } else {
         console.error("Error during update course status");
       }
@@ -116,7 +114,7 @@ const CourseCard = ({ course, id, updateCourseStatus }) => {
       <div
         className={`${
           course.status !== "inactive" ? "bg-white " : "bg-gray-100"
-        } shadow-md rounded-lg overflow-hidden`}
+        } shadow-md rounded-lg overflow-hidden border-2`}
       >
         <h2
           className={`text-xl ${

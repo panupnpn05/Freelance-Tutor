@@ -89,16 +89,16 @@ export default function editCourse({ SendData, imgUrl, SendClose, status }) {
     formData.append('days', JSON.stringify(selectedDays))
     formData.append('duration', duration)
     formData.append('Type', SendData.Type)
-    formData.append('status,','active')
+    formData.append('status','active')
+
+    console.log(JSON.stringify(Object.fromEntries(formData)))
 
     try {
-      // Make the first request to create the course with JSON data
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_EDIT_COURSE}/${SendData.Courseid}`,
         {
           method: 'POST',
           headers: {
-            // You are sending JSON data, so set the Content-Type accordingly
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(Object.fromEntries(formData)),
@@ -118,7 +118,7 @@ export default function editCourse({ SendData, imgUrl, SendClose, status }) {
     if (file.courseImage !== null) {
       try {
         // Make the second request to upload the image
-        formData.delete('file') // Remove previous 'file' entry
+        formData.delete('file')
         formData.append('file', file.courseImage)
 
         const uploadResponse = await fetch(
@@ -138,7 +138,8 @@ export default function editCourse({ SendData, imgUrl, SendClose, status }) {
       } catch (error) {
         console.error('Error uploading image', error)
       }
-    } else {
+    } else if (file.courseImage == null && course != SendData.Course)  {
+      console.log(SendData.Course, course)
       try {
         // Send the request with the old image URL
         const uploadResponse = await fetch(
@@ -157,6 +158,8 @@ export default function editCourse({ SendData, imgUrl, SendClose, status }) {
       } catch (error) {
         console.error('Error uploading image', error)
       }
+    } else{
+      console.log('not update image')
     }
   }
 

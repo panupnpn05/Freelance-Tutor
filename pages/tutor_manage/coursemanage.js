@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../component/Navbar'
 import CourseCard from '../component/coursecard'
-import { getDownloadURL, ref } from 'firebase/storage'
-import { storage } from '../api/getimage'
 
 const ManageCourses = () => {
   // Mock data for courses (replace with actual data from backend)
@@ -16,37 +14,40 @@ const ManageCourses = () => {
   const updateCourseStatus = (courseId, newStatus) => {
     // Add logic here to update the status of the course
     // This function will be called from CourseCard component
+    fetchImage(tutorName)
     console.log(`Updating status of course ${courseId} to ${newStatus}`);
   };
+
+  const fetchImage = async (storedUserData) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_GET_COURSE}/${storedUserData.user_info.user_data.name}/courses`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      const result = await response.json()
+      setCourses(result.courses)
+    } catch (error) {
+      console.error('Error fetching image:', error)
+    }
+  }
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem('userData'))
     if (storedUserData) {
-      const fetchImage = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_GET_COURSE}/${storedUserData.user_info.user_data.name}/courses`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          const result = await response.json()
-          setCourses(result.courses)
-        } catch (error) {
-          console.error('Error fetching image:', error)
-        }
-      }
-      fetchImage()
+      setTutorName(storedUserData)
+      fetchImage(storedUserData)
     }
   }, [])
 
   return (
     <div>
       <Navbar />
-      <div className='bg-gray-100'>
+      <div className=''>
       <div className="py-12 px-10 ">
         <div className="flex">
           <h1 className="text-3xl font-bold mb-6">Manage Courses</h1>
