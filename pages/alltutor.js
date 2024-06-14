@@ -220,7 +220,7 @@ const Tutor = () => {
                           className=" bg-green-500 w-full text-white px-4 py-2 hover:bg-green-700 duration-300 whitespace-nowrap"
                           onClick={() => handleTutorCourse(tutorData)}
                         >
-                          Booking
+                          See Courses
                         </button>
                       </div>
                     </div>

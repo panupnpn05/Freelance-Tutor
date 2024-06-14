@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { database, storage } from '../api/getimage'
-import { onValue ,ref, getDownloadURL, StorageErrorCode } from 'firebase/database'
+import { onValue ,ref, getDownloadURL, StorageErrorCode } from 'firebase/storage'
 import Image from 'next/image'
 
 const TutorStudentChat = ({ tutorId, studentId, from }) => {
