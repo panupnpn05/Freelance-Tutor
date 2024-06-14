@@ -8,6 +8,7 @@ import Subject from './component/Subject'
 import { useEffect, useState } from 'react'
 import CarouselSlider from './component/carousel'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -24,13 +25,13 @@ export default function Home() {
 
   return (
     <div>
-      <div className="w-full h-full">
+      <div className="w-full h-full bg-customBlue">
         <Navbar />
         <div>
-          <div className="py-12 bg-[url('/Image/blue-fluid-background_53876-114597.avif')] bg-cover">
+          <div className="py-12 bg-[url('/Image/main5a (1).jpg')] bg-cover">
             <div className="container mx-auto">
               <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
-                <div className="md:w-1/2 mb-8 md:mb-0 md:order-1">
+                <div className="md:w-1/2 mb-8 md:mb-0 md:order-1 pl-20">
                   <Image
                     src="/Image/Online-learning-amico-resize-copy.webp"
                     width={500}

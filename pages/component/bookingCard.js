@@ -5,9 +5,6 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import userImg from '@/public/Image/userImg.jpeg'
 import TimeRangePicker from './timePicker'
 import format from 'date-fns/format'
-import Review from './review'
-import Ratingstar from './ratingstar'
-import { UserGroupIcon } from '@heroicons/react/24/solid'
 
 export default function RequestBookingCard({
   tutorData,
@@ -70,7 +67,6 @@ export default function RequestBookingCard({
       tutorCourse: Data.TutorCourse,
       students: Data.students,
       date: Data.Date,
-      type: Data.Type,
       id: tutorData,
       participants: Data.Participants,
       days: Data.Days,
@@ -116,8 +112,8 @@ export default function RequestBookingCard({
             },
             body: JSON.stringify({
               ...FormData,
-              startTime: Data.StartTime,
-              endTime: Data.EndTime,
+              startTime: '00:00',
+              endTime: '00:00',
               total: Data.TutorCost,
               hours: '1',
               // review,
@@ -142,8 +138,8 @@ export default function RequestBookingCard({
             },
             body: JSON.stringify({
               ...FormData,
-              startTime: Data.StartTime,
-              endTime: Data.EndTime,
+              startTime: '00:00',
+              endTime: '00:00',
               total: Data.TutorCost,
               date: '12/12/2012',
               hours: '1',
@@ -188,7 +184,7 @@ export default function RequestBookingCard({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_DELETE_REQUEST_ID}/${status}/${Data.StudentName}/${Data.TutorName}/${tutorData}`,
+        `${process.env.NEXT_PUBLIC_DELETE_REQUEST_ID}/${status}/${Data.students}/${Data.TutorName}/${tutorData}`,
         {
           method: 'DELETE',
           headers: {
@@ -217,7 +213,6 @@ export default function RequestBookingCard({
             },
           )
           const Result = await response.json()
-          console.log(Result)
           setData(Result.pending_id)
 
           const url = await getDownloadURL(
@@ -233,8 +228,16 @@ export default function RequestBookingCard({
     fetchImage()
   }, [tutorData])
 
-  const handlelOpenChat = () => {
-    openChat(Data)
+  const handlelOpenChat = (data) => {
+    console.log(Data)
+    {
+      if (Data.Type === 'group' && !userData.school) {
+        openChat(data);
+    } else if (userData.school) {
+        openChat(Data.TutorName);
+    } else {
+        openChat(Data);
+    }    }
   }
 
   const handleOpenReview = () => {
@@ -262,12 +265,33 @@ export default function RequestBookingCard({
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({course: Data.TutorCourse , reviewer:userData.name, star:reviewstart, comment:comment}),
+          body: JSON.stringify({
+            course: Data.TutorCourse,
+            reviewer: userData.name,
+            star: reviewstart,
+            comment: comment,
+          }),
         },
       )
-      console.log(JSON.stringify({course: Data.TutorCourse , reviewer:userData.name, star:reviewstart, comment:comment}))
+      console.log(
+        JSON.stringify({
+          course: Data.TutorCourse,
+          reviewer: userData.name,
+          star: reviewstart,
+          comment: comment,
+        }),
+      )
       const result = await response.json()
       console.log(result)
+      Swal.fire({
+        title: 'Review Submitted',
+        icon: 'success',
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed){
+          Swal.close()
+        }
+      })
     } catch (error) {
       console.error('Error during create user', error)
     }
@@ -286,7 +310,6 @@ export default function RequestBookingCard({
   if (Data.Type == 'group') {
     daysData = JSON.parse(Data.Days)
   }
-  console.log(Data)
 
   return (
     <div>
@@ -379,20 +402,27 @@ export default function RequestBookingCard({
                           <div>
                             {Data.StartTime} - {Data.EndTime}{' '}
                           </div>
-                          <div>Total : {students.length * Data.TutorCost}฿</div>
+                          {!userData.school && (
+                            <div>
+                              Total : {students.length * Data.TutorCost}฿
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className=" flex mt-5">
                         <p className="text-gray-600">
                           Email : {Data.TutorEmail}
                         </p>
-                        <p
-                          className=" text-emerald-700 font-semibold cursor-pointer ml-1"
-                          onClick={handlelOpenChat}
-                        >
-                          {' '}
-                          send message
-                        </p>
+                        {Data.Type !== 'group' ||
+                          (userData.school && (
+                            <p
+                              className=" text-emerald-700 font-semibold cursor-pointer ml-1"
+                              onClick={handlelOpenChat}
+                            >
+                              {' '}
+                              send message
+                            </p>
+                          ))}
                       </div>
                       <div className="text-gray-600 mt-5">
                         Teaching : {Data.TutorClass}
@@ -408,67 +438,58 @@ export default function RequestBookingCard({
 
                       <div className="flex justify-end">
                         <div>Teaching time :</div>
-                        <div className="ml-1">
-                          {Data.StartTime} - {Data.EndTime}
-                        </div>{' '}
                       </div>
-                      <div className="flex justify-end mt-2">
-                        {Object.entries(daysData).map(([day, isOpen]) => (
-                          <div key={day} className=" text-center">
-                            {isOpen && (
-                              <div className="border border-emerald-300 w-14 py-2 rounded-lg bg-emerald-200 ml-1">
-                                {' '}
-                                {day.substring(0, 3)}
-                              </div>
-                            )}
+                      <div className="flex flex-col items-end mt-2">
+                        {Object.entries(daysData).map(([day, timeData]) => (
+                          <div key={day} className="text-center">
+                            {timeData &&
+                              timeData.startTime &&
+                              timeData.endTime && (
+                                <div className="border border-emerald-300 w-44 py-2 rounded-lg bg-emerald-200 font-medium mt-1">
+                                  {`${day.substring(0, 3)} : ${
+                                    timeData.startTime
+                                  } - ${timeData.endTime}`}
+                                </div>
+                              )}
                           </div>
                         ))}
                       </div>
-                      <div className="flex justify-end mt-2 ">
-                        {Data.Type === 'group' ? (
-                          <div
-                            className="flex text-xl font-medium items-center border border-emerald-300 px-3 bg-emerald-200 p-1 text-gray-600 rounded-lg"
-                            onClick={handleOpenStudents}
-                          >
-                            <div className="w-8 mr-2">
-                              <UserGroupIcon />
+                      {!userData.school && (
+                        <div className="flex justify-end mt-2 ">
+                          {Data.Type === 'group' ? (
+                            <div
+                              className="flex text-xl font-medium items-center border border-emerald-300 px-3 bg-emerald-200 p-1 text-gray-600 rounded-lg"
+                              onClick={handleOpenStudents}
+                            >
+                              <div className="w-8 mr-2">
+                                <UserGroupIcon />
+                              </div>
+                              <div className="flex">
+                                {students.length}/ {Data.Participants}
+                              </div>
                             </div>
-                            <div className="flex">
-                              {students.length}/ {Data.Participants}
-                            </div>
-                          </div>
-                        ) : (
-                          <div></div>
-                        )}{' '}
-                      </div>
+                          ) : (
+                            <div></div>
+                          )}{' '}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
 
-                {rating && (
-                  <div className=" border rounded-xl overflow-hidden mt-5">
-                    <div className="bg-gray-400 text-white text-lg py-1 text-center">
-                      Review
-                    </div>
-                    <div className=" my-1 mx-1">
-                      <Ratingstar sendReview={handleStars} />
-                    </div>
-                    <div className="border px-1">
-                      <Review sendReview={handleReview} />
-                    </div>
-                    <button
-                      className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
-                      onClick={() => handleSubmitReview()}
-                    >
-                      Submit Review
-                    </button>
-                  </div>
+                {Data.Status === 'completed' && userData.school ? (
+                  <Review sendReview={handleReview} />
+                ) : (
+                  ''
                 )}
+                <div></div>
+                <div>{Data.Status === 'completed'&& userData.school ? <Ratingstar sendReview={handleStars} /> : ''}</div>
+
               </div>
             </div>
             <div className="flex w-full mt-5 border-gray-700">
               <div className=" w-full">
-                {Data.Status == 'pending' && userData !== undefined && (
+                {Data.Status == 'pending' && userData !== undefined && !userData.school&& (
                   <button
                     className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
                     onClick={handleCreate}
@@ -476,7 +497,7 @@ export default function RequestBookingCard({
                     Confirm Booking
                   </button>
                 )}
-                {Data.Status == 'confirmed' && userData !== undefined && (
+                {Data.Status == 'confirmed' && userData !== undefined && !userData.school &&(
                   <button
                     className=" bg-green-500 text-white px-4 py-2 w-full hover:bg-green-700 duration-300 whitespace-nowrap"
                     onClick={
@@ -488,12 +509,12 @@ export default function RequestBookingCard({
                 )}
               </div>
               <div className=" w-full">
-                {Data.Status != 'completed' && userData !== undefined && (
+                {Data.Status != 'completed' && userData !== undefined && !userData.school && (
                   <button
                     className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
                     onClick={handleDelete}
                   >
-                    Cancle Booking
+                    Cancel Booking
                   </button>
                 )}
               </div>
@@ -501,8 +522,8 @@ export default function RequestBookingCard({
             <div className=" w-full">
               {Data.Status == 'completed' && userData.school && (
                 <button
-                  className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap"
-                  onClick={handleOpenReview}
+                  className=" bg-yellow-500 text-white px-4 py-2 w-full hover:bg-yellow-600 duration-300 whitespace-nowrap"
+                  onClick={handleSubmitReview}
                 >
                   Review This Tutor
                 </button>
@@ -511,7 +532,7 @@ export default function RequestBookingCard({
           </div>
 
           {Timepicker && (
-            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100">
+            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100 z-50">
               <TimeRangePicker
                 onStartTimeChange={handleStartTime}
                 onEndTimeChange={handleEndTime}
@@ -525,20 +546,22 @@ export default function RequestBookingCard({
             </div>
           )}
           {studentsList && (
-            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100">
+            <div className="absolute w-1/2 p-2 rounded-xl border-2 border-gray-400 bg-gray-100 z-50">
               {students.map((student, index) => (
                 <div key={index}>
-                  {console.log(index, student.StudentName)}
                   {/* Render the student details */}
-                  <div className="flex items-center bg-green-200 rounded-xl mt-2 border h-full">
-                    <div className=" border bg-red-200 w-5/6 ">
+                  <div className="flex items-center rounded-xl mt-2 border h-full">
+                    <div className=" border w-5/6  pl-2">
                       <p>Name: {student.StudentName}</p>
                       <p>Email: {student.StudentEmail}</p>
                       <p>Phone: {student.StudentPhone}</p>
                       {/* Include other student details as needed */}
                     </div>
-                    <div className="flex justify-center w-1/6 cursor-pointer bg-red-500 hover:bg">
-                      <div className="">Delete</div>
+                    <div
+                      className="flex justify-center w-1/6 cursor-pointer hover:bg"
+                      onClick={() => handlelOpenChat(student)}
+                    >
+                      <ChatBubbleLeftEllipsisIcon className=" w-7 h-7 hover:scale-110 duration-200" />
                     </div>
                   </div>
                 </div>

@@ -1,15 +1,44 @@
-import Signin from '../signin'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Notifications from './notification'
+import { BellIcon, BellAlertIcon } from '@heroicons/react/24/outline'
+import Chat from './chat'
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
   const [ProfileClick, setProfileClick] = useState(false)
   const [loginPageClicked, setLoginPageClicked] = useState(false)
+  const [newMessage, setNewMessage] = useState([])
+  const [openChat, setOpenChat] = useState(false)
+  const [openNoti, setOpenNoti] = useState(false)
   const [user, setUser] = useState([])
+  const [selectedMessage, setSelectedMessage] = useState(null)
+  const router = useRouter();
 
-  const handleLoginPage = () => {
-    setLoginPageClicked(!loginPageClicked)
+  const handleOpenChat = (data) => {
+    console.log(user)
+    if (user.user_info.user_data.school) {
+      setSelectedMessage({
+        tutor: data.sender,
+        from: 'student',
+        student: user,
+      })
+    } else if (user.user_info.user_data.class) {
+      setSelectedMessage({
+        tutor: user,
+        from: 'tutor',
+        student: data.sender,
+      })
+    }
+    const updatedMessages = newMessage.filter(message => message.id !== data.id);
+ setNewMessage(updatedMessages);
+    setOpenChat(!openChat)
   }
+
+const handleCloseChat = () =>[
+  setOpenChat(!openChat)
+]
+
   const handleLogout = () => {
     // Clear the 'userData' from localStorage
     localStorage.removeItem('userData')
@@ -19,10 +48,25 @@ export default function Navbar() {
     window.location.href = '/'
   }
 
+  const handleOpenNotifications = () => {
+    setOpenNoti(!openNoti)
+  }
+
+  const shakeAnimationStyle = {
+    animation: 'shake 2s cubic-bezier(.36,.07,.19,.97) both infinite',
+  }
+
+  const handleNewMessage = (data) => {
+    console.log(data)
+    setNewMessage((prevMessages) => [...prevMessages, data])
+  }
+
   const handleUserLogin = (userData) => {
+    console.log(userData)
     setUser(userData)
     setLoginPageClicked(false) // Close the Signin component after login
     localStorage.setItem('userData', JSON.stringify(userData))
+    window.dispatchEvent(new CustomEvent('local-storage-change'))
   }
 
   const handleSigninClose = () => {
@@ -32,6 +76,8 @@ export default function Navbar() {
   const handleProfileClick = () => {
     setProfileClick(!ProfileClick)
   }
+
+  console.log(newMessage)
 
   useEffect(() => {
     if (loginPageClicked) {
@@ -58,6 +104,10 @@ export default function Navbar() {
       window.removeEventListener('storage', handleStorageChange)
     }
   }, [])
+
+// const Sendname = (path) =>{
+//   router.push(`${path}?user=${encodeURIComponent(JSON.stringify(user))}`);
+// }
   return (
     <div className="shadow-lg bg-white">
       <div className="flex justify-center items-center w-full h-15 static">
@@ -98,22 +148,22 @@ export default function Navbar() {
                 <a
                   className="mx-4"
                   href="/tutor_manage/bookingRequest"
-                  onClick={user && (() => Sendname(user))}
+                  // onClick={() => user && Sendname(`/tutor_manage/bookingRequest`)}
                   >
                   Manage Booking
                 </a>
                 <a
                   className="mx-4"
                   href="/tutor_manage/courseCreate"
-                  onClick={user && (() => Sendname(user))}
+                  // onClick={() => user && Sendname(user)}
                   >
                   Create course
                 </a>
                 <a
                   className="mx-4"
                   href="/tutor_manage/coursemanage"
-                  onClick={user && (() => Sendname(user))}
-                >
+                  // onClick={() => user && Sendname(user)}
+                  >
                   Course Manage
                 </a>
               </div>
@@ -123,10 +173,10 @@ export default function Navbar() {
           </div>
           <div className="flex items-center">
             {(user && Object.keys(user).length === 0) || user === null ? (
-              <div className="space-x-4 flex items-center">
-                <div className="w-full" onClick={handleLoginPage}>
+              <div className="space-x-4 flex items-center cursor-pointer">
+                <a className="w-full" href="/signin">
                   Login
-                </div>
+                </a>
                 <a
                   className="w-full h-1/2 rounded-lg p-2 border border-green-600 hover:border-9 hover:bg-green-600 hover:text-white duration-300 whitespace-nowrap"
                   href="/signup"
@@ -136,14 +186,55 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="">
-                <div
-                  className=" border border-emerald-600 p-2 px-6 bg-emerald-600 text-white hover:bg-white duration-200 hover:text-emerald-600 flex items-center rounded-lg font-semibold cursor-pointer"
-                  onClick={handleProfileClick}
-                >
-                  {user.user_info.user_data.name}
+                <div className="flex justify-center space-x-3">
+                  <div
+                    className="flex justify-center pt-2 cursor-pointer hover:scale-110 duration-200"
+                    style={newMessage.length !== 0 ? shakeAnimationStyle : {}}
+                    onClick={handleOpenNotifications}
+                  >
+                    {newMessage.length !== 0 && (
+                      <div className=" absolute mt-1 flex justify-center bg-red-500 h-3 w-3 rounded-full ml-4"></div>
+                    )}
+                    {newMessage.length === 0 ? (
+                      <BellIcon className=" w-9 h-9 " />
+                    ) : (
+                      <BellAlertIcon className="w-9 h-9" />
+                    )}
+                  </div>
+                  <div
+                    className=" border border-emerald-600 p-2 px-6 bg-emerald-600 text-white hover:bg-white duration-200 hover:text-emerald-600 flex items-center rounded-lg font-semibold cursor-pointer"
+                    onClick={handleProfileClick}
+                  >
+                    {user.user_info.user_data.name}
+                  </div>
                 </div>
+                {openNoti && (
+                  <div
+                    className="absolute w-1/4 mt-2 rounded-xl border border-gray-300 overflow-hidden"
+                    style={{}}
+                  >
+                    <div className=" text-base px-4 py-1 bg-gray-200">
+                      {newMessage.length} news messages
+                    </div>
+                    <div>
+                      {newMessage.map((message, index) => (
+                        <div
+                          key={index}
+                          className="border border-gray-300 bg-white px-4 py-2 cursor-pointer"
+                          onClick={() => handleOpenChat(message)}
+                        >
+                          <div className=" text-base font-semibold">
+                            {message.sender}
+                          </div>
+                          <div className=" text-sm">{message.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {ProfileClick == true && (
-                  <div className="absolute bg-gray-200 border-2 border-gray-400 rounded-xl space-y-3 p-3 w-1/6">
+                  <div className="absolute bg-gray-200 border-2 ml-12 border-gray-400 rounded-xl space-y-3 p-3 w-1/6 z-50">
                     {user.user_info.user_data.name === 'Admin Admin' ? (
                       <div className="flex flex-col">
                         <a
@@ -158,7 +249,7 @@ export default function Navbar() {
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/CreateProfile"
-                          onClick={user && (() => Sendname(user))}
+                          // onClick={() => user && Sendname(user)}
                           >
                           Profile
                         </a>
@@ -167,15 +258,8 @@ export default function Navbar() {
                       <div className="flex flex-col space-y-1">
                         <a
                           className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
-                          href="/CreateProfile"
-                          onClick={user && (() => Sendname(user))}
-                          >
-                          Profile
-                        </a>
-                        <a
-                          className="cursor-pointer py-1 border pl-4 bg-white rounded-lg text-emerald-800 border-emerald-500"
                           href="/student_manage/bookingManage"
-                          onClick={user && (() => Sendname(user))}
+                          // onClick={() => user && Sendname(user)}
                           >
                           Manage Booking
                         </a>
@@ -192,17 +276,15 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          {loginPageClicked && (
-            <div className=" absolute w-full left-0 top-0 z-50">
-              {' '}
-              <Signin
-                onUserLogin={handleUserLogin}
-                onClose={handleSigninClose}
-              />
-            </div>
-          )}
+          <div className=" absolute w-full left-0 top-0 z-50"> </div>
         </div>
       </div>
+      {openChat && (
+        <div className='fixed bottom-0 w-1/3 right-1 z-50'>
+        <Chat tutor={selectedMessage.tutor} student={selectedMessage.student} from={selectedMessage.from} closeChat={handleCloseChat}/>
+        </div>
+      )}
+      <Notifications sendNewMessage={handleNewMessage} />
     </div>
   )
 }

@@ -39,7 +39,8 @@ const Tutor = () => {
   }
 
   const handleUpdateList = useCallback(() => {
-    fetchData()
+    fetchData('hourly')
+    setType('hourly')
   }, [fetchData])
 
   useEffect(() => {
@@ -85,7 +86,8 @@ const Tutor = () => {
   const handleOpenChat = (data) => {
     console.log(data)
     setOpenChat(!openChat)
-    setStudentName(data)
+    {type !== 'group' ? setStudentName(data.students) : setStudentName(data)}
+    
   }
 
   const handleCloseChat = () => {
@@ -109,36 +111,41 @@ const Tutor = () => {
     fetchData(selectedType)
   }
 
-  console.log(ID)
+  let studentlist
+
+  if(type !== 'group'){
+    studentlist = JSON.parse(studentName)
+  }
+
+  console.log(studentlist)
+  console.log(studentName)
 
   return (
     <div className="h-screen">
       <Navbar />
       <div className="w-full flex justify-center bg-gradient-to-t from-emerald-800 to-green-400 mb-6 ">
-        <div className=" pt-14 w-3/4 h-full text-white">
-          <div className=" flex items-center mb-4">
-            {/* <div className=" font-bold text-3xl">Booking Manage</div> */}
-            {/* <div className="text-xl mb-8">
-              <h1>
-                Find the best tutors in Bangkok. Get personalized one-on-one
-                learning to boost your grades with our skilled Bangkok tutors.
-                Get Test Prep and Homework assistance too.
-              </h1>
-            </div> */}
+        <div className=" pt-14 w-3/4 h-full text-black">
+          <div className=" flex items-center mb-4 space-x-7">
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 ${
+                type === 'hourly' ? 'bg-yellow-500 scale-110 duration-200' : 'bg-white' // Adjust the background color or any other styles as needed
+              }`}
               onClick={() => handleSetType('hourly')}
             >
               Hourly Class
             </div>
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 ${
+                type === 'individual' ? 'bg-yellow-500 scale-110 duration-200' : 'bg-white' // Adjust the background color or any other styles as needed
+              }`}
               onClick={() => handleSetType('individual')}
             >
               Individual Course
             </div>
             <div
-              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600`}
+              className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 ${
+                type === 'group' ? 'bg-yellow-500 scale-110 duration-200' : 'bg-white' // Adjust the background color or any other styles as needed
+              }`}
               onClick={() => handleSetType('group')}
             >
               Group Course
@@ -161,7 +168,8 @@ const Tutor = () => {
           <div className=" w-1/3 space-y-5">
             <div
               className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openRequest == true && 'text-md bg-emerald-800 text-white'
+                openRequest == true &&
+                'text-md bg-emerald-800 text-white duration-200 scale-110'
               }`}
               onClick={handleOpenRequest}
             >
@@ -172,7 +180,8 @@ const Tutor = () => {
             </div>
             <div
               className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openConfirmed == true && 'text-md bg-emerald-800 text-white'
+                openConfirmed == true &&
+                'text-md bg-emerald-800 text-white scale-110 duration-200'
               }`}
               onClick={handleOpenConfirmed}
             >
@@ -183,7 +192,8 @@ const Tutor = () => {
             </div>
             <div
               className={`p-4 cursor-pointer rounded-xl text-nowrap border border-gray-600 w-1/2 ${
-                openCompleted == true && 'text-md bg-emerald-800 text-white'
+                openCompleted == true &&
+                'text-md bg-emerald-800 text-white scale-110 duration-200'
               }`}
               onClick={handleOpenCompleted}
             >
@@ -196,7 +206,7 @@ const Tutor = () => {
           <div className="w-full">
             <div className="w-full">
               {ID &&
-               ID.filtered_data.bookingPending_id &&
+                ID.filtered_data.bookingPending_id &&
                 openRequest == true &&
                 Object.entries(ID.filtered_data.bookingPending_id).map(
                   ([IDindex, IDdata]) => (
@@ -257,7 +267,17 @@ const Tutor = () => {
           </div>
         </div>
       </div>
-      {openChat === true && (
+      {openChat === true && type !== 'group' &&(
+        <div className="fixed bottom-0 w-1/3 right-10">
+          <Chat
+            tutor={tutorName}
+            student={studentlist[0].StudentName}
+            from={'tutor'}
+            closeChat={handleCloseChat}
+          />
+        </div>
+      )}
+      {openChat === true && type === 'group' &&(
         <div className="fixed bottom-0 w-1/3 right-10">
           <Chat
             tutor={tutorName}

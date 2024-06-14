@@ -66,7 +66,7 @@ export default function Signup() {
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed){
-          window.location.href = '/';
+          window.location.href = '/signin';
         }
       })
     } catch (error) {
@@ -77,7 +77,7 @@ export default function Signup() {
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed){
-          window.location.href = '/';
+          Swal.close()
         }
       }) 
       console.error('Error during create user', error)

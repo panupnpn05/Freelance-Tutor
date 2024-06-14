@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Element = ({ coursefilter}) => {
+const Element = ({ subjectfilter}) => {
   const [radioValue, setRadioValue] = useState('')
   const [checkboxValues, setCheckboxValues] = useState({
     math: false,
@@ -18,7 +18,7 @@ const Element = ({ coursefilter}) => {
       ...prevValues,
       [checkboxName]: event.target.checked,
     }))
-    coursefilter(checkboxName)
+    subjectfilter(checkboxName)
   }
 
   return (

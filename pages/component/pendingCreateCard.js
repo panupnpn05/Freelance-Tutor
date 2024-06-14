@@ -101,11 +101,11 @@ export default function CreatePendingCard({ tutorData, updateList }) {
               <div>
                 <div className="text-2xl font-semibold">{tutorData.name}</div>
               </div>
-              <div>
+              {/* <div>
                 <div className="text-right text-2xl font-semibold">
                   ฿{tutorData.cost}/hr
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="text-gray-600 mt-5">Email : {tutorData.email}</div>
             <div className="text-gray-600 mt-5">
@@ -130,7 +130,7 @@ export default function CreatePendingCard({ tutorData, updateList }) {
           </div>
           <div className=" w-full">
             <button className=" bg-red-500 text-white px-4 py-2 w-full hover:bg-red-700 duration-300 whitespace-nowrap" onClick={handleDelete}>
-              Cancle Create Request
+              Cancel Create Request
             </button>
           </div>
         </div>

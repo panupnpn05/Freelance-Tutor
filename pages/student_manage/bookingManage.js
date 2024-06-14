@@ -5,6 +5,7 @@ import Navbar from '../component/Navbar'
 import RequestBookingCard from '../component/bookingCard'
 import Chat from '../component/chat'
 import ratingstar from '../component/ratingstar'
+import Swal from 'sweetalert2'
 
 const Tutor = () => {
   const [studentName, setStudentName] = useState(null)
@@ -87,6 +88,8 @@ const Tutor = () => {
     setOpenChat(false)
   }
 
+
+  console.log(studentName, tutorName)
 
   return (
     <div className="h-screen">
@@ -191,7 +194,7 @@ const Tutor = () => {
       </div>
       {openChat === true && 
       <div className="fixed bottom-0 w-1/3 right-10">
-        <Chat tutor={studentName.TutorName} student={tutorName} from={'student'} closeChat={handleCloseChat}/>
+        <Chat tutor={studentName} student={tutorName} from={'student'} closeChat={handleCloseChat}/>
       </div>} 
       
     </div>

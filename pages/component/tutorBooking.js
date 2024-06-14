@@ -17,7 +17,6 @@ import {
 } from '@heroicons/react/24/solid'
 import Swal from 'sweetalert2'
 
-
 export default function Booking({ data }) {
   const [showCalendar, setShowCalendar] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
@@ -52,8 +51,6 @@ export default function Booking({ data }) {
     setShowCalendar(false)
   }
 
-  console.log(userData)
-
   const handleCreate = async () => {
     if (userData !== undefined) {
       const FormData = {
@@ -76,7 +73,7 @@ export default function Booking({ data }) {
         days: bookingData.Days,
       }
 
-      if (bookingData.Type === 'group') {
+      if (bookingData.Type === 'group' || bookingData.Type === 'individual') {
         FormData.date = '12/12/2012'
       } else {
         FormData.date = selectedDate
@@ -102,6 +99,20 @@ export default function Booking({ data }) {
         )
         const result = await response.json()
         console.log(result)
+        Swal.fire({
+          title: "Create Request successful",
+          html:'Do you want to find more course?',
+          showDenyButton: true,
+          confirmButtonText: "Yes",
+          denyButtonText: `No`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            window.location.href = '/allcourse'
+          } else if (result.isDenied) {
+            window.location.href = '/student_manage/bookingManage'
+          }
+        });
       } catch (error) {
         console.error('Error during create user', error)
       }
@@ -109,13 +120,20 @@ export default function Booking({ data }) {
       Swal.fire({
         title: 'Please Sign-in before booking',
         icon: 'error',
-        confirmButtonText: "Ok",
+        confirmButtonText: 'Ok',
       }).then((result) => {
-        if (result.isConfirmed){
-          window.location.href = '/';
+        if (result.isConfirmed) {
+          window.location.href = '/'
         }
-      }) 
+      })
     }
+  }
+
+  let daysData
+
+  if (bookingData) {
+    console.log(bookingData.Cost)
+    daysData = JSON.parse(bookingData.Days)
   }
 
   console.log(bookingData, userData)
@@ -127,8 +145,7 @@ export default function Booking({ data }) {
           <div className="bg-gradient-to-t from-emerald-800 to-green-400">
             <div className="text-base font-semibold overflow-y-auto w-full flex justify-center">
               <div className="my-10 space-y-2 w-1/4">
-                {bookingData.Type === 'hourly' ||
-                bookingData.Type === 'individual' ? (
+                {bookingData.Type === 'hourly' ? (
                   <div>
                     <div className="text-white text-xl">Study Date</div>
                     <input
@@ -218,23 +235,21 @@ export default function Booking({ data }) {
                         ) : (
                           <div>Available time :</div>
                         )}
-                        <div className="ml-1">
-                          {bookingData.StartTime} - {bookingData.EndTime}
-                        </div>{' '}
                       </div>
-                      <div className="flex justify-end mt-2">
-                        {Object.entries(JSON.parse(bookingData.Days)).map(
-                          ([day, isOpen]) => (
-                            <div key={day} className=" text-center">
-                              {isOpen && (
-                                <div className="border border-emerald-300 w-14 py-2 rounded-lg bg-emerald-200 ml-1">
-                                  {' '}
-                                  {day.substring(0, 3)}
+                      <div className="flex flex-col items-end mt-2">
+                        {Object.entries(daysData).map(([day, timeData]) => (
+                          <div key={day} className="text-center">
+                            {timeData &&
+                              timeData.startTime &&
+                              timeData.endTime && (
+                                <div className="border border-emerald-300 w-44 py-2 rounded-lg bg-emerald-200 font-medium mt-1">
+                                  {`${day.substring(0, 3)} : ${
+                                    timeData.startTime
+                                  } - ${timeData.endTime}`}
                                 </div>
                               )}
-                            </div>
-                          ),
-                        )}
+                          </div>
+                        ))}
                       </div>
                       <div className="flex justify-end mt-2 ">
                         {bookingData.Type === 'group' ? (

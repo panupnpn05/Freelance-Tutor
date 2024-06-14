@@ -2,6 +2,7 @@ import Navbar from '../component/Navbar'
 import TimeRangePicker from '../component/timePicker'
 import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 export default function groupcreate() {
   const [startTime, setStartTime] = useState([])
@@ -108,6 +109,21 @@ export default function groupcreate() {
       if (uploadResponse.ok) {
         const uploadData = await uploadResponse.json()
         console.log(uploadData)
+        Swal.fire({
+          title: "Create Course successful",
+          html:'Do you want to create more course?',
+          icon: 'success',
+          showDenyButton: true,
+          confirmButtonText: "Yes",
+          denyButtonText: `No`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            window.location.href = '/tutor_manage/courseCreate'
+          } else if (result.isDenied) {
+            window.location.href = '/tutor_manage/coursemanage'
+          }
+        });
       } else {
         console.error('Error uploading image')
       }
@@ -305,7 +321,7 @@ export default function groupcreate() {
             </div>
           </div>
           <div
-            className="h-11 text-white font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
+            className="h-11 text-white cursor-pointer font-semibold text-lg hover:bg-emerald-600 duration-200 w-full rounded-lg flex items-center justify-center bg-emerald-400"
             onClick={handleCreate}
           >
             Create Course

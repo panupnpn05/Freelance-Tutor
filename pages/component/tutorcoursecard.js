@@ -16,7 +16,7 @@ import {
   StarIcon,
 } from '@heroicons/react/24/solid'
 
-export default function Tutorcard({ tutorData }) {
+export default function TutorCoursecard({ tutorData }) {
   const [imageUrl, setImageUrl] = useState('')
   const [rating, setRating] = useState()
   const [review, setReview] = useState()
@@ -74,17 +74,16 @@ export default function Tutorcard({ tutorData }) {
 
   const daysData = JSON.parse(tutorData.Days)
 
-  const handleOpenCourse = () => {
-    setOpencourse(!opencourse)
-  }
+//   const handleOpenCourse = () => {
+//     setOpencourse(!opencourse)
+//   }
 
-  console.log(rating)
   return (
     <>
       <div
         className="bg-white shadow-xl  rounded-xl overflow-hidden w-full hover:bg-slate-100 duration-200 cursor-pointer"
         onClick={() => handleBooking(tutorData)}
-        >
+      >
         <div className="flex pt-5 space-x-8 px-6">
           <div className=" w-32 h-32 rounded-full overflow-hidden relative grow-0 shrink-0">
             <Image src={imageUrl} fill style={{ objectFit: 'cover' }} />
@@ -197,7 +196,7 @@ export default function Tutorcard({ tutorData }) {
             </div>
             <div className="flex items-center spa">
               <StarIcon className="w-6 ml-1 text-yellow-500" />
-              {rating}
+              {rating == 0 ? 'no review' : rating}
             </div>
           </div>
           <div className=" w-1/3 flex">
